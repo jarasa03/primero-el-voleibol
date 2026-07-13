@@ -155,3 +155,141 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 - Do NOT delete tests without approval.
 
 </laravel-boost-guidelines>
+
+<project-guidelines>
+# Primero el Voleibol - Project Guidelines
+
+## Project purpose
+
+Primero el Voleibol is a public website and private administration panel for a volleyball-focused civic/sports movement in Madrid.
+
+The website should communicate the group’s identity, principles, programme, proposals, blog posts, participation options and contact channels.
+
+## Project stack decisions
+
+- Use Laravel as a full-stack monolith.
+- Use Blade for public pages.
+- Use Tailwind CSS for styling.
+- Use Alpine.js only for small frontend interactions.
+- Use Filament only for the private admin panel.
+- Use Livewire only when it clearly adds value.
+- Do not build a SPA.
+- Do not use React, Vue or Svelte unless explicitly requested.
+- Keep the project simple, conventional and maintainable.
+
+## Public website sections
+
+Initial public sections:
+
+- Home
+- Quiénes somos
+- Principios
+- Programa
+- Propuestas
+- Blog / Actualidad
+- Participa
+- Contacto
+
+## Admin panel features
+
+The Filament admin panel should eventually manage:
+
+- Blog posts
+- Blog categories
+- Static pages or editable content blocks
+- Private proposals
+- Contact messages
+- Newsletter subscribers
+- File attachments
+- Admin users
+
+## Forms
+
+The project will include multiple public forms:
+
+- Newsletter subscription
+- Contact form
+- Proposal submission form
+- Participation form
+
+All forms must:
+
+- Validate data server-side.
+- Protect against spam.
+- Store consent timestamps where needed.
+- Avoid exposing private submissions publicly.
+- Store private uploaded files outside the public disk.
+- Avoid storing unnecessary personal data.
+- Be mobile-friendly and accessible.
+
+## Newsletter
+
+The project should store newsletter subscribers locally.
+
+A future integration with a free newsletter provider such as Brevo may be added later.
+
+For now, keep the newsletter system simple:
+
+- email
+- name, nullable
+- status
+- source
+- consented_at
+- unsubscribed_at
+
+## Privacy rules
+
+Proposal submissions are private.
+
+Contact messages are private.
+
+Uploaded files from public forms must not be publicly accessible.
+
+Never expose personal data in public pages, logs, seeders or tests.
+
+Do not commit real user data.
+
+## Design principles
+
+- Mobile-first.
+- Fast loading.
+- Accessible HTML.
+- Clean, modern and trustworthy visual identity.
+- Sport-related but not childish.
+- Avoid unnecessary JavaScript.
+- Prioritize SEO and performance.
+- Use clear Spanish copy.
+
+## Testing
+
+Use Pest for important features.
+
+At minimum, add tests for:
+
+- Public pages loading correctly.
+- Contact form submissions.
+- Proposal form submissions.
+- Newsletter subscriptions.
+- Admin-only access where relevant.
+
+## Git conventions
+
+Use Conventional Commits:
+
+- chore:
+- feat:
+- fix:
+- refactor:
+- test:
+- docs:
+- style:
+
+Examples:
+
+- chore: create Laravel project with Boost
+- feat: install Filament admin panel
+- docs: add project guidelines for AI agents
+- feat: add public website structure
+- feat: add proposal submission form
+- test: add proposal submission tests
+</project-guidelines>
