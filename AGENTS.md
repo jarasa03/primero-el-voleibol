@@ -272,6 +272,9 @@ At minimum, add tests for:
 - Newsletter subscriptions.
 - Admin-only access where relevant.
 
+- Keep tests organized by topic inside the existing test suites. Do not leave unrelated test files loose in `tests/`; group them in subfolders by domain when it helps readability, for example `tests/Feature/Public`, `tests/Feature/Forms`, `tests/Feature/Admin`, or `tests/Unit/Support`.
+- Match the folder structure to the concern being tested, not to the implementation file name. Keep feature tests in `tests/Feature` and unit tests in `tests/Unit`, using nested folders only to separate areas of the product.
+
 ## Git conventions
 
 Use Conventional Commits:
