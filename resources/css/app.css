@@ -58,10 +58,24 @@
 }
 
 @layer components {
-    body[data-nav-scrolled='true'] .site-header-shell {
-        border-color: rgb(30 41 59 / 0.9);
+    body[data-nav-scrolled='true'] .site-header-band {
         background-color: rgb(11 23 40 / 0.96);
+        backdrop-filter: blur(18px);
         box-shadow: 0 14px 40px rgba(11, 23, 40, 0.28);
+        transition: background-color 500ms ease-in-out, box-shadow 500ms ease-in-out, backdrop-filter 500ms ease-in-out;
+    }
+    body:not([data-nav-scrolled='true']) .site-header-band {
+        background-color: rgb(248 250 252 / 0.95);
+        backdrop-filter: blur(18px);
+        box-shadow: none;
+        transition: background-color 500ms ease-in-out, box-shadow 500ms ease-in-out, backdrop-filter 500ms ease-in-out;
+    }
+
+    body[data-nav-scrolled='true'] .site-header-shell {
+        border-color: transparent;
+        background-color: transparent;
+        box-shadow: none;
+        transition: background-color 500ms ease-in-out, border-color 500ms ease-in-out, box-shadow 500ms ease-in-out;
     }
     body[data-nav-scrolled='true'] .site-header-logo {
         border-color: rgb(11 23 40 / 1);
@@ -78,27 +92,41 @@
     body[data-nav-scrolled='true'] .site-header-nav {
         color: rgb(241 245 249 / 0.9) !important;
     }
-    body[data-nav-scrolled='true'] .site-header-link:hover {
-        color: rgb(252 211 77 / 1) !important;
-    }
     body[data-nav-scrolled='true'] .site-header-cta {
         border-color: rgb(252 211 77 / 0.75);
         background-color: rgb(252 211 77 / 1);
         color: rgb(11 23 40 / 1) !important;
     }
 
-    body[data-nav-scrolled='true'] .site-header-cta:hover {
-        background-color: rgb(252 211 77 / 0.92) !important;
-        border-color: rgb(252 211 77 / 0.92) !important;
+    body[data-nav-scrolled='true'] .site-header-toggle {
+        border-color: rgb(252 211 77 / 0.35);
+        background-color: rgb(252 211 77 / 1);
+        color: rgb(11 23 40 / 1) !important;
+    }
+    body[data-nav-scrolled='true'] .site-header-toggle-bar {
+        background-color: rgb(11 23 40 / 1);
+    }
+    body[data-nav-scrolled='true'] .site-mobile-nav {
+        border-color: rgb(30 41 59 / 0.9);
+        background-color: rgb(11 23 40 / 0.98);
+        box-shadow: 0 14px 40px rgba(11, 23, 40, 0.28);
+    }
+    body[data-nav-scrolled='true'] .site-mobile-nav .site-header-link {
+        color: rgb(241 245 249 / 0.92) !important;
+    }
+    body[data-nav-scrolled='true'] .site-mobile-nav .site-header-cta {
+        background-color: rgb(252 211 77 / 1) !important;
+        border-color: rgb(252 211 77 / 0.75) !important;
         color: rgb(11 23 40 / 1) !important;
     }
     body:not([data-nav-scrolled='true']) .site-header-shell {
-        background-color: rgb(248 250 252 / 1);
+        background-color: transparent;
         border-color: transparent;
         border-width: 0;
         box-shadow: none;
         backdrop-filter: none;
         mix-blend-mode: normal;
+        transition: background-color 500ms ease-in-out, border-color 500ms ease-in-out, box-shadow 500ms ease-in-out;
     }
     body:not([data-nav-scrolled='true']) .site-header-brand,
     body:not([data-nav-scrolled='true']) .site-header-subtitle,
@@ -107,11 +135,37 @@
     body:not([data-nav-scrolled='true']) .site-header-cta {
         color: rgb(15 23 42 / 0.96) !important;
     }
+    body:not([data-nav-scrolled='true']) .site-header-cta {
+        background-color: rgb(11 23 40 / 1) !important;
+        border-color: rgb(11 23 40 / 1) !important;
+        color: rgb(255 255 255 / 1) !important;
+    }
     body:not([data-nav-scrolled='true']) .site-header-logo {
         border-color: rgb(226 232 240 / 1);
         background-color: rgb(255 255 255 / 1);
         color: rgb(15 23 42 / 1) !important;
         box-shadow: 0 1px 2px rgba(15, 23, 42, 0.1);
+    }
+    body:not([data-nav-scrolled='true']) .site-header-toggle {
+        border-color: rgb(226 232 240 / 1);
+        background-color: rgb(255 255 255 / 1);
+        color: rgb(15 23 42 / 1) !important;
+    }
+    body:not([data-nav-scrolled='true']) .site-header-toggle-bar {
+        background-color: rgb(15 23 42 / 1);
+    }
+    body:not([data-nav-scrolled='true']) .site-mobile-nav {
+        border-color: transparent;
+        background-color: rgb(248 250 252 / 1);
+        box-shadow: none;
+    }
+    body:not([data-nav-scrolled='true']) .site-mobile-nav .site-header-link {
+        color: rgb(15 23 42 / 0.96) !important;
+    }
+    body:not([data-nav-scrolled='true']) .site-mobile-nav .site-header-cta {
+        background-color: rgb(11 23 40 / 1) !important;
+        border-color: rgb(11 23 40 / 1) !important;
+        color: rgb(255 255 255 / 1) !important;
     }
     .site-header-logo {
         transition-property: transform, background-color, border-color, color, box-shadow;
@@ -119,17 +173,88 @@
         transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
         will-change: transform;
     }
+    .site-header-toggle {
+        transition-property: background-color, border-color, color, box-shadow, transform;
+        transition-duration: 500ms;
+        transition-timing-function: ease-in-out;
+    }
+    .site-header-toggle-bar {
+        transition-property: transform, opacity, background-color;
+        transition-duration: 350ms;
+        transition-timing-function: ease-in-out;
+        transform-origin: center;
+    }
+    .site-mobile-nav {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-0.5rem);
+        transition-property: max-height, background-color, border-color, box-shadow, opacity, transform;
+        transition-duration: 500ms;
+        transition-timing-function: ease-in-out;
+    }
+    body[data-mobile-nav-open='true'] .site-mobile-nav {
+        max-height: 28rem;
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+    }
+    body[data-mobile-nav-open='true'] .site-header-toggle .site-header-toggle-bar:nth-child(1) {
+        transform: translateY(-50%) rotate(45deg) scaleX(1.08);
+    }
+    body[data-mobile-nav-open='true'] .site-header-toggle .site-header-toggle-bar:nth-child(2) {
+        opacity: 0;
+        transform: translateY(-50%) scaleX(0.25);
+    }
+    body[data-mobile-nav-open='true'] .site-header-toggle .site-header-toggle-bar:nth-child(3) {
+        transform: translateY(-50%) rotate(-45deg) scaleX(1.08);
+    }
 
-    .group:hover .site-header-logo {
+    body:not([data-mobile-nav-open='true']) .site-header-toggle .site-header-toggle-bar:nth-child(1) {
+        transform: translateY(-9px);
+    }
+
+    body:not([data-mobile-nav-open='true']) .site-header-toggle .site-header-toggle-bar:nth-child(2) {
+        opacity: 1;
+        transform: translateY(0) scaleX(1);
+    }
+
+    body:not([data-mobile-nav-open='true']) .site-header-toggle .site-header-toggle-bar:nth-child(3) {
+        transform: translateY(9px);
+    }
+
+    body[data-hover-enabled='true'] .group:hover .site-header-logo {
         transform: translateY(-3px);
     }
-    body:not([data-nav-scrolled='true']) .site-header-link:hover {
+
+    body[data-hover-enabled='true'][data-nav-scrolled='true'] .site-header-link:hover {
+        color: rgb(252 211 77 / 1) !important;
+    }
+
+    body[data-hover-enabled='true'][data-nav-scrolled='true'] .site-header-cta:hover {
+        background-color: rgb(252 211 77 / 0.92) !important;
+        border-color: rgb(252 211 77 / 0.92) !important;
+        color: rgb(11 23 40 / 1) !important;
+    }
+
+    body[data-hover-enabled='true'][data-nav-scrolled='true'] .site-mobile-nav .site-header-link:hover {
+        color: rgb(252 211 77 / 1) !important;
+        background-color: rgb(255 255 255 / 0.06);
+    }
+
+    body[data-hover-enabled='true']:not([data-nav-scrolled='true']) .site-mobile-nav .site-header-link:hover {
+        color: rgb(15 23 42 / 1) !important;
+        background-color: rgb(241 245 249 / 1);
+    }
+
+    body[data-hover-enabled='true']:not([data-nav-scrolled='true']) .site-header-link:hover {
         color: rgb(15 23 42 / 1) !important;
     }
 
-    body:not([data-nav-scrolled='true']) .site-header-cta:hover {
-        background-color: rgb(11 23 40 / 1) !important;
-        border-color: rgb(11 23 40 / 1) !important;
-        color: rgb(255 255 255 / 1) !important;
+    body[data-hover-enabled='true']:not([data-nav-scrolled='true']) .site-header-cta:hover {
+        background-color: rgb(252 211 77 / 1) !important;
+        border-color: rgb(252 211 77 / 1) !important;
+        color: rgb(11 23 40 / 1) !important;
     }
 }

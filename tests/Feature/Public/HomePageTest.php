@@ -5,5 +5,9 @@ test('the homepage loads and shows the public brand', function () {
         ->assertSuccessful()
         ->assertSeeText('Primero el Voleibol')
         ->assertSeeText('Poner el voleibol')
-        ->assertSeeText('Participa');
+        ->assertSeeText('Participa')
+        ->assertSeeText('Un cierre claro para seguir abriendo conversacion')
+        ->assertSeeText('Aviso legal')
+        ->assertSeeText('Politica de privacidad')
+        ->assertSeeText('Politica de cookies');
 });

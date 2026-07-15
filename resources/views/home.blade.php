@@ -4,7 +4,7 @@
 @section('meta_description', 'Un movimiento para escuchar, proponer y construir el futuro del voleibol madrileño desde la pista, los clubes y las personas que lo hacen posible.')
 
 @section('content')
-    <section class="pb-8 pt-28 lg:pb-10 lg:pt-32">
+    <section class="pb-8 pt-8 lg:pb-10 lg:pt-10">
         <div class="relative overflow-hidden rounded-[2.25rem] bg-slate-950 px-6 py-10 text-white shadow-[0_28px_80px_rgba(15,23,42,0.24)] sm:px-8 lg:px-10 lg:py-12">
             <div class="pointer-events-none absolute inset-0">
                 <div
@@ -33,10 +33,10 @@
                     </p>
 
                     <div class="mt-8 flex flex-wrap gap-4">
-                        <a href="#participa" class="inline-flex items-center justify-center rounded-full bg-amber-400 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-amber-300">
+                        <a href="#participa" class="inline-flex items-center justify-center rounded-full bg-amber-400 px-6 py-3 text-sm font-semibold text-slate-950 transition md:hover:bg-amber-300">
                             Participa
                         </a>
-                        <a href="#propuestas" class="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10">
+                        <a href="#propuestas" class="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition md:hover:bg-white/10">
                             Enviar una propuesta
                         </a>
                     </div>
@@ -148,7 +148,7 @@
                     </p>
                 </div>
 
-                <a href="#contacto" class="inline-flex w-full items-center justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 sm:w-auto lg:ml-4">
+                <a href="#contacto" class="inline-flex w-full items-center justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition md:hover:bg-slate-800 sm:w-auto lg:ml-4">
                     Enviar propuesta
                 </a>
             </div>
@@ -179,7 +179,7 @@
                 </div>
 
                 <div class="lg:justify-self-end">
-                    <a href="mailto:info@primeroelvoleibol.es" class="inline-flex w-full items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10 sm:w-auto">
+                    <a href="mailto:info@primeroelvoleibol.es" class="inline-flex w-full items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition md:hover:bg-white/10 sm:w-auto">
                         info@primeroelvoleibol.es
                     </a>
                 </div>
