@@ -35,6 +35,99 @@ const openMobileNav = (mobileNav, mobileNavToggle) => {
     }
 };
 
+const setupProgramAccordion = () => {
+    document.querySelectorAll('[data-program-accordion]').forEach((details) => {
+        const summary = details.querySelector('summary');
+        const panel = details.querySelector('[data-program-panel]');
+
+        if (!(summary instanceof HTMLElement) || !(panel instanceof HTMLElement)) {
+            return;
+        }
+
+        let isClosing = false;
+        let isOpening = false;
+
+        const openDetails = () => {
+            if (details.open) {
+                return;
+            }
+
+            isOpening = true;
+            isClosing = false;
+            details.open = true;
+            panel.style.overflow = 'hidden';
+            panel.style.opacity = '0';
+            panel.style.maxHeight = '0px';
+            panel.offsetHeight;
+
+            requestAnimationFrame(() => {
+                panel.style.maxHeight = `${panel.scrollHeight}px`;
+                panel.style.opacity = '1';
+            });
+        };
+
+        const closeDetails = () => {
+            if (!details.open) {
+                return;
+            }
+
+            isClosing = true;
+            isOpening = false;
+            panel.style.overflow = 'hidden';
+            panel.style.maxHeight = `${panel.scrollHeight}px`;
+            panel.style.opacity = '1';
+            panel.offsetHeight;
+
+            requestAnimationFrame(() => {
+                panel.style.maxHeight = '0px';
+                panel.style.opacity = '0';
+            });
+        };
+
+        summary.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            if (details.open) {
+                closeDetails();
+                return;
+            }
+
+            openDetails();
+        });
+
+        panel.addEventListener('transitionend', (event) => {
+            if (event.propertyName !== 'max-height') {
+                return;
+            }
+
+            if (isOpening) {
+                panel.style.maxHeight = 'none';
+                panel.style.opacity = '1';
+                panel.style.overflow = 'visible';
+                isOpening = false;
+            }
+
+            if (isClosing) {
+                details.open = false;
+                panel.style.maxHeight = '0px';
+                panel.style.opacity = '0';
+                panel.style.overflow = 'hidden';
+                isClosing = false;
+            }
+        });
+
+        if (details.open) {
+            panel.style.maxHeight = 'none';
+            panel.style.opacity = '1';
+            panel.style.overflow = 'visible';
+        } else {
+            panel.style.maxHeight = '0px';
+            panel.style.opacity = '0';
+            panel.style.overflow = 'hidden';
+        }
+    });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     const mobileNavToggle = document.querySelector('[data-nav-toggle]');
     const mobileNav = document.getElementById('mobile-navigation');
@@ -42,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateNavigationState();
     updateHoverState();
     closeMobileNav(mobileNav, mobileNavToggle);
+    setupProgramAccordion();
 
     window.addEventListener('scroll', updateNavigationState, { passive: true });
 

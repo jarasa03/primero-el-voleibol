@@ -65,8 +65,8 @@
         transition: background-color 500ms ease-in-out, box-shadow 500ms ease-in-out, backdrop-filter 500ms ease-in-out;
     }
     body:not([data-nav-scrolled='true']) .site-header-band {
-        background-color: rgb(248 250 252 / 0.95);
-        backdrop-filter: blur(18px);
+        background-color: transparent;
+        backdrop-filter: none;
         box-shadow: none;
         transition: background-color 500ms ease-in-out, box-shadow 500ms ease-in-out, backdrop-filter 500ms ease-in-out;
     }
@@ -115,6 +115,55 @@
         color: rgb(241 245 249 / 0.92) !important;
     }
     body[data-nav-scrolled='true'] .site-mobile-nav .site-header-cta {
+        background-color: rgb(252 211 77 / 1) !important;
+        border-color: rgb(252 211 77 / 0.75) !important;
+        color: rgb(11 23 40 / 1) !important;
+    }
+    body.page-interior:not([data-nav-scrolled='true']) .site-header-shell {
+        background-color: transparent;
+        border-color: transparent;
+        border-width: 0;
+        box-shadow: none;
+        backdrop-filter: none;
+    }
+    body.page-interior:not([data-nav-scrolled='true']) .site-header-logo {
+        border-color: rgb(11 23 40 / 1);
+        background-color: rgb(255 255 255 / 1);
+        color: rgb(11 23 40 / 1) !important;
+        box-shadow: none;
+    }
+    body.page-interior:not([data-nav-scrolled='true']) .site-header-brand {
+        color: rgb(252 207 77 / 1) !important;
+    }
+    body.page-interior:not([data-nav-scrolled='true']) .site-header-subtitle {
+        color: rgb(226 232 240 / 0.78) !important;
+    }
+    body.page-interior:not([data-nav-scrolled='true']) .site-header-nav,
+    body.page-interior:not([data-nav-scrolled='true']) .site-header-link {
+        color: rgb(241 245 249 / 0.9) !important;
+    }
+    body.page-interior:not([data-nav-scrolled='true']) .site-header-cta {
+        border-color: rgb(226 232 240 / 1) !important;
+        background-color: rgb(255 255 255 / 1) !important;
+        color: rgb(11 23 40 / 1) !important;
+    }
+    body.page-interior:not([data-nav-scrolled='true']) .site-header-toggle {
+        border-color: rgb(226 232 240 / 1);
+        background-color: rgb(255 255 255 / 1);
+        color: rgb(11 23 40 / 1) !important;
+    }
+    body.page-interior:not([data-nav-scrolled='true']) .site-header-toggle-bar {
+        background-color: rgb(11 23 40 / 1);
+    }
+    body.page-interior:not([data-nav-scrolled='true']) .site-mobile-nav {
+        border-color: rgb(30 41 59 / 0.9);
+        background-color: rgb(11 23 40 / 0.98);
+        box-shadow: 0 14px 40px rgba(11, 23, 40, 0.28);
+    }
+    body.page-interior:not([data-nav-scrolled='true']) .site-mobile-nav .site-header-link {
+        color: rgb(241 245 249 / 0.92) !important;
+    }
+    body.page-interior:not([data-nav-scrolled='true']) .site-mobile-nav .site-header-cta {
         background-color: rgb(252 211 77 / 1) !important;
         border-color: rgb(252 211 77 / 0.75) !important;
         color: rgb(11 23 40 / 1) !important;

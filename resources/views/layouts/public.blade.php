@@ -13,7 +13,7 @@
         @fonts
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="antialiased" data-nav-scrolled="false">
+    <body class="antialiased @yield('body_class')" data-nav-scrolled="false">
         <div class="relative min-h-screen overflow-x-hidden bg-slate-50 text-slate-950">
             <div class="pointer-events-none absolute inset-x-0 top-0 h-px bg-slate-200"></div>
 
@@ -31,13 +31,12 @@
                         </a>
 
                         <nav class="site-header-nav hidden items-center gap-6 text-sm font-medium md:flex">
-                            <a class="site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="#proyecto">Proyecto</a>
-                            <a class="site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="#principios">Principios</a>
-                            <a class="site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="#programa">Programa</a>
-                            <a class="site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="#propuestas">Propuestas</a>
-                            <a class="site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="#actualidad">Actualidad</a>
-                            <a class="site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="#participa">Participa</a>
-                            <a class="site-header-cta rounded-full border border-slate-200 bg-white px-4 py-2 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:border-slate-300 md:hover:bg-slate-50" href="#contacto">Contacto</a>
+                            <a class="site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="{{ route('proyecto') }}">Proyecto</a>
+                            <a class="site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="{{ route('principios') }}">Principios</a>
+                            <a class="site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="{{ route('programa') }}">Programa</a>
+                            <a class="site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="{{ route('blog') }}">Blog</a>
+                            <a class="site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="{{ route('participa') }}">Participa</a>
+                            <a class="site-header-cta rounded-full border border-slate-200 bg-white px-4 py-2 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:border-slate-300 md:hover:bg-slate-50" href="{{ route('contacto') }}">Contacto</a>
                         </nav>
 
                         <button
@@ -60,13 +59,12 @@
                 <div id="mobile-navigation" aria-hidden="true" class="site-mobile-nav relative z-50 border-t md:hidden">
                     <div class="mx-auto w-full max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
                         <nav class="flex flex-col gap-2 text-sm font-medium">
-                            <a class="site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="#proyecto">Proyecto</a>
-                            <a class="site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="#principios">Principios</a>
-                            <a class="site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="#programa">Programa</a>
-                            <a class="site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="#propuestas">Propuestas</a>
-                            <a class="site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="#actualidad">Actualidad</a>
-                            <a class="site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="#participa">Participa</a>
-                            <a class="site-header-cta mt-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-center transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:border-slate-300 md:hover:bg-slate-50" href="#contacto">Contacto</a>
+                            <a class="site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="{{ route('proyecto') }}">Proyecto</a>
+                            <a class="site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="{{ route('principios') }}">Principios</a>
+                            <a class="site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="{{ route('programa') }}">Programa</a>
+                            <a class="site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="{{ route('blog') }}">Blog</a>
+                            <a class="site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="{{ route('participa') }}">Participa</a>
+                            <a class="site-header-cta mt-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-center transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:border-slate-300 md:hover:bg-slate-50" href="{{ route('contacto') }}">Contacto</a>
                         </nav>
                     </div>
                 </div>
@@ -92,43 +90,42 @@
                                     </div>
 
                                     <h2 class="mt-5 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-                                        Un cierre claro para seguir abriendo conversacion.
+                                        Un cierre claro para seguir abriendo conversaci&oacute;n.
                                     </h2>
 
                                     <p class="mt-4 max-w-xl text-base leading-7 text-brand-100/80 sm:text-lg">
-                                        Queremos escuchar a la pista, ordenar ideas y convertirlas en propuestas utiles para el voleibol madrileno.
+                                        Queremos escuchar a la pista, ordenar ideas y convertirlas en propuestas &uacute;tiles para el voleibol madrile&ntilde;o.
                                     </p>
 
                                     <div class="mt-7 flex flex-wrap gap-3">
-                                        <a href="#contacto" class="inline-flex items-center justify-center rounded-full bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-950 transition md:hover:bg-amber-300">
+                                        <a href="{{ route('contacto') }}" class="inline-flex items-center justify-center rounded-full bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-950 transition md:hover:bg-amber-300">
                                             Escr&#237;benos
                                         </a>
-                                        <a href="#propuestas" class="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition md:hover:bg-white/10">
-                                            Enviar una propuesta
+                                        <a href="{{ route('blog') }}" class="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition md:hover:bg-white/10">
+                                            Ver blog
                                         </a>
                                     </div>
                                 </div>
 
                                 <div class="py-0 sm:py-6">
-                                    <p class="text-sm font-semibold uppercase tracking-[0.25em] text-amber-300">Navegacion</p>
+                                    <p class="text-sm font-semibold uppercase tracking-[0.25em] text-amber-300">Navegaci&oacute;n</p>
 
                                     <div class="mt-5 grid gap-8 sm:grid-cols-2">
                                         <div>
                                             <p class="text-sm font-medium text-white">Explora</p>
                                             <ul class="mt-4 space-y-3 text-sm text-brand-100/80">
-                                                <li><a class="transition md:hover:text-amber-300" href="#proyecto">Proyecto</a></li>
-                                                <li><a class="transition md:hover:text-amber-300" href="#principios">Principios</a></li>
-                                                <li><a class="transition md:hover:text-amber-300" href="#programa">Programa</a></li>
-                                                <li><a class="transition md:hover:text-amber-300" href="#propuestas">Propuestas</a></li>
+                                                <li><a class="transition md:hover:text-amber-300" href="{{ route('proyecto') }}">Proyecto</a></li>
+                                                <li><a class="transition md:hover:text-amber-300" href="{{ route('principios') }}">Principios</a></li>
+                                                <li><a class="transition md:hover:text-amber-300" href="{{ route('programa') }}">Programa</a></li>
+                                                <li><a class="transition md:hover:text-amber-300" href="{{ route('blog') }}">Blog</a></li>
                                             </ul>
                                         </div>
 
                                         <div>
                                             <p class="text-sm font-medium text-white">Contacto</p>
                                             <ul class="mt-4 space-y-3 text-sm text-brand-100/80">
-                                                <li><a class="transition md:hover:text-amber-300" href="#actualidad">Actualidad</a></li>
-                                                <li><a class="transition md:hover:text-amber-300" href="#participa">Participa</a></li>
-                                                <li><a class="transition md:hover:text-amber-300" href="#contacto">Contacto</a></li>
+                                                <li><a class="transition md:hover:text-amber-300" href="{{ route('participa') }}">Participa</a></li>
+                                                <li><a class="transition md:hover:text-amber-300" href="{{ route('contacto') }}">Contacto</a></li>
                                                 <li><a class="transition md:hover:text-amber-300" href="mailto:info@primeroelvoleibol.es">info@primeroelvoleibol.es</a></li>
                                             </ul>
                                         </div>
@@ -141,8 +138,8 @@
                                     <p>Primero el Voleibol - Madrid</p>
                                     <div class="flex flex-wrap gap-x-5 gap-y-2">
                                         <a class="transition md:hover:text-amber-300" href="{{ route('legal.aviso-legal') }}">Aviso legal</a>
-                                        <a class="transition md:hover:text-amber-300" href="{{ route('legal.politica-de-privacidad') }}">Politica de privacidad</a>
-                                        <a class="transition md:hover:text-amber-300" href="{{ route('legal.politica-de-cookies') }}">Politica de cookies</a>
+                                        <a class="transition md:hover:text-amber-300" href="{{ route('legal.politica-de-privacidad') }}">Pol&iacute;tica de privacidad</a>
+                                        <a class="transition md:hover:text-amber-300" href="{{ route('legal.politica-de-cookies') }}">Pol&iacute;tica de cookies</a>
                                     </div>
                                     <p>{{ now()->year }} - Hecho para poner el voleibol en el centro</p>
                                 </div>
