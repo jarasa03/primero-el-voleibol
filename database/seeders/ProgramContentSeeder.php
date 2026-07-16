@@ -100,6 +100,7 @@ class ProgramContentSeeder extends Seeder
             $section = ProgramSection::query()->create([
                 'name' => $sectionData['name'],
                 'sort' => $sectionData['sort'],
+                'beach_volleyball_enabled' => $sectionData['beach_volleyball_enabled'] ?? false,
             ]);
 
             foreach ($sectionData['proposals'] as $proposalData) {
@@ -107,6 +108,7 @@ class ProgramContentSeeder extends Seeder
                     'title' => $proposalData['title'],
                     'description' => $proposalData['description'],
                     'sort' => $proposalData['sort'],
+                    'is_beach_volleyball' => false,
                 ]);
             }
         }

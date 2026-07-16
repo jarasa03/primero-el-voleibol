@@ -23,6 +23,7 @@ class ProgramProposalFactory extends Factory
             'title' => fake()->sentence(4),
             'description' => fake()->paragraphs(2, true),
             'sort' => fake()->numberBetween(1, 1000),
+            'is_beach_volleyball' => false,
         ];
     }
 }

@@ -11,12 +11,13 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
-class ProgramProposalsRelationManager extends RelationManager
+class BeachVolleyballProposalsRelationManager extends RelationManager
 {
     protected static bool $isLazy = false;
 
-    protected static string $relationship = 'mainProposals';
+    protected static string $relationship = 'beachProposals';
 
     protected static ?string $recordTitleAttribute = 'title';
 
@@ -24,7 +25,12 @@ class ProgramProposalsRelationManager extends RelationManager
 
     protected static ?string $pluralModelLabel = 'propuestas';
 
-    protected static ?string $title = 'Propuestas';
+    protected static ?string $title = 'Voley playa';
+
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        return (bool) $ownerRecord->beach_volleyball_enabled;
+    }
 
     public function form(Schema $schema): Schema
     {
@@ -69,7 +75,7 @@ class ProgramProposalsRelationManager extends RelationManager
                     ->modalHeading('Crear propuesta')
                     ->modalSubmitActionLabel('Crear propuesta')
                     ->mutateDataUsing(function (array $data): array {
-                        $data['is_beach_volleyball'] = false;
+                        $data['is_beach_volleyball'] = true;
 
                         return $data;
                     }),

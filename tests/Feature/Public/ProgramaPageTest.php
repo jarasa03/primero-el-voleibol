@@ -88,3 +88,57 @@ it('numbers proposals sequentially across all blocks', function (): void {
     $response->assertSee('Propuesta tres');
     expect(preg_match('/data-program-number="01".*data-program-number="02".*data-program-number="03"/s', $response->getContent()))->toBe(1);
 });
+
+it('renders beach volleyball subsections only when enabled', function (): void {
+    $enabledSection = ProgramSection::factory()->create([
+        'name' => 'Arbitros',
+        'beach_volleyball_enabled' => true,
+        'sort' => 1,
+    ]);
+
+    ProgramProposal::factory()->create([
+        'program_section_id' => $enabledSection->id,
+        'title' => 'Propuesta principal',
+        'description' => 'Descripcion principal.',
+        'sort' => 1,
+    ]);
+
+    ProgramProposal::factory()->create([
+        'program_section_id' => $enabledSection->id,
+        'title' => 'Apartado de playa visible',
+        'description' => 'Descripcion de playa visible.',
+        'sort' => 1,
+        'is_beach_volleyball' => true,
+    ]);
+
+    $disabledSection = ProgramSection::factory()->create([
+        'name' => 'Entrenadores',
+        'beach_volleyball_enabled' => false,
+        'sort' => 2,
+    ]);
+
+    ProgramProposal::factory()->create([
+        'program_section_id' => $disabledSection->id,
+        'title' => 'Propuesta secundaria',
+        'description' => 'Descripcion secundaria.',
+        'sort' => 1,
+    ]);
+
+    ProgramProposal::factory()->create([
+        'program_section_id' => $disabledSection->id,
+        'title' => 'Apartado de playa oculto',
+        'description' => 'Descripcion de playa oculta.',
+        'sort' => 1,
+        'is_beach_volleyball' => true,
+    ]);
+
+    $response = $this->get(route('programa'));
+
+    $response->assertOk();
+    $response->assertSee('Propuesta principal');
+    $response->assertSee('Apartado de playa visible');
+    $response->assertSee('Propuesta secundaria');
+    $response->assertDontSee('Apartado de playa oculto');
+    expect(substr_count($response->getContent(), 'data-program-subsection'))->toBe(1);
+    expect(preg_match('/data-program-section.*?Arbitros.*?data-program-subsection.*?Voley playa/s', $response->getContent()))->toBe(1);
+});

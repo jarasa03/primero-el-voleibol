@@ -29,9 +29,32 @@ Route::get('/principios', function () {
 })->name('principios');
 
 Route::get('/programa', function () {
+    $attachBeachSubsections = function (array $sections): array {
+        return collect($sections)
+            ->map(function (array $section): array {
+                $section['subsections'] = [];
+
+                if (($section['beach_volleyball_enabled'] ?? false) === true && $section['anchor'] !== 'voley-playa') {
+                    $section['subsections'] = [
+                        [
+                            'anchor' => sprintf('%s-voley-playa', $section['anchor']),
+                            'title' => 'Voley playa',
+                            'description' => null,
+                            'items' => $section['beach_proposals'] ?? [],
+                        ],
+                    ];
+                }
+
+                return $section;
+            })
+            ->values()
+            ->all();
+    };
+
     $programSectionsFromDatabase = ProgramSection::query()
         ->with([
-            'proposals' => fn ($query) => $query->orderBy('sort'),
+            'mainProposals' => fn ($query) => $query->orderBy('sort'),
+            'beachProposals' => fn ($query) => $query->orderBy('sort'),
         ])
         ->orderBy('sort')
         ->get();
@@ -43,7 +66,15 @@ Route::get('/programa', function () {
                 'title' => $section->name,
                 'eyebrow' => sprintf('Bloque %02d', $index + 1),
                 'description' => null,
-                'items' => $section->proposals->map(function ($proposal): array {
+                'beach_volleyball_enabled' => $section->beach_volleyball_enabled,
+                'items' => $section->mainProposals->map(function ($proposal): array {
+                    return [
+                        'title' => $proposal->title,
+                        'summary' => (string) Str::of($proposal->description)->stripTags()->squish()->limit(90),
+                        'details' => $proposal->description,
+                    ];
+                })->all(),
+                'beach_proposals' => $section->beachProposals->map(function ($proposal): array {
                     return [
                         'title' => $proposal->title,
                         'summary' => (string) Str::of($proposal->description)->stripTags()->squish()->limit(90),
@@ -52,6 +83,8 @@ Route::get('/programa', function () {
                 })->all(),
             ];
         })->all();
+
+        $programSections = $attachBeachSubsections($programSections);
     } else {
         $programSections = [
             [
@@ -71,6 +104,8 @@ Route::get('/programa', function () {
                         'details' => 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.',
                     ],
                 ],
+                'beach_volleyball_enabled' => false,
+                'beach_proposals' => [],
             ],
             [
                 'anchor' => 'federacion',
@@ -89,6 +124,8 @@ Route::get('/programa', function () {
                         'details' => 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.',
                     ],
                 ],
+                'beach_volleyball_enabled' => false,
+                'beach_proposals' => [],
             ],
             [
                 'anchor' => 'arbitros',
@@ -107,6 +144,8 @@ Route::get('/programa', function () {
                         'details' => 'Los árbitros de Superliga 1 tendrán a su cargo a dos árbitros de Superliga 2; estos, a su vez, acompañarán a dos árbitros nacionales. Cada árbitro nacional hará lo propio con dos árbitros de nivel 2, y cada árbitro de nivel 2 con dos de nivel 1. El objetivo es que los niveles superiores formen a los inferiores, se preocupen por su asistencia a reuniones y eventos, les hagan llegar nuevas directrices y piten con ellos al menos una vez cada mes y medio para dar feedback constante. Así construiremos un equipo arbitral fuerte, unificado y capaz de crecer junto.',
                     ],
                 ],
+                'beach_volleyball_enabled' => false,
+                'beach_proposals' => [],
             ],
             [
                 'anchor' => 'entrenadores',
@@ -125,6 +164,8 @@ Route::get('/programa', function () {
                         'details' => 'Nullam quis risus eget urna mollis ornare vel eu leo. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.',
                     ],
                 ],
+                'beach_volleyball_enabled' => false,
+                'beach_proposals' => [],
             ],
             [
                 'anchor' => 'voley-playa',
@@ -143,8 +184,12 @@ Route::get('/programa', function () {
                         'details' => 'Cras justo odio, dapibus ac facilisis in, egestas eget quam. Maecenas faucibus mollis interdum.',
                     ],
                 ],
+                'beach_volleyball_enabled' => false,
+                'beach_proposals' => [],
             ],
         ];
+
+        $programSections = $attachBeachSubsections($programSections);
     }
 
     return view('programa', [

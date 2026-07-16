@@ -20,6 +20,7 @@ class ProgramSectionFactory extends Factory
         return [
             'name' => fake()->unique()->words(2, true),
             'sort' => fake()->numberBetween(1, 1000),
+            'beach_volleyball_enabled' => false,
         ];
     }
 }

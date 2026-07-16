@@ -68,7 +68,7 @@
     @php($proposalNumber = 1)
 
     @foreach ($programSections as $programSection)
-        <section id="{{ $programSection['anchor'] }}" class="py-4 lg:py-5">
+        <section id="{{ $programSection['anchor'] }}" data-program-section class="py-4 lg:py-5">
             <div class="rounded-[2rem] border border-slate-200 bg-slate-100 px-6 py-5 shadow-sm sm:px-8 lg:px-10 lg:py-6">
                 <div class="max-w-3xl">
                     <p class="text-sm font-semibold uppercase tracking-[0.25em] text-accent-700">{{ $programSection['eyebrow'] }}</p>
@@ -103,6 +103,48 @@
                         </details>
                     @endforeach
                 </div>
+
+                @foreach ($programSection['subsections'] ?? [] as $subsection)
+                    <div data-program-subsection class="mt-6 rounded-[1.5rem] border border-slate-200 bg-white/70 px-5 py-5 shadow-sm sm:px-6">
+                        <div class="max-w-3xl">
+                            @if (! empty($subsection['eyebrow']))
+                                <p class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">
+                                    {{ $subsection['eyebrow'] }}
+                                </p>
+                            @endif
+                            <h3 class="mt-2 text-xl font-semibold tracking-tight text-slate-900 sm:text-2xl">
+                                {{ $subsection['title'] }}
+                            </h3>
+                        </div>
+
+                        <div class="mt-3 grid gap-2">
+                            @foreach ($subsection['items'] as $item)
+                                <details data-program-accordion class="group rounded-[1.25rem] border border-slate-200 bg-slate-50/80 px-4 py-3 shadow-sm sm:px-5">
+                                    <summary class="flex cursor-pointer list-none items-center justify-between gap-4">
+                                        <div class="flex min-w-0 items-center gap-3">
+                                            <span data-program-number="{{ sprintf('%02d', $proposalNumber) }}" class="inline-flex size-8 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                                                {{ sprintf('%02d', $proposalNumber++) }}
+                                            </span>
+                                            <h4 class="min-w-0 text-sm font-semibold tracking-tight text-slate-900 sm:text-base">
+                                                {{ $item['title'] }}
+                                            </h4>
+                                        </div>
+
+                                        <span class="inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-base font-semibold leading-none text-slate-500 transition group-open:rotate-45">
+                                            +
+                                        </span>
+                                    </summary>
+
+                                    <div data-program-panel class="overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out">
+                                        <div class="mt-3 border-t border-slate-200 pt-3 text-sm leading-7 text-slate-600">
+                                            {!! str($item['details'])->sanitizeHtml() !!}
+                                        </div>
+                                    </div>
+                                </details>
+                            @endforeach
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </section>
     @endforeach

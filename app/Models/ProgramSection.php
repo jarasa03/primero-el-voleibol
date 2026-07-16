@@ -13,7 +13,15 @@ class ProgramSection extends Model
     protected $fillable = [
         'name',
         'sort',
+        'beach_volleyball_enabled',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'beach_volleyball_enabled' => 'boolean',
+        ];
+    }
 
     protected static function booted(): void
     {
@@ -27,5 +35,22 @@ class ProgramSection extends Model
     public function proposals(): HasMany
     {
         return $this->hasMany(ProgramProposal::class)->orderBy('sort');
+    }
+
+    public function mainProposals(): HasMany
+    {
+        return $this->hasMany(ProgramProposal::class)
+            ->where(function ($query): void {
+                $query->where('is_beach_volleyball', false)
+                    ->orWhereNull('is_beach_volleyball');
+            })
+            ->orderBy('sort');
+    }
+
+    public function beachProposals(): HasMany
+    {
+        return $this->hasMany(ProgramProposal::class)
+            ->where('is_beach_volleyball', true)
+            ->orderBy('sort');
     }
 }

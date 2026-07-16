@@ -5,6 +5,7 @@ namespace App\Filament\Resources\ProgramSections;
 use App\Filament\Resources\ProgramSections\Pages\CreateProgramSection;
 use App\Filament\Resources\ProgramSections\Pages\EditProgramSection;
 use App\Filament\Resources\ProgramSections\Pages\ListProgramSections;
+use App\Filament\Resources\ProgramSections\RelationManagers\BeachVolleyballProposalsRelationManager;
 use App\Filament\Resources\ProgramSections\RelationManagers\ProgramProposalsRelationManager;
 use App\Filament\Resources\ProgramSections\Schemas\ProgramSectionForm;
 use App\Filament\Resources\ProgramSections\Tables\ProgramSectionsTable;
@@ -44,6 +45,7 @@ class ProgramSectionResource extends Resource
     {
         return [
             ProgramProposalsRelationManager::class,
+            BeachVolleyballProposalsRelationManager::class,
         ];
     }
 

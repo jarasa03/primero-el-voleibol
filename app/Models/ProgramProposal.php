@@ -15,7 +15,15 @@ class ProgramProposal extends Model
         'title',
         'description',
         'sort',
+        'is_beach_volleyball',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'is_beach_volleyball' => 'boolean',
+        ];
+    }
 
     protected static function booted(): void
     {
@@ -23,6 +31,7 @@ class ProgramProposal extends Model
             if ($proposal->sort === null) {
                 $proposal->sort = (int) static::query()
                     ->where('program_section_id', $proposal->program_section_id)
+                    ->where('is_beach_volleyball', $proposal->is_beach_volleyball ?? false)
                     ->max('sort') + 1;
             }
         });
