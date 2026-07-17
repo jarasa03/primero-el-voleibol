@@ -26,7 +26,7 @@
                             </span>
                             <span class="flex min-w-0 flex-col leading-tight">
                                 <span class="site-header-brand truncate text-[0.72rem] font-semibold uppercase tracking-[0.18em] transition-colors duration-500 ease-in-out sm:text-sm sm:tracking-[0.35em]">Primero el Voleibol</span>
-                                <span class="site-header-subtitle hidden text-xs transition-colors duration-500 ease-in-out sm:block">Llevemos el voleibol madrileno donde merece estar.</span>
+                                <span class="site-header-subtitle hidden text-xs transition-colors duration-500 ease-in-out sm:block">Llevemos el voleibol madrileño donde merece estar.</span>
                             </span>
                         </a>
 
@@ -46,7 +46,7 @@
                             aria-expanded="false"
                             data-nav-toggle
                         >
-                            <span class="sr-only">Abrir menu</span>
+                            <span class="sr-only">Abrir menú</span>
                             <span class="site-header-toggle-icon relative block size-6">
                                 <span class="site-header-toggle-bar absolute left-0 top-1/2 block h-0.5 w-6 -translate-y-1/2 rounded-full bg-slate-900 transition-transform duration-500 ease-in-out"></span>
                                 <span class="site-header-toggle-bar absolute left-0 top-1/2 block h-0.5 w-6 -translate-y-1/2 rounded-full bg-slate-900 transition-transform duration-500 ease-in-out"></span>

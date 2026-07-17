@@ -189,7 +189,7 @@
             <div class="mt-8 rounded-[1.75rem] border border-slate-200 bg-slate-100 px-6 py-6 sm:px-8">
                 <div class="grid gap-4 lg:grid-cols-[1fr_auto] lg:items-center">
                     <div>
-                        <p class="text-sm font-semibold uppercase tracking-[0.22em] text-accent-700">Aporta mas</p>
+                        <p class="text-sm font-semibold uppercase tracking-[0.22em] text-accent-700">Aporta más</p>
                         <p class="mt-2 max-w-2xl text-base leading-7 text-slate-700">
                             Si ves otra medida que debería entrar en el programa, nos encantaría leerla. Queremos
                             que este espacio crezca con ideas útiles y bien pensadas.
