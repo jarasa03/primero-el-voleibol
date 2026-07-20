@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlogPostController;
 use App\Models\ProgramSection;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -197,16 +198,8 @@ Route::get('/programa', function () {
     ])->with('body_class', 'page-interior page-programa');
 })->name('programa');
 
-Route::get('/blog', function () {
-    return view('page', [
-        'title' => 'Blog',
-        'eyebrow' => 'Blog',
-        'description' => 'Una página interior para publicar novedades y contenidos.',
-        'intro' => 'Aquí publicaremos novedades, reflexiones y contenido de actualidad.',
-        'hero_image' => asset('images/programa-hero.webp'),
-        'show_hero' => true,
-    ]);
-})->name('blog');
+Route::get('/blog', [BlogPostController::class, 'index'])->name('blog');
+Route::get('/blog/{blogPost:slug}', [BlogPostController::class, 'show'])->name('blog.show');
 
 Route::get('/participa', function () {
     return view('page', [

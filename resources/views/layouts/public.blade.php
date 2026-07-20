@@ -14,11 +14,21 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="antialiased @yield('body_class')" data-nav-scrolled="false">
+        @php
+            $isProyectoActive = request()->routeIs('proyecto');
+            $isPrincipiosActive = request()->routeIs('principios');
+            $isProgramaActive = request()->routeIs('programa');
+            $isBlogActive = request()->routeIs('blog*');
+            $isParticipaActive = request()->routeIs('participa');
+            $isContactoActive = request()->routeIs('contacto');
+            $activeNavLinkStyle = 'color: rgb(252 211 77) !important;';
+        @endphp
+
         <div class="relative min-h-screen overflow-x-hidden bg-slate-50 text-slate-950">
             <div class="pointer-events-none absolute inset-x-0 top-0 h-px bg-slate-200"></div>
 
             <header class="site-header-band fixed inset-x-0 top-0 z-50">
-                <div class="mx-auto flex h-full w-full max-w-7xl items-center px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
+                <div class="mx-auto flex h-full w-full max-w-7xl items-center py-3 sm:py-4">
                     <div class="site-header-shell flex w-full items-center justify-between gap-4 px-0 py-0 sm:gap-6">
                         <a href="{{ url('/') }}" class="group inline-flex min-w-0 items-center gap-2 sm:gap-3">
                             <span class="site-header-logo grid size-11 aspect-square shrink-0 place-items-center rounded-2xl border border-slate-200 bg-white text-[0.78rem] font-bold leading-none tracking-[0.22em] transition-[background-color,border-color,color,box-shadow,transform] sm:size-12 sm:text-sm">
@@ -31,12 +41,35 @@
                         </a>
 
                         <nav class="site-header-nav hidden items-center gap-6 text-sm font-medium md:flex">
-                            <a class="site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="{{ route('proyecto') }}">Proyecto</a>
-                            <a class="site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="{{ route('principios') }}">Principios</a>
-                            <a class="site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="{{ route('programa') }}">Programa</a>
-                            <a class="site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="{{ route('blog') }}">Blog</a>
-                            <a class="site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="{{ route('participa') }}">Participa</a>
-                            <a class="site-header-cta rounded-full border border-slate-200 bg-white px-4 py-2 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:border-slate-300 md:hover:bg-slate-50" href="{{ route('contacto') }}">Contacto</a>
+                            <a @class([
+                                'site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out',
+                                'site-header-link--active text-amber-300' => $isProyectoActive,
+                                'md:hover:text-slate-950' => ! $isProyectoActive,
+                            ]) style="{{ $isProyectoActive ? $activeNavLinkStyle : '' }}" href="{{ route('proyecto') }}">Proyecto</a>
+                            <a @class([
+                                'site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out',
+                                'site-header-link--active text-amber-300' => $isPrincipiosActive,
+                                'md:hover:text-slate-950' => ! $isPrincipiosActive,
+                            ]) style="{{ $isPrincipiosActive ? $activeNavLinkStyle : '' }}" href="{{ route('principios') }}">Principios</a>
+                            <a @class([
+                                'site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out',
+                                'site-header-link--active text-amber-300' => $isProgramaActive,
+                                'md:hover:text-slate-950' => ! $isProgramaActive,
+                            ]) style="{{ $isProgramaActive ? $activeNavLinkStyle : '' }}" href="{{ route('programa') }}">Programa</a>
+                            <a @class([
+                                'site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out',
+                                'site-header-link--active text-amber-300' => $isBlogActive,
+                                'md:hover:text-slate-950' => ! $isBlogActive,
+                            ]) style="{{ $isBlogActive ? $activeNavLinkStyle : '' }}" href="{{ route('blog') }}">Blog</a>
+                            <a @class([
+                                'site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out',
+                                'site-header-link--active text-amber-300' => $isParticipaActive,
+                                'md:hover:text-slate-950' => ! $isParticipaActive,
+                            ]) style="{{ $isParticipaActive ? $activeNavLinkStyle : '' }}" href="{{ route('participa') }}">Participa</a>
+                            <a @class([
+                                'site-header-cta rounded-full border border-slate-200 bg-white px-4 py-2 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:border-slate-300 md:hover:bg-slate-50',
+                                'border-amber-300 bg-amber-50 text-amber-700 md:hover:border-amber-400 md:hover:bg-amber-50' => $isContactoActive,
+                            ]) href="{{ route('contacto') }}">Contacto</a>
                         </nav>
 
                         <button
@@ -59,12 +92,35 @@
                 <div id="mobile-navigation" aria-hidden="true" class="site-mobile-nav relative z-50 border-t md:hidden">
                     <div class="mx-auto w-full max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
                         <nav class="flex flex-col gap-2 text-sm font-medium">
-                            <a class="site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="{{ route('proyecto') }}">Proyecto</a>
-                            <a class="site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="{{ route('principios') }}">Principios</a>
-                            <a class="site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="{{ route('programa') }}">Programa</a>
-                            <a class="site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="{{ route('blog') }}">Blog</a>
-                            <a class="site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:text-slate-950" href="{{ route('participa') }}">Participa</a>
-                            <a class="site-header-cta mt-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-center transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:border-slate-300 md:hover:bg-slate-50" href="{{ route('contacto') }}">Contacto</a>
+                            <a @class([
+                                'site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out',
+                                'site-header-link--active text-amber-300' => $isProyectoActive,
+                                'md:hover:text-slate-950' => ! $isProyectoActive,
+                            ]) style="{{ $isProyectoActive ? $activeNavLinkStyle : '' }}" href="{{ route('proyecto') }}">Proyecto</a>
+                            <a @class([
+                                'site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out',
+                                'site-header-link--active text-amber-300' => $isPrincipiosActive,
+                                'md:hover:text-slate-950' => ! $isPrincipiosActive,
+                            ]) style="{{ $isPrincipiosActive ? $activeNavLinkStyle : '' }}" href="{{ route('principios') }}">Principios</a>
+                            <a @class([
+                                'site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out',
+                                'site-header-link--active text-amber-300' => $isProgramaActive,
+                                'md:hover:text-slate-950' => ! $isProgramaActive,
+                            ]) style="{{ $isProgramaActive ? $activeNavLinkStyle : '' }}" href="{{ route('programa') }}">Programa</a>
+                            <a @class([
+                                'site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out',
+                                'site-header-link--active text-amber-300' => $isBlogActive,
+                                'md:hover:text-slate-950' => ! $isBlogActive,
+                            ]) style="{{ $isBlogActive ? $activeNavLinkStyle : '' }}" href="{{ route('blog') }}">Blog</a>
+                            <a @class([
+                                'site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out',
+                                'site-header-link--active text-amber-300' => $isParticipaActive,
+                                'md:hover:text-slate-950' => ! $isParticipaActive,
+                            ]) style="{{ $isParticipaActive ? $activeNavLinkStyle : '' }}" href="{{ route('participa') }}">Participa</a>
+                            <a @class([
+                                'site-header-cta mt-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-center transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:border-slate-300 md:hover:bg-slate-50',
+                                'border-amber-300 bg-amber-50 text-amber-700 md:hover:border-amber-400 md:hover:bg-amber-50' => $isContactoActive,
+                            ]) href="{{ route('contacto') }}">Contacto</a>
                         </nav>
                     </div>
                 </div>

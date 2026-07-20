@@ -128,6 +128,124 @@ const setupProgramAccordion = () => {
     });
 };
 
+const setupBlogInfiniteScroll = () => {
+    const feed = document.querySelector('[data-blog-feed]');
+
+    if (!(feed instanceof HTMLElement)) {
+        return;
+    }
+
+    const list = feed.querySelector('[data-blog-feed-list]');
+    const sentinel = feed.querySelector('[data-blog-feed-sentinel]');
+    const endStatus = feed.querySelector('[data-blog-feed-status-end]');
+
+    if (!(list instanceof HTMLElement) || !(sentinel instanceof HTMLElement)) {
+        return;
+    }
+
+    let nextUrl = feed.dataset.nextUrl ?? '';
+    let isLoading = false;
+    let observer;
+
+    const createSkeletonMarkup = (count = 3) =>
+        Array.from({ length: count }, (_, index) => `
+            <article data-blog-feed-skeleton class="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
+                <div class="animate-pulse">
+                    <div class="aspect-[4/3] bg-slate-200"></div>
+                    <div class="space-y-4 p-6">
+                        <div class="h-3 w-24 rounded-full bg-slate-200"></div>
+                        <div class="space-y-3">
+                            <div class="h-6 w-5/6 rounded-full bg-slate-200"></div>
+                            <div class="h-6 w-3/4 rounded-full bg-slate-200"></div>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="h-4 w-full rounded-full bg-slate-200"></div>
+                            <div class="h-4 w-4/5 rounded-full bg-slate-200"></div>
+                        </div>
+                        <div class="h-4 w-20 rounded-full bg-slate-200"></div>
+                    </div>
+                </div>
+            </article>
+        `).join('');
+
+    const removeSkeletons = () => {
+        list.querySelectorAll('[data-blog-feed-skeleton]').forEach((skeleton) => {
+            skeleton.remove();
+        });
+    };
+
+    const showEndButton = () => {
+        if (endStatus instanceof HTMLElement) {
+            endStatus.classList.remove('hidden');
+        }
+    };
+
+    const loadMore = async () => {
+        if (!nextUrl || isLoading) {
+            return;
+        }
+
+        isLoading = true;
+        feed.dataset.loading = 'true';
+        list.insertAdjacentHTML('beforeend', createSkeletonMarkup());
+
+        try {
+            const response = await fetch(nextUrl, {
+                headers: {
+                    Accept: 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Unable to load the next blog posts page.');
+            }
+
+            const payload = await response.json();
+            removeSkeletons();
+
+            if (typeof payload.html === 'string' && payload.html.trim() !== '') {
+                list.insertAdjacentHTML('beforeend', payload.html);
+            }
+
+            nextUrl = typeof payload.next_url === 'string' ? payload.next_url : '';
+            feed.dataset.nextUrl = nextUrl;
+
+            if (!nextUrl) {
+                observer.disconnect();
+                showEndButton();
+                return;
+            }
+        } catch (error) {
+            console.error(error);
+            removeSkeletons();
+        } finally {
+            removeSkeletons();
+            isLoading = false;
+            feed.dataset.loading = 'false';
+        }
+    };
+
+    if (!nextUrl) {
+        showEndButton();
+        return;
+    }
+
+    if (!('IntersectionObserver' in window)) {
+        return;
+    }
+
+    observer = new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+            loadMore();
+        }
+    }, {
+        rootMargin: '800px 0px',
+    });
+
+    observer.observe(sentinel);
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     const mobileNavToggle = document.querySelector('[data-nav-toggle]');
     const mobileNav = document.getElementById('mobile-navigation');
@@ -136,6 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateHoverState();
     closeMobileNav(mobileNav, mobileNavToggle);
     setupProgramAccordion();
+    setupBlogInfiniteScroll();
 
     window.addEventListener('scroll', updateNavigationState, { passive: true });
 
