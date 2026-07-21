@@ -36,7 +36,7 @@
                         <a href="{{ route('participa') }}" class="inline-flex items-center justify-center rounded-full bg-amber-400 px-6 py-3 text-sm font-semibold text-slate-950 transition md:hover:bg-amber-300">
                             Participa
                         </a>
-                        <a href="{{ route('contacto') }}" class="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition md:hover:bg-white/10">
+                        <a href="{{ route('participa') }}" class="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition md:hover:bg-white/10">
                             Escríbenos
                         </a>
                     </div>
@@ -196,7 +196,7 @@
                         </p>
                     </div>
 
-                    <a href="{{ route('contacto') }}" class="inline-flex items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition md:hover:bg-slate-800">
+                    <a href="{{ route('participa') }}" class="inline-flex items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition md:hover:bg-slate-800">
                         Escríbenos
                     </a>
                 </div>
@@ -217,11 +217,11 @@
         </div>
     </section>
 
-    <section id="contacto" class="py-10 lg:py-14">
+    <section id="sumate" class="py-10 lg:py-14">
         <div class="rounded-[2.25rem] bg-slate-950 px-6 py-8 text-white shadow-[0_22px_60px_rgba(15,23,42,0.22)] sm:px-8 lg:px-10 lg:py-10">
             <div class="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
                 <div>
-                    <p class="text-sm font-semibold uppercase tracking-[0.25em] text-amber-300">Contacto</p>
+                    <p class="text-sm font-semibold uppercase tracking-[0.25em] text-amber-300">Participa</p>
                     <p class="mt-4 max-w-2xl text-lg leading-8 text-brand-200">
                         Si quieres escribirnos, compartir una idea o empezar a sumar, estamos aquí.
                     </p>

@@ -7,12 +7,18 @@ use DOMDocument;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class BlogPost extends Model
 {
     use HasFactory;
+
+    /**
+     * @var array<int, string>
+     */
+    protected array $removedAttachments = [];
 
     protected $fillable = [
         'title',
@@ -46,8 +52,24 @@ class BlogPost extends Model
         });
 
         static::saving(function (BlogPost $blogPost): void {
+            $blogPost->removedAttachments = [];
             $blogPost->content = static::normalizeContent((string) $blogPost->content);
+
+            $originalAttachments = static::normalizeAttachments(
+                json_decode((string) $blogPost->getRawOriginal('attachments'), true)
+            );
+            $currentAttachments = static::normalizeAttachments($blogPost->attachments);
+
             $blogPost->attachments = static::normalizeAttachments($blogPost->attachments);
+            $blogPost->removedAttachments = array_values(array_diff($originalAttachments, $currentAttachments));
+
+            if ($blogPost->removedAttachments !== []) {
+                Log::debug('Blog post attachments marked for deletion.', [
+                    'blog_post_id' => $blogPost->getKey(),
+                    'removed_attachments' => $blogPost->removedAttachments,
+                    'current_attachments' => $currentAttachments,
+                ]);
+            }
 
             if ($blogPost->status === BlogPostStatus::Published) {
                 if ($blogPost->isDirty('status') || $blogPost->published_at === null) {
@@ -65,6 +87,14 @@ class BlogPost extends Model
                 $blogPost->published_at = null;
                 $blogPost->scheduled_for = null;
             }
+        });
+
+        static::saved(function (BlogPost $blogPost): void {
+            $blogPost->deleteRemovedAttachments();
+        });
+
+        static::deleted(function (BlogPost $blogPost): void {
+            $blogPost->deleteAttachments($blogPost->normalizedAttachmentPaths());
         });
     }
 
@@ -261,5 +291,49 @@ class BlogPost extends Model
     private function normalizedAttachmentPaths(): array
     {
         return static::normalizeAttachments($this->attachments);
+    }
+
+    /**
+     * @param  array<int, string>  $paths
+     */
+    private function deleteAttachments(array $paths): void
+    {
+        foreach ($paths as $path) {
+            $this->deleteAttachment($path);
+        }
+    }
+
+    private function deleteRemovedAttachments(): void
+    {
+        if ($this->removedAttachments === []) {
+            return;
+        }
+
+        $this->deleteAttachments($this->removedAttachments);
+
+        Log::debug('Blog post removed attachments deleted from disk.', [
+            'blog_post_id' => $this->getKey(),
+            'removed_attachments' => $this->removedAttachments,
+        ]);
+
+        $this->removedAttachments = [];
+    }
+
+    private function deleteAttachment(string $path): void
+    {
+        if ($path === '') {
+            return;
+        }
+
+        static::deleteAttachmentFiles($path);
+    }
+
+    public static function deleteAttachmentFiles(string $path): void
+    {
+        if ($path === '') {
+            return;
+        }
+
+        Storage::disk('public')->delete($path);
     }
 }

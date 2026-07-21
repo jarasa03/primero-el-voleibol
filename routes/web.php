@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BlogPostController;
+use App\Http\Controllers\ParticipationController;
 use App\Models\ProgramSection;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -201,25 +202,8 @@ Route::get('/programa', function () {
 Route::get('/blog', [BlogPostController::class, 'index'])->name('blog');
 Route::get('/blog/{blogPost:slug}', [BlogPostController::class, 'show'])->name('blog.show');
 
-Route::get('/participa', function () {
-    return view('page', [
-        'title' => 'Participa',
-        'eyebrow' => 'Participa',
-        'description' => 'Una página interior para explicar cómo participar en el proyecto.',
-        'intro' => 'Aquí explicaremos cómo sumarse, colaborar y aportar ideas al proyecto.',
-        'hero_image' => asset('images/programa-hero.webp'),
-        'show_hero' => true,
-    ]);
-})->name('participa');
-
-Route::get('/contacto', function () {
-    return view('page', [
-        'title' => 'Contacto',
-        'eyebrow' => 'Contacto',
-        'description' => 'Una página interior para el contacto con el proyecto.',
-        'intro' => 'Aquí centralizaremos las formas de contacto y las vías para escribirnos.',
-    ])->with('body_class', 'page-interior');
-})->name('contacto');
+Route::get('/participa', [ParticipationController::class, 'show'])->name('participa');
+Route::post('/participa', [ParticipationController::class, 'store'])->name('participa.store');
 
 Route::view('/aviso-legal', 'legal.aviso-legal')->name('legal.aviso-legal');
 Route::view('/politica-de-privacidad', 'legal.politica-de-privacidad')->name('legal.politica-de-privacidad');

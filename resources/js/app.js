@@ -246,6 +246,54 @@ const setupBlogInfiniteScroll = () => {
     observer.observe(sentinel);
 };
 
+const setupParticipationForm = () => {
+    const form = document.querySelector('[data-participation-form]');
+
+    if (!(form instanceof HTMLFormElement)) {
+        return;
+    }
+
+    const identityField = form.querySelector('[data-participation-identity-field]');
+    const nameInput = form.querySelector('[data-participation-name]');
+    const emailInput = form.querySelector('[data-participation-email]');
+    const preferenceInputs = Array.from(form.querySelectorAll('[data-response-preference]'));
+
+    if (
+        !(identityField instanceof HTMLElement)
+        || !(nameInput instanceof HTMLInputElement)
+        || !(emailInput instanceof HTMLInputElement)
+        || preferenceInputs.length === 0
+    ) {
+        return;
+    }
+
+    const syncEmailField = () => {
+        const selectedPreference = preferenceInputs.find((input) => input instanceof HTMLInputElement && input.checked);
+        const isPrivate = selectedPreference instanceof HTMLInputElement ? selectedPreference.value === 'private' : false;
+
+        identityField.hidden = isPrivate;
+        nameInput.disabled = isPrivate;
+        emailInput.disabled = isPrivate;
+        nameInput.required = !isPrivate;
+        emailInput.required = !isPrivate;
+
+        if (isPrivate) {
+            nameInput.value = '';
+            emailInput.value = '';
+        }
+    };
+
+    preferenceInputs.forEach((input) => {
+        if (!(input instanceof HTMLInputElement)) {
+            return;
+        }
+
+        input.addEventListener('change', syncEmailField);
+    });
+
+    syncEmailField();
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     const mobileNavToggle = document.querySelector('[data-nav-toggle]');
     const mobileNav = document.getElementById('mobile-navigation');
@@ -255,6 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
     closeMobileNav(mobileNav, mobileNavToggle);
     setupProgramAccordion();
     setupBlogInfiniteScroll();
+    setupParticipationForm();
 
     window.addEventListener('scroll', updateNavigationState, { passive: true });
 

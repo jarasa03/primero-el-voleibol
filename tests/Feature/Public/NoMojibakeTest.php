@@ -21,7 +21,6 @@ it('does not render mojibake on public pages', function (string $routeName): voi
     'programa',
     'blog',
     'participa',
-    'contacto',
     'legal.aviso-legal',
     'legal.politica-de-privacidad',
     'legal.politica-de-cookies',

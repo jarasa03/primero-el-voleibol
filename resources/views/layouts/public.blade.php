@@ -19,8 +19,6 @@
             $isPrincipiosActive = request()->routeIs('principios');
             $isProgramaActive = request()->routeIs('programa');
             $isBlogActive = request()->routeIs('blog*');
-            $isParticipaActive = request()->routeIs('participa');
-            $isContactoActive = request()->routeIs('contacto');
             $activeNavLinkStyle = 'color: rgb(252 211 77) !important;';
         @endphp
 
@@ -29,7 +27,7 @@
 
             <header class="site-header-band fixed inset-x-0 top-0 z-50">
                 <div class="mx-auto flex h-full w-full max-w-7xl items-center py-3 sm:py-4">
-                    <div class="site-header-shell flex w-full items-center justify-between gap-4 px-0 py-0 sm:gap-6">
+                    <div class="site-header-shell flex w-full items-center justify-between gap-4 px-4 py-0 sm:px-0 sm:gap-6">
                         <a href="{{ url('/') }}" class="group inline-flex min-w-0 items-center gap-2 sm:gap-3">
                             <span class="site-header-logo grid size-11 aspect-square shrink-0 place-items-center rounded-2xl border border-slate-200 bg-white text-[0.78rem] font-bold leading-none tracking-[0.22em] transition-[background-color,border-color,color,box-shadow,transform] sm:size-12 sm:text-sm">
                                 PV
@@ -62,14 +60,8 @@
                                 'md:hover:text-slate-950' => ! $isBlogActive,
                             ]) style="{{ $isBlogActive ? $activeNavLinkStyle : '' }}" href="{{ route('blog') }}">Blog</a>
                             <a @class([
-                                'site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out',
-                                'site-header-link--active text-amber-300' => $isParticipaActive,
-                                'md:hover:text-slate-950' => ! $isParticipaActive,
-                            ]) style="{{ $isParticipaActive ? $activeNavLinkStyle : '' }}" href="{{ route('participa') }}">Participa</a>
-                            <a @class([
-                                'site-header-cta rounded-full border border-slate-200 bg-white px-4 py-2 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:border-slate-300 md:hover:bg-slate-50',
-                                'border-amber-300 bg-amber-50 text-amber-700 md:hover:border-amber-400 md:hover:bg-amber-50' => $isContactoActive,
-                            ]) href="{{ route('contacto') }}">Contacto</a>
+                                'site-header-cta rounded-full border border-slate-200 bg-white px-4 py-2 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:border-slate-300 md:hover:bg-slate-50 text-slate-950',
+                            ]) href="{{ route('participa') }}">Participa</a>
                         </nav>
 
                         <button
@@ -113,14 +105,8 @@
                                 'md:hover:text-slate-950' => ! $isBlogActive,
                             ]) style="{{ $isBlogActive ? $activeNavLinkStyle : '' }}" href="{{ route('blog') }}">Blog</a>
                             <a @class([
-                                'site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out',
-                                'site-header-link--active text-amber-300' => $isParticipaActive,
-                                'md:hover:text-slate-950' => ! $isParticipaActive,
-                            ]) style="{{ $isParticipaActive ? $activeNavLinkStyle : '' }}" href="{{ route('participa') }}">Participa</a>
-                            <a @class([
-                                'site-header-cta mt-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-center transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:border-slate-300 md:hover:bg-slate-50',
-                                'border-amber-300 bg-amber-50 text-amber-700 md:hover:border-amber-400 md:hover:bg-amber-50' => $isContactoActive,
-                            ]) href="{{ route('contacto') }}">Contacto</a>
+                                'site-header-cta mt-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-center text-slate-950 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out md:hover:border-slate-300 md:hover:bg-slate-50',
+                            ]) href="{{ route('participa') }}">Participa</a>
                         </nav>
                     </div>
                 </div>
@@ -146,7 +132,7 @@
                                     </div>
 
                                     <h2 class="mt-5 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-                                        Un cierre claro para seguir abriendo conversaci&oacute;n.
+                                        Sigamos poniendo el voleibol en el centro.
                                     </h2>
 
                                     <p class="mt-4 max-w-xl text-base leading-7 text-brand-100/80 sm:text-lg">
@@ -154,7 +140,7 @@
                                     </p>
 
                                     <div class="mt-7 flex flex-wrap gap-3">
-                                        <a href="{{ route('contacto') }}" class="inline-flex items-center justify-center rounded-full bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-950 transition md:hover:bg-amber-300">
+                                        <a href="{{ route('participa') }}" class="inline-flex items-center justify-center rounded-full bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-950 transition md:hover:bg-amber-300">
                                             Escr&#237;benos
                                         </a>
                                         <a href="{{ route('blog') }}" class="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition md:hover:bg-white/10">
@@ -166,8 +152,8 @@
                                 <div class="py-0 sm:py-6">
                                     <p class="text-sm font-semibold uppercase tracking-[0.25em] text-amber-300">Navegaci&oacute;n</p>
 
-                                    <div class="mt-5 grid gap-8 sm:grid-cols-2">
-                                        <div>
+                                    <div class="mt-5 grid grid-cols-2 gap-6 sm:gap-8 sm:items-start">
+                                        <div class="sm:pr-4">
                                             <p class="text-sm font-medium text-white">Explora</p>
                                             <ul class="mt-4 space-y-3 text-sm text-brand-100/80">
                                                 <li><a class="transition md:hover:text-amber-300" href="{{ route('proyecto') }}">Proyecto</a></li>
@@ -177,11 +163,10 @@
                                             </ul>
                                         </div>
 
-                                        <div>
-                                            <p class="text-sm font-medium text-white">Contacto</p>
-                                            <ul class="mt-4 space-y-3 text-sm text-brand-100/80">
-                                                <li><a class="transition md:hover:text-amber-300" href="{{ route('participa') }}">Participa</a></li>
-                                                <li><a class="transition md:hover:text-amber-300" href="{{ route('contacto') }}">Contacto</a></li>
+                                        <div class="sm:pl-4 sm:text-right">
+                                            <p class="text-sm font-medium text-white">Hablemos</p>
+                                            <ul class="mt-4 space-y-3 text-sm text-brand-100/80 sm:inline-block">
+                                                <li><a class="transition md:hover:text-amber-300" href="{{ route('participa') }}">Escríbenos</a></li>
                                                 <li><a class="transition md:hover:text-amber-300" href="mailto:info@primeroelvoleibol.es">info@primeroelvoleibol.es</a></li>
                                             </ul>
                                         </div>

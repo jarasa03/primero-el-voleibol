@@ -12,33 +12,22 @@
     >
         <div class="absolute inset-0 bg-slate-950/60"></div>
 
-        <div class="relative mx-auto max-w-7xl pt-20 pb-10 sm:pt-[5.5rem] sm:pb-12 lg:pt-24 lg:pb-14">
-            <div @class(['grid gap-10 lg:gap-12', 'lg:grid-cols-[1.35fr_0.65fr] lg:items-center' => $featuredPost])>
+        <div class="relative mx-auto max-w-7xl px-4 pt-20 pb-5 sm:px-0 sm:pt-[5.5rem] sm:pb-12 lg:pt-24 lg:pb-14">
+            <div @class(['grid gap-8 lg:gap-12', 'lg:grid-cols-[1.35fr_0.65fr] lg:items-center' => $featuredPost])>
                 <div @class(['flex h-full flex-col justify-center', 'max-w-4xl' => $featuredPost, 'max-w-5xl' => ! $featuredPost])>
-                    <h1 class="max-w-3xl text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-5xl">
+                    <h1 class="max-w-3xl text-3xl font-semibold tracking-tight text-white sm:text-5xl lg:text-5xl">
                         Noticias, ideas y artículos.
                     </h1>
 
-                    <p class="mt-5 max-w-3xl text-lg leading-8 text-brand-200 sm:text-xl">
+                    <p class="mt-4 max-w-3xl text-base leading-7 text-brand-200 sm:mt-5 sm:text-xl sm:leading-8">
                         Aquí publicamos nuestras últimas novedades, reflexiones y propuestas para seguir dando
                         forma al proyecto. Baja para ver las entradas más recientes a medida que las publiquemos.
                     </p>
-
-                    <div class="mt-7 flex flex-wrap gap-3">
-                        <a href="#articulos" class="inline-flex items-center justify-center rounded-full bg-amber-400 px-6 py-3 text-sm font-semibold text-slate-950 transition md:hover:bg-amber-300">
-                            Ver artículos
-                        </a>
-                        @if ($featuredPost)
-                            <a href="{{ route('blog.show', $featuredPost) }}" class="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition md:hover:bg-white/10">
-                                Leer destacado
-                            </a>
-                        @endif
-                    </div>
                 </div>
 
                 @if ($featuredPost)
                     <aside class="lg:max-w-md lg:justify-self-end">
-                        <a href="{{ route('blog.show', $featuredPost) }}" class="group block rounded-[2rem] border border-white/10 bg-white/5 p-5 shadow-[0_12px_30px_rgba(15,23,42,0.18)] backdrop-blur-sm transition md:hover:bg-white/10 lg:p-5">
+                        <a href="{{ route('blog.show', $featuredPost) }}" class="group block rounded-[2rem] border border-white/10 bg-white/5 p-4 shadow-[0_12px_30px_rgba(15,23,42,0.18)] backdrop-blur-sm transition md:hover:bg-white/10 sm:p-5 lg:p-5">
                             <p class="text-sm font-semibold uppercase tracking-[0.25em] text-amber-300">Destacado</p>
 
                             <div class="mt-5">
@@ -68,11 +57,11 @@
         </div>
     </section>
 
-    <section id="articulos" class="py-10 lg:py-14">
-        <div class="mb-6 flex items-end justify-between gap-4">
+    <section id="articulos" class="py-8 lg:py-14">
+        <div class="mb-4 flex items-end justify-between gap-4 sm:mb-6">
             <div>
                 <p class="text-sm font-semibold uppercase tracking-[0.25em] text-accent-700">Artículos</p>
-                <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">Todas las entradas</h2>
+                <h2 class="mt-2 text-2xl font-semibold tracking-tight text-slate-950 sm:mt-3 sm:text-4xl">Todas las entradas</h2>
             </div>
         </div>
 
@@ -82,7 +71,7 @@
                 data-blog-feed
                 data-next-url="{{ $posts->nextPageUrl() ?? '' }}"
             >
-                <div data-blog-feed-list class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                <div data-blog-feed-list class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
                     @include('blog.partials.post-cards', ['posts' => $posts])
                 </div>
 
@@ -110,7 +99,7 @@
                 <div data-blog-feed-sentinel aria-hidden="true" class="h-1"></div>
             </div>
         @else
-            <div class="rounded-[2rem] border border-dashed border-slate-200 bg-slate-50 px-6 py-10 text-center sm:px-8">
+            <div class="rounded-[2rem] border border-dashed border-slate-200 bg-slate-50 px-5 py-8 text-center sm:px-8 sm:py-10">
                 <p class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">Sin artículos</p>
                 <p class="mt-3 text-base leading-7 text-slate-600">
                     Todavía no hay entradas publicadas en el blog.

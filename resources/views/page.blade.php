@@ -6,60 +6,33 @@
 
 @section('content')
     @if (! empty($show_hero))
-        @php($heroImage = $heroImage ?? asset('images/programa-hero.webp'))
+        @php($heroImage = $hero_image ?? asset('images/programa-hero.webp'))
 
         <section
             class="relative left-1/2 w-screen -translate-x-1/2 -mt-24 overflow-hidden bg-cover bg-center bg-no-repeat text-white sm:-mt-28 lg:-mt-28"
             style="background-image: url('{{ $heroImage }}');"
         >
-            <div class="absolute inset-0 bg-slate-950/35"></div>
+            <div class="absolute inset-0 bg-slate-950/70"></div>
 
-            <div class="relative mx-auto max-w-7xl px-4 pt-20 pb-10 sm:px-6 sm:pt-[5.5rem] sm:pb-12 lg:px-8 lg:pt-24 lg:pb-14">
-                <div class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-12">
-                    <div class="flex h-full max-w-3xl flex-col justify-center">
-                        <h1 class="max-w-2xl text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-5xl">
-                            {{ $title }}
-                        </h1>
+            <div class="relative mx-auto max-w-7xl px-4 pt-20 pb-5 sm:px-0 sm:pt-[5.5rem] sm:pb-12 lg:pt-24 lg:pb-14">
+                <div class="flex h-full max-w-4xl flex-col justify-center">
+                    <p class="text-sm font-semibold uppercase tracking-[0.25em] text-amber-300">{{ $eyebrow }}</p>
+                    <h1 class="mt-2 max-w-3xl text-3xl font-semibold tracking-tight text-white sm:mt-3 sm:text-5xl lg:text-5xl">
+                        {{ $title }}
+                    </h1>
 
-                        <p class="mt-5 max-w-2xl text-lg leading-8 text-brand-200 sm:text-xl">
-                            {{ $intro }}
-                        </p>
+                    <p class="mt-4 max-w-3xl text-base leading-7 text-brand-200 sm:mt-5 sm:text-xl sm:leading-8">
+                        {{ $intro }}
+                    </p>
 
-                        <div class="mt-7 flex flex-wrap gap-3">
-                            <a href="#contenido" class="inline-flex items-center justify-center rounded-full bg-amber-400 px-6 py-3 text-sm font-semibold text-slate-950 transition md:hover:bg-amber-300">
-                                Ver contenido
-                            </a>
-                            <a href="{{ route('contacto') }}" class="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition md:hover:bg-white/10">
-                                Aportar una idea
-                            </a>
-                        </div>
+                    <div class="mt-6 flex flex-wrap gap-3 sm:mt-7">
+                        <a href="#contenido" class="inline-flex items-center justify-center rounded-full bg-amber-400 px-5 py-2.5 text-sm font-semibold text-slate-950 transition md:hover:bg-amber-300 sm:px-6 sm:py-3">
+                            Ver contenido
+                        </a>
+                        <a href="{{ route('participa') }}" class="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white transition md:hover:bg-white/10 sm:px-6 sm:py-3">
+                            Aportar una idea
+                        </a>
                     </div>
-
-                    <aside class="lg:justify-self-end">
-                        <div class="rounded-[2rem] border border-white/10 bg-white/5 p-5 shadow-[0_12px_30px_rgba(15,23,42,0.18)] backdrop-blur-sm lg:p-6">
-                            <p class="text-sm font-semibold uppercase tracking-[0.25em] text-amber-300">Lorem ipsum</p>
-                            <div class="mt-5 space-y-4">
-                                <div class="rounded-2xl border border-white/10 bg-slate-900/40 p-4">
-                                    <p class="text-base font-semibold text-white">Lorem ipsum</p>
-                                    <p class="mt-2 text-sm leading-6 text-brand-100/80">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    </p>
-                                </div>
-                                <div class="rounded-2xl border border-white/10 bg-slate-900/30 p-4">
-                                    <p class="text-base font-semibold text-white">Lorem ipsum</p>
-                                    <p class="mt-2 text-sm leading-6 text-brand-100/80">
-                                        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                    </p>
-                                </div>
-                                <div class="rounded-2xl border border-white/10 bg-slate-900/20 p-4">
-                                    <p class="text-base font-semibold text-white">Lorem ipsum</p>
-                                    <p class="mt-2 text-sm leading-6 text-brand-100/80">
-                                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </aside>
                 </div>
             </div>
         </section>

@@ -13,7 +13,7 @@
     >
         <div class="absolute inset-0 bg-slate-950/35"></div>
 
-        <div class="relative mx-auto max-w-7xl px-4 pt-20 pb-10 sm:px-6 sm:pt-[5.5rem] sm:pb-12 lg:px-8 lg:pt-24 lg:pb-14">
+        <div class="relative mx-auto max-w-7xl px-4 pt-20 pb-10 sm:px-0 sm:pt-[5.5rem] sm:pb-12 lg:pt-24 lg:pb-14">
             <div class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-12">
                 <div class="flex h-full max-w-3xl flex-col justify-center">
                     <h1 class="max-w-2xl text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-5xl">
@@ -27,10 +27,7 @@
                     </p>
 
                     <div class="mt-7 flex flex-wrap gap-3">
-                        <a href="#clubes" class="inline-flex items-center justify-center rounded-full bg-amber-400 px-6 py-3 text-sm font-semibold text-slate-950 transition md:hover:bg-amber-300">
-                            Ver contenido
-                        </a>
-                        <a href="{{ route('contacto') }}" class="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition md:hover:bg-white/10">
+                        <a href="{{ route('participa') }}" class="inline-flex items-center justify-center rounded-full bg-amber-400 px-6 py-3 text-sm font-semibold text-slate-950 transition md:hover:bg-amber-300">
                             Aportar una idea
                         </a>
                     </div>
@@ -162,7 +159,7 @@
                     </p>
                 </div>
 
-                <a href="{{ route('contacto') }}" class="inline-flex items-center justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition md:hover:bg-slate-800">
+                <a href="{{ route('participa') }}" class="inline-flex items-center justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition md:hover:bg-slate-800">
                     Escríbenos
                 </a>
             </div>
