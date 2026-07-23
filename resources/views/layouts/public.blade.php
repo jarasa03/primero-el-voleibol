@@ -12,6 +12,7 @@
 
         @fonts
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @stack('head')
     </head>
     <body class="antialiased @yield('body_class')" data-nav-scrolled="false">
         @php
@@ -19,6 +20,7 @@
             $isPrincipiosActive = request()->routeIs('principios');
             $isProgramaActive = request()->routeIs('programa');
             $isBlogActive = request()->routeIs('blog*');
+            $isWidePage = request()->routeIs('home') || request()->routeIs('programa') || request()->routeIs('blog*') || request()->routeIs('participa');
             $activeNavLinkStyle = 'color: rgb(252 211 77) !important;';
         @endphp
 
@@ -26,8 +28,8 @@
             <div class="pointer-events-none absolute inset-x-0 top-0 h-px bg-slate-200"></div>
 
             <header class="site-header-band fixed inset-x-0 top-0 z-50">
-                <div class="mx-auto flex h-full w-full max-w-7xl items-center py-3 sm:py-4">
-                    <div class="site-header-shell flex w-full items-center justify-between gap-4 px-4 py-0 sm:px-0 sm:gap-6">
+                <div class="mx-auto flex h-full w-full max-w-[120rem] items-center py-3 sm:py-4">
+                    <div class="site-header-shell flex w-full items-center justify-between gap-4 px-4 py-0 sm:px-6 sm:gap-6 lg:px-8">
                         <a href="{{ url('/') }}" class="group inline-flex min-w-0 items-center gap-2 sm:gap-3">
                             <span class="site-header-logo grid size-11 aspect-square shrink-0 place-items-center rounded-2xl border border-slate-200 bg-white text-[0.78rem] font-bold leading-none tracking-[0.22em] transition-[background-color,border-color,color,box-shadow,transform] sm:size-12 sm:text-sm">
                                 PV
@@ -82,7 +84,7 @@
                 </div>
 
                 <div id="mobile-navigation" aria-hidden="true" class="site-mobile-nav relative z-50 border-t md:hidden">
-                    <div class="mx-auto w-full max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+                    <div class="mx-auto w-full max-w-[120rem] px-4 py-4 sm:px-6 lg:px-8">
                         <nav class="flex flex-col gap-2 text-sm font-medium">
                             <a @class([
                                 'site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out',
@@ -114,7 +116,7 @@
 
             <div class="relative mx-auto flex min-h-screen w-full flex-col px-4 pt-24 sm:px-6 sm:pt-28 lg:px-8 lg:pt-28">
                 <main class="flex-1">
-                    <div class="mx-auto w-full max-w-7xl">
+                    <div @class(['mx-auto w-full', 'max-w-[120rem]' => $isWidePage, 'max-w-7xl' => ! $isWidePage])>
                         @yield('content')
                     </div>
                 </main>
@@ -122,7 +124,7 @@
 
             <footer class="mt-6 overflow-hidden bg-slate-950 text-white shadow-[0_-20px_60px_rgba(15,23,42,0.12)] sm:mt-8">
                 <div class="relative">
-                    <div class="mx-auto w-full max-w-7xl px-4 sm:px-0">
+                    <div class="mx-auto w-full max-w-[120rem] px-4 sm:px-6 lg:px-8">
                         <div class="relative overflow-hidden rounded-[2.5rem]">
                             <div class="relative grid gap-10 py-10 sm:py-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-12 lg:py-12">
                                 <div class="max-w-2xl">
@@ -174,7 +176,7 @@
                                 </div>
                             </div>
 
-                            <div class="relative border-t border-white/10 px-0 py-5 text-sm text-brand-100/70 sm:px-8 lg:px-10">
+                            <div class="relative border-t border-white/10 px-4 py-5 text-sm text-brand-100/70 sm:px-6 lg:px-8">
                                 <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                                     <p>Primero el Voleibol - Madrid</p>
                                     <div class="flex flex-wrap gap-x-5 gap-y-2">

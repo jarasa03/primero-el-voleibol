@@ -5,7 +5,7 @@
 
 @section('content')
     <section class="pb-8 pt-8 lg:pb-10 lg:pt-10">
-        <div class="relative overflow-hidden rounded-[2.25rem] bg-slate-950 px-6 py-10 text-white shadow-[0_28px_80px_rgba(15,23,42,0.24)] sm:px-8 lg:px-10 lg:py-12">
+        <div class="relative overflow-hidden rounded-[2.25rem] bg-slate-950 px-4 py-10 text-white shadow-[0_28px_80px_rgba(15,23,42,0.24)] sm:px-6 lg:px-8 lg:py-12">
             <div class="pointer-events-none absolute inset-0">
                 <div
                     class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-25 mix-blend-soft-light"
@@ -16,19 +16,19 @@
                 <div class="absolute inset-x-0 bottom-0 h-px bg-white/10"></div>
             </div>
 
-            <div class="relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-                <div class="max-w-3xl lg:pt-2">
+            <div class="relative grid gap-8 lg:grid-cols-[1.25fr_0.75fr] lg:items-start">
+                <div class="max-w-4xl lg:pt-2">
                     <p class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-brand-100">
                         <span class="size-2 rounded-full bg-amber-400"></span>
                         Movimiento cívico y deportivo en Madrid
                     </p>
 
-                    <h1 class="mt-6 max-w-2xl text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl">
+                    <h1 class="mt-6 max-w-3xl text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl">
                         Primero el voleibol.
                         <span class="block text-brand-100">Madrid merece más.</span>
                     </h1>
 
-                    <p class="mt-6 max-w-2xl text-lg leading-8 text-brand-200 sm:text-xl">
+                    <p class="mt-6 max-w-3xl text-lg leading-8 text-brand-200 sm:text-xl">
                         Un movimiento para escuchar, proponer y construir el futuro del voleibol madrileño desde la pista, los clubes y las personas que lo hacen posible.
                     </p>
 
@@ -41,7 +41,7 @@
                         </a>
                     </div>
 
-                    <p class="mt-8 max-w-2xl border-l-4 border-amber-400 pl-4 text-xl font-medium leading-9 text-white">
+                    <p class="mt-8 max-w-3xl border-l-4 border-amber-400 pl-4 text-xl font-medium leading-9 text-white">
                         El voleibol madrileño merece estar donde le corresponde.
                     </p>
                 </div>
@@ -76,6 +76,7 @@
     </section>
 
     <section id="proyecto" class="py-10 lg:py-14">
+        <div class="rounded-[2rem] border border-slate-200 bg-white px-4 py-8 shadow-sm sm:px-6 lg:px-8 lg:py-10">
         <div class="mb-6 flex items-end justify-between gap-4">
             <div>
                 <p class="text-sm font-semibold uppercase tracking-[0.25em] text-accent-700">Proyecto</p>
@@ -117,17 +118,18 @@
                 </p>
             </article>
         </div>
+        </div>
     </section>
 
     <section id="programa" class="py-10 lg:py-14">
-        <div class="rounded-[2rem] border border-slate-200 bg-white px-6 py-8 shadow-sm sm:px-8 lg:px-10 lg:py-10">
-            <div class="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
-                <div>
+        <div class="rounded-[2rem] border border-slate-200 bg-white px-4 py-8 shadow-sm sm:px-6 lg:px-8 lg:py-10">
+            <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+                <div class="max-w-3xl">
                     <p class="text-sm font-semibold uppercase tracking-[0.25em] text-accent-700">Programa</p>
                     <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
                         Una base para ir sumando ideas
                     </h2>
-                    <p class="mt-4 max-w-xl text-lg leading-8 text-slate-700">
+                    <p class="mt-4 max-w-2xl text-lg leading-8 text-slate-700">
                         Este apartado ira creciendo con nuevas propuestas. Empezamos por tres medidas concretas que
                         queremos poner sobre la mesa para abrir debate y mejorar el voleibol madrileño.
                     </p>
@@ -186,7 +188,7 @@
                 </article>
             </div>
 
-            <div class="mt-8 rounded-[1.75rem] border border-slate-200 bg-slate-100 px-6 py-6 sm:px-8">
+            <div class="mt-8 rounded-[1.75rem] border border-slate-200 bg-slate-100 px-4 py-6 sm:px-6 lg:px-8">
                 <div class="grid gap-4 lg:grid-cols-[1fr_auto] lg:items-center">
                     <div>
                         <p class="text-sm font-semibold uppercase tracking-[0.22em] text-accent-700">Aporta más</p>
@@ -205,22 +207,22 @@
     </section>
 
     <section id="blog" class="py-10 lg:py-14">
-        <div class="grid gap-6 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm lg:grid-cols-[0.8fr_1.2fr] lg:p-8">
-            <div>
+        <div class="grid gap-6 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm lg:grid-cols-[1fr_1.15fr] lg:p-8">
+            <div class="max-w-2xl">
                 <p class="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">Blog</p>
                 <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-950">Seguimos abriendo conversación</h2>
             </div>
 
-            <p class="max-w-3xl text-lg leading-8 text-slate-700">
+            <p class="max-w-2xl text-lg leading-8 text-slate-700">
                 Pronto publicaremos novedades, propuestas y contenido para seguir abriendo conversación alrededor del voleibol madrileño.
             </p>
         </div>
     </section>
 
     <section id="sumate" class="py-10 lg:py-14">
-        <div class="rounded-[2.25rem] bg-slate-950 px-6 py-8 text-white shadow-[0_22px_60px_rgba(15,23,42,0.22)] sm:px-8 lg:px-10 lg:py-10">
-            <div class="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-                <div>
+        <div class="rounded-[2.25rem] bg-slate-950 px-4 py-8 text-white shadow-[0_22px_60px_rgba(15,23,42,0.22)] sm:px-6 lg:px-8 lg:py-10">
+            <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+                <div class="max-w-2xl">
                     <p class="text-sm font-semibold uppercase tracking-[0.25em] text-amber-300">Participa</p>
                     <p class="mt-4 max-w-2xl text-lg leading-8 text-brand-200">
                         Si quieres escribirnos, compartir una idea o empezar a sumar, estamos aquí.

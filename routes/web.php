@@ -62,11 +62,10 @@ Route::get('/programa', function () {
         ->get();
 
     if ($programSectionsFromDatabase->isNotEmpty()) {
-        $programSections = $programSectionsFromDatabase->map(function (ProgramSection $section, int $index): array {
+        $programSections = $programSectionsFromDatabase->map(function (ProgramSection $section): array {
             return [
                 'anchor' => Str::slug($section->name),
                 'title' => $section->name,
-                'eyebrow' => sprintf('Bloque %02d', $index + 1),
                 'description' => null,
                 'beach_volleyball_enabled' => $section->beach_volleyball_enabled,
                 'items' => $section->mainProposals->map(function ($proposal): array {
@@ -92,7 +91,6 @@ Route::get('/programa', function () {
             [
                 'anchor' => 'clubes',
                 'title' => 'Clubes',
-                'eyebrow' => 'Bloque 01',
                 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'items' => [
                     [
@@ -112,7 +110,6 @@ Route::get('/programa', function () {
             [
                 'anchor' => 'federacion',
                 'title' => 'Federación',
-                'eyebrow' => 'Bloque 02',
                 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'items' => [
                     [
@@ -132,7 +129,6 @@ Route::get('/programa', function () {
             [
                 'anchor' => 'arbitros',
                 'title' => 'Árbitros',
-                'eyebrow' => 'Bloque 03',
                 'description' => 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                 'items' => [
                     [
@@ -152,7 +148,6 @@ Route::get('/programa', function () {
             [
                 'anchor' => 'entrenadores',
                 'title' => 'Entrenadores',
-                'eyebrow' => 'Bloque 04',
                 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
                 'items' => [
                     [
@@ -172,7 +167,6 @@ Route::get('/programa', function () {
             [
                 'anchor' => 'voley-playa',
                 'title' => 'Voley playa',
-                'eyebrow' => 'Bloque 05',
                 'description' => 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
                 'items' => [
                     [

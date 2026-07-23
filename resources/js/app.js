@@ -128,6 +128,49 @@ const setupProgramAccordion = () => {
     });
 };
 
+const setupProgramBentoLayout = () => {
+    const bento = document.querySelector('[data-program-bento]');
+
+    if (!(bento instanceof HTMLElement)) {
+        return;
+    }
+
+    const wideScreenQuery = window.matchMedia('(min-width: 1390px)');
+    let scheduledFrame = null;
+    let isStacked = false;
+
+    const updateLayout = () => {
+        const shouldStack = ! wideScreenQuery.matches;
+
+        if (shouldStack === isStacked) {
+            return;
+        }
+
+        isStacked = shouldStack;
+        bento.classList.toggle('lg:columns-1', isStacked);
+        bento.classList.toggle('lg:columns-2', ! isStacked);
+    };
+
+    const scheduleUpdate = () => {
+        if (scheduledFrame !== null) {
+            window.cancelAnimationFrame(scheduledFrame);
+        }
+
+        scheduledFrame = window.requestAnimationFrame(() => {
+            scheduledFrame = null;
+            updateLayout();
+        });
+    };
+
+    window.addEventListener('resize', scheduleUpdate, { passive: true });
+
+    if (document.fonts instanceof FontFaceSet) {
+        document.fonts.ready.then(scheduleUpdate).catch(() => {});
+    }
+
+    updateLayout();
+};
+
 const setupBlogInfiniteScroll = () => {
     const feed = document.querySelector('[data-blog-feed]');
 
@@ -301,9 +344,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateNavigationState();
     updateHoverState();
     closeMobileNav(mobileNav, mobileNavToggle);
-    setupProgramAccordion();
-    setupBlogInfiniteScroll();
-    setupParticipationForm();
 
     window.addEventListener('scroll', updateNavigationState, { passive: true });
 
@@ -337,6 +377,17 @@ document.addEventListener('DOMContentLoaded', () => {
             closeMobileNav(mobileNav, mobileNavToggle);
         }
     });
+
+    setupProgramAccordion();
+
+    try {
+        setupProgramBentoLayout();
+    } catch (error) {
+        console.error(error);
+    }
+
+    setupBlogInfiniteScroll();
+    setupParticipationForm();
 });
 
 window.addEventListener('load', updateNavigationState, { passive: true });

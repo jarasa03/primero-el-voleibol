@@ -14,7 +14,7 @@
         >
             <div class="absolute inset-0 bg-slate-950/70"></div>
 
-            <div class="relative mx-auto max-w-7xl px-4 pt-20 pb-5 sm:px-0 sm:pt-[5.5rem] sm:pb-12 lg:pt-24 lg:pb-14">
+            <div class="relative mx-auto max-w-7xl px-4 pt-20 pb-5 sm:px-6 sm:pt-[5.5rem] sm:pb-12 lg:px-8 lg:pt-24 lg:pb-14">
                 <div class="flex h-full max-w-4xl flex-col justify-center">
                     <p class="text-sm font-semibold uppercase tracking-[0.25em] text-amber-300">{{ $eyebrow }}</p>
                     <h1 class="mt-2 max-w-3xl text-3xl font-semibold tracking-tight text-white sm:mt-3 sm:text-5xl lg:text-5xl">
@@ -39,7 +39,7 @@
 
         <section id="contenido" class="py-10 lg:py-14">
             <div class="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
-                <div class="rounded-[2rem] border border-slate-200 bg-white px-6 py-8 shadow-sm sm:px-8 lg:px-10 lg:py-10">
+                <div class="rounded-[2rem] border border-slate-200 bg-white px-4 py-8 shadow-sm sm:px-6 lg:px-8 lg:py-10">
                     <p class="text-sm font-semibold uppercase tracking-[0.25em] text-accent-700">{{ $eyebrow }}</p>
                     <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
                         Lorem ipsum dolor sit amet
@@ -93,7 +93,7 @@
         </section>
     @else
         <section class="py-10 lg:py-14">
-            <div class="rounded-[2rem] border border-slate-200 bg-white px-6 py-8 shadow-sm sm:px-8 lg:px-10 lg:py-10">
+            <div class="rounded-[2rem] border border-slate-200 bg-white px-4 py-8 shadow-sm sm:px-6 lg:px-8 lg:py-10">
                 <p class="text-sm font-semibold uppercase tracking-[0.25em] text-accent-700">{{ $eyebrow }}</p>
                 <h1 class="mt-3 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
                     {{ $title }}
@@ -102,7 +102,7 @@
                     {{ $intro }}
                 </p>
 
-                <div class="mt-8 rounded-[1.75rem] border border-dashed border-slate-200 bg-slate-50 px-6 py-10 text-center sm:px-8">
+                <div class="mt-8 rounded-[1.75rem] border border-dashed border-slate-200 bg-slate-50 px-4 py-10 text-center sm:px-6">
                     <p class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">Contenido en construccion</p>
                     <p class="mt-3 text-base leading-7 text-slate-600">
                         Este espacio esta preparado para crecer con contenido propio.

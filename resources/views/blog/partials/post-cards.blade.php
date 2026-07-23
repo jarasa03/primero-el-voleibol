@@ -11,7 +11,7 @@
                 @endif
             </div>
 
-            <div class="p-5 sm:p-6">
+            <div class="px-4 py-5 sm:px-6 sm:py-6 lg:px-8">
                 <p class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
                     {{ $post->published_at?->format('d/m/Y') }}
                 </p>

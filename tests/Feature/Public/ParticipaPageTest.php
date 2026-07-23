@@ -9,6 +9,8 @@ it('renders the participate page with the form', function (): void {
     $response = $this->get(route('participa'));
 
     $response->assertSuccessful();
+    $response->assertSeeHtml('<title>Participa | Primero el Voleibol</title>');
+    $response->assertSeeHtml('<link rel="canonical" href="http://primero-el-voleibol.test/participa">');
     $response->assertSee('¿Quieres reflejar la propuesta de forma privada?');
     $response->assertSee('Enviar idea');
     $response->assertSee('Tu idea');

@@ -12,10 +12,11 @@
     >
         <div class="absolute inset-0 bg-slate-950/60"></div>
 
-        <div class="relative mx-auto max-w-7xl px-4 pt-20 pb-5 sm:px-0 sm:pt-[5.5rem] sm:pb-12 lg:pt-24 lg:pb-14">
+        <div class="relative mx-auto max-w-[120rem] px-4 pt-20 pb-5 sm:px-6 sm:pt-[5.5rem] sm:pb-12 lg:px-8 lg:pt-24 lg:pb-14">
             <div @class(['grid gap-8 lg:gap-12', 'lg:grid-cols-[1.35fr_0.65fr] lg:items-center' => $featuredPost])>
                 <div @class(['flex h-full flex-col justify-center', 'max-w-4xl' => $featuredPost, 'max-w-5xl' => ! $featuredPost])>
-                    <h1 class="max-w-3xl text-3xl font-semibold tracking-tight text-white sm:text-5xl lg:text-5xl">
+                    <p class="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300 sm:text-sm sm:tracking-[0.25em]">Blog</p>
+                    <h1 class="mt-2 max-w-3xl text-3xl font-semibold tracking-tight text-white sm:mt-3 sm:text-5xl lg:text-5xl">
                         Noticias, ideas y artículos.
                     </h1>
 
@@ -27,7 +28,7 @@
 
                 @if ($featuredPost)
                     <aside class="lg:max-w-md lg:justify-self-end">
-                        <a href="{{ route('blog.show', $featuredPost) }}" class="group block rounded-[2rem] border border-white/10 bg-white/5 p-4 shadow-[0_12px_30px_rgba(15,23,42,0.18)] backdrop-blur-sm transition md:hover:bg-white/10 sm:p-5 lg:p-5">
+                        <a href="{{ route('blog.show', $featuredPost) }}" class="group block rounded-[2rem] border border-white/10 bg-white/5 px-4 py-4 shadow-[0_12px_30px_rgba(15,23,42,0.18)] backdrop-blur-sm transition md:hover:bg-white/10 sm:px-6 sm:py-5 lg:px-8 lg:py-5">
                             <p class="text-sm font-semibold uppercase tracking-[0.25em] text-amber-300">Destacado</p>
 
                             <div class="mt-5">
@@ -57,7 +58,7 @@
         </div>
     </section>
 
-    <section id="articulos" class="py-8 lg:py-14">
+    <section id="articulos" class="px-4 py-8 sm:px-6 lg:px-8 lg:py-14">
         <div class="mb-4 flex items-end justify-between gap-4 sm:mb-6">
             <div>
                 <p class="text-sm font-semibold uppercase tracking-[0.25em] text-accent-700">Artículos</p>
@@ -99,7 +100,7 @@
                 <div data-blog-feed-sentinel aria-hidden="true" class="h-1"></div>
             </div>
         @else
-            <div class="rounded-[2rem] border border-dashed border-slate-200 bg-slate-50 px-5 py-8 text-center sm:px-8 sm:py-10">
+            <div class="rounded-[2rem] border border-dashed border-slate-200 bg-slate-50 px-4 py-8 text-center sm:px-6 sm:py-10 lg:px-8">
                 <p class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">Sin artículos</p>
                 <p class="mt-3 text-base leading-7 text-slate-600">
                     Todavía no hay entradas publicadas en el blog.
