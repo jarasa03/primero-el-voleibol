@@ -68,7 +68,7 @@
                     </div>
                 </div>
 
-                <div class="hidden gap-6 lg:grid">
+                <div class="hidden gap-5 lg:grid">
                     <article class="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm">
                         <div class="flex items-center gap-3">
                             <span class="size-3 rounded-full bg-amber-400"></span>
@@ -76,20 +76,7 @@
                         </div>
                         <h2 class="mt-5 text-xl font-semibold tracking-tight text-slate-950">Propuestas que se puedan trabajar</h2>
                         <p class="mt-3 text-[1rem] leading-7 text-slate-600">
-                            Nos sirven las observaciones concretas: una mejora de calendario, una forma más clara de
-                            comunicar decisiones o una propuesta para mejorar cómo funciona algo en la práctica.
-                        </p>
-                    </article>
-
-                    <article class="rounded-[1.75rem] border border-slate-200 bg-slate-100 p-6 shadow-sm">
-                        <div class="flex items-center gap-3">
-                            <span class="size-3 rounded-full bg-slate-700"></span>
-                            <p class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">Experiencia real</p>
-                        </div>
-                        <h2 class="mt-5 text-xl font-semibold tracking-tight text-slate-950">Lo que pasa en pista importa</h2>
-                        <p class="mt-3 text-[1rem] leading-7 text-slate-600">
-                            Queremos leer lo que ves cada semana: problemas repetidos, buenas prácticas y todo aquello que
-                            ayudaría a que el entorno sea más justo y mejor organizado.
+                            Nos sirven las observaciones concretas: una mejora de calendario, una forma más clara de comunicar decisiones o una propuesta útil para la práctica.
                         </p>
                     </article>
 
@@ -100,8 +87,7 @@
                         </div>
                         <h2 class="mt-5 text-xl font-semibold tracking-tight text-white">Tu idea no cae en saco roto</h2>
                         <p class="mt-3 text-[1rem] leading-7 text-brand-200">
-                            Leemos, ordenamos y filtramos cada mensaje para convertirlo en propuestas útiles. Si algo merece
-                            desarrollarse, lo incorporamos al debate.
+                            Leemos, ordenamos y filtramos cada mensaje para convertirlo en propuestas útiles y darles seguimiento.
                         </p>
                     </article>
                 </div>
