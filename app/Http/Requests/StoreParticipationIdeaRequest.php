@@ -33,7 +33,7 @@ class StoreParticipationIdeaRequest extends FormRequest
                 Rule::requiredIf(fn (): bool => $this->input('response_preference') === 'public'),
                 Rule::prohibitedIf(fn (): bool => $this->input('response_preference') === 'private'),
             ],
-            'club_or_role' => ['nullable', 'string', 'max:140'],
+            'club_or_role' => ['required', 'string', 'max:140'],
             'topic' => ['required', 'string', 'in:clubes,arbitraje,formacion,competicion,comunicacion,otro'],
             'idea' => ['required', 'string', 'min:40', 'max:3000'],
             'consent' => ['accepted'],

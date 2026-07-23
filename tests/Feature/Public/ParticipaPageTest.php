@@ -46,7 +46,7 @@ it('stores a private participation idea without identity fields', function (): v
         'response_preference' => 'private',
         'name' => '',
         'email' => '',
-        'club_or_role' => '',
+        'club_or_role' => 'Jugador',
         'topic' => 'otro',
         'idea' => 'Quiero aportar una mejora concreta sobre cómo se comunican los cambios de horario en las competiciones.',
         'consent' => '1',
@@ -59,9 +59,28 @@ it('stores a private participation idea without identity fields', function (): v
         'name' => null,
         'email' => null,
         'is_anonymous' => true,
+        'club_or_role' => 'Jugador',
         'topic' => 'otro',
         'source' => 'participa-page',
     ]);
+});
+
+it('requires the visible fields for public submissions', function (): void {
+    $response = $this->from(route('participa'))->post(route('participa.store'), [
+        'response_preference' => 'public',
+        'name' => '',
+        'email' => '',
+        'club_or_role' => '',
+        'topic' => 'otro',
+        'idea' => 'Necesitamos una mejora concreta para ordenar mejor los horarios en competición.',
+        'consent' => '1',
+        'website' => '',
+    ]);
+
+    $response->assertRedirect(route('participa'));
+    $response->assertSessionHasErrors(['name', 'email', 'club_or_role']);
+
+    $this->assertDatabaseCount('participation_ideas', 0);
 });
 
 it('rejects spam submissions caught by the honeypot', function (): void {
@@ -69,7 +88,7 @@ it('rejects spam submissions caught by the honeypot', function (): void {
         'response_preference' => 'public',
         'name' => 'Spam Bot',
         'email' => 'spam@example.com',
-        'club_or_role' => '',
+        'club_or_role' => 'Entrenador',
         'topic' => 'otro',
         'idea' => 'Esta es una propuesta lo bastante larga para pasar otros controles.',
         'consent' => '1',

@@ -23,14 +23,14 @@
     >
         <div class="absolute inset-0 bg-slate-950/80"></div>
 
-        <div class="relative mx-auto max-w-7xl px-4 pt-20 pb-5 sm:px-0 sm:pt-[5.5rem] sm:pb-12 lg:pt-24 lg:pb-14">
+        <div class="relative mx-auto max-w-7xl px-4 pt-24 pb-8 sm:px-0 sm:pt-[5.5rem] sm:pb-12 lg:pt-24 lg:pb-14">
             <div class="flex h-full max-w-4xl flex-col justify-center">
-                <p class="text-sm font-semibold uppercase tracking-[0.25em] text-amber-300">Participa</p>
-                <h1 class="mt-2 max-w-3xl text-3xl font-semibold tracking-tight text-white sm:mt-3 sm:text-5xl lg:text-5xl">
+                <p class="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300 sm:text-sm sm:tracking-[0.25em]">Participa</p>
+                <h1 class="mt-2 max-w-3xl text-2xl font-semibold tracking-tight text-white sm:mt-3 sm:text-5xl lg:text-5xl">
                     Cuéntanos qué cambiarías en el voleibol madrileño.
                 </h1>
 
-                <p class="mt-4 max-w-3xl text-base leading-7 text-brand-200 sm:mt-5 sm:text-xl sm:leading-8">
+                <p class="mt-4 max-w-3xl text-sm leading-6 text-brand-200 sm:mt-5 sm:text-xl sm:leading-8">
                     Si tienes una idea, una mejora o una experiencia que pueda ayudar a ordenar mejor el voleibol,
                     este es el sitio. Nos interesa la voz de la pista, pero también la de quienes la rodean.
                 </p>
@@ -38,29 +38,29 @@
         </div>
     </section>
 
-    <section class="py-4 lg:py-5">
-        <div class="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-            <div class="space-y-6">
-                <div class="rounded-[2rem] border border-slate-200 bg-slate-50 px-6 py-6 shadow-sm sm:px-8 lg:px-10 lg:py-8">
-                    <p class="text-sm font-semibold uppercase tracking-[0.25em] text-accent-700">Qué puedes enviarnos</p>
-                    <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
+    <section class="py-4 sm:py-5">
+        <div class="grid gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <div class="space-y-5 sm:space-y-6">
+                <div class="rounded-[2rem] border border-slate-200 bg-slate-50 px-4 py-5 shadow-sm sm:px-8 lg:px-10 lg:py-8">
+                    <p class="text-xs font-semibold uppercase tracking-[0.28em] text-accent-700 sm:text-sm sm:tracking-[0.25em]">Qué puedes enviarnos</p>
+                    <h2 class="mt-3 text-2xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
                         Un canal abierto para ideas que suman
                     </h2>
-                    <p class="mt-4 text-lg leading-8 text-slate-700">
+                    <p class="mt-3 text-base leading-7 text-slate-700 sm:mt-4 sm:text-lg sm:leading-8">
                         No hace falta que vengas con un documento perfecto. Si ves algo mejorable, una propuesta para
                         clubes, formación, arbitraje, competición, comunicación o cualquier otra parte del proyecto,
                         queremos escucharte.
                     </p>
 
-                    <div class="mt-6 space-y-3 text-sm leading-6 text-slate-600">
+                    <div class="mt-5 space-y-2.5 text-sm leading-6 text-slate-600 sm:mt-6 sm:space-y-3">
                         <p>• Problemas que se repiten y merecen una solución clara.</p>
                         <p>• Cambios sencillos que podrían mejorar la experiencia en pista.</p>
                         <p>• Propuestas de largo recorrido para el voleibol madrileño.</p>
                         <p>• Observaciones sobre arbitraje, competición, formación o clubes.</p>
                     </div>
 
-                    <div class="mt-8 rounded-[1.5rem] border border-slate-200 bg-white px-5 py-5">
-                        <p class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">Privacidad</p>
+                    <div class="mt-6 rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 sm:px-5 sm:py-5">
+                        <p class="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500 sm:text-sm">Privacidad</p>
                         <p class="mt-3 text-sm leading-6 text-slate-600">
                             Lo que nos envías es privado y solo lo utilizamos para revisar ideas y devolver contexto cuando
                             haga falta. No publicamos tus datos ni compartimos el contenido fuera del proyecto.
@@ -107,26 +107,26 @@
                 </div>
             </div>
 
-            <div id="formulario" class="rounded-[2rem] border border-slate-200 bg-white px-6 py-6 shadow-sm sm:px-8 lg:px-10 lg:py-8">
+            <div id="formulario" class="rounded-[2rem] border border-slate-200 bg-white px-4 py-5 shadow-sm sm:px-8 lg:px-10 lg:py-8">
                 <div class="max-w-2xl">
-                    <p class="text-sm font-semibold uppercase tracking-[0.25em] text-accent-700">Formulario</p>
-                    <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
+                    <p class="text-xs font-semibold uppercase tracking-[0.28em] text-accent-700 sm:text-sm sm:tracking-[0.25em]">Formulario</p>
+                    <h2 class="mt-3 text-2xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
                         Cuéntanos tu idea
                     </h2>
-                    <p class="mt-4 text-base leading-7 text-slate-600">
+                    <p class="mt-3 text-sm leading-6 text-slate-600 sm:mt-4 sm:text-base sm:leading-7">
                         Responde con la mayor claridad posible. Si tu propuesta tiene detalle, mejor: nos ayuda a
                         entenderla y a trabajarla con más precisión.
                     </p>
                 </div>
 
                 @if (session('status'))
-                    <div class="mt-6 rounded-[1.5rem] border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm leading-6 text-emerald-900">
+                    <div class="mt-5 rounded-[1.5rem] border border-emerald-200 bg-emerald-50 px-4 py-4 text-sm leading-6 text-emerald-900 sm:mt-6 sm:px-5">
                         {{ session('status') }}
                     </div>
                 @endif
 
                 @if ($errors->any())
-                    <div class="mt-6 rounded-[1.5rem] border border-rose-200 bg-rose-50 px-5 py-4 text-sm leading-6 text-rose-900">
+                    <div class="mt-5 rounded-[1.5rem] border border-rose-200 bg-rose-50 px-4 py-4 text-sm leading-6 text-rose-900 sm:mt-6 sm:px-5">
                         <p class="font-semibold">Revisa el formulario</p>
                         <ul class="mt-2 space-y-1">
                             @foreach ($errors->all() as $error)
@@ -137,7 +137,7 @@
                 @endif
 
                 <form
-                    class="mt-6 grid gap-5"
+                    class="mt-5 grid gap-4 sm:mt-6 sm:gap-5"
                     action="{{ route('participa.store') }}"
                     method="post"
                     data-participation-form
@@ -149,14 +149,18 @@
                         <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" value="{{ old('website') }}">
                     </div>
 
-                    <fieldset class="grid gap-3 rounded-[1.5rem] border border-slate-200 bg-slate-50 px-4 py-4">
-                        <legend class="px-1 text-sm font-semibold text-slate-900">¿Quieres reflejar la propuesta de forma privada?</legend>
+                    <div class="grid gap-3 rounded-[1.5rem] border border-slate-200 bg-slate-50 px-4 py-4 sm:px-5 sm:py-5">
+                        <p class="text-sm font-semibold leading-6 text-slate-900 sm:text-base">
+                            ¿Quieres reflejar la propuesta de forma privada?
+                            <span class="align-top text-rose-500">*</span>
+                        </p>
 
                         <label class="flex items-start gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3">
                             <input
                                 type="radio"
                                 name="response_preference"
                                 value="public"
+                                required
                                 @checked(old('response_preference', 'public') === 'public')
                                 data-response-preference
                                 class="mt-1 size-4 border-slate-300 text-amber-500 focus:ring-amber-500"
@@ -183,16 +187,19 @@
                         @error('response_preference')
                             <span class="text-sm text-rose-600">{{ $message }}</span>
                         @enderror
-                    </fieldset>
+                    </div>
 
-                    <div class="grid gap-5 sm:grid-cols-2" data-participation-identity-field @if(old('response_preference') === 'private') hidden @endif>
+                    <div class="grid gap-4 sm:grid-cols-2 sm:gap-5" data-participation-identity-field @if(old('response_preference') === 'private') hidden @endif>
                         <label class="grid gap-2">
-                            <span class="text-sm font-semibold text-slate-900">Nombre</span>
+                            <span class="text-sm font-semibold text-slate-900">
+                                Nombre <span class="align-top text-rose-500">*</span>
+                            </span>
                             <input
                                 type="text"
                                 name="name"
                                 value="{{ old('name') }}"
-                                class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
+                                required
+                                class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
                                 placeholder="Tu nombre"
                                 autocomplete="name"
                                 data-participation-name
@@ -203,12 +210,15 @@
                         </label>
 
                         <label class="grid gap-2">
-                            <span class="text-sm font-semibold text-slate-900">Correo electrónico</span>
+                            <span class="text-sm font-semibold text-slate-900">
+                                Correo electrónico <span class="align-top text-rose-500">*</span>
+                            </span>
                             <input
                                 type="email"
                                 name="email"
                                 value="{{ old('email') }}"
-                                class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
+                                required
+                                class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
                                 placeholder="Solo si quieres respuesta"
                                 autocomplete="email"
                                 data-participation-email
@@ -220,12 +230,15 @@
                     </div>
 
                     <label class="grid gap-2">
-                        <span class="text-sm font-semibold text-slate-900">Club, equipo o rol</span>
+                        <span class="text-sm font-semibold text-slate-900">
+                            Club, equipo o rol <span class="align-top text-rose-500">*</span>
+                        </span>
                         <input
                             type="text"
                             name="club_or_role"
                             value="{{ old('club_or_role') }}"
-                            class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
+                            required
+                            class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
                             placeholder="Ej.: entrenador, árbitro, club, jugador..."
                             autocomplete="organization-title"
                         >
@@ -235,10 +248,12 @@
                     </label>
 
                     <label class="grid gap-2">
-                        <span class="text-sm font-semibold text-slate-900">Sobre qué quieres aportar</span>
+                        <span class="text-sm font-semibold text-slate-900">
+                            Sobre qué quieres aportar <span class="align-top text-rose-500">*</span>
+                        </span>
                         <select
                             name="topic"
-                            class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
+                            class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
                             required
                         >
                             <option value="">Selecciona una opción</option>
@@ -252,11 +267,13 @@
                     </label>
 
                     <label class="grid gap-2">
-                        <span class="text-sm font-semibold text-slate-900">Tu idea</span>
+                        <span class="text-sm font-semibold text-slate-900">
+                            Tu idea <span class="align-top text-rose-500">*</span>
+                        </span>
                         <textarea
                             name="idea"
-                            rows="8"
-                            class="rounded-[1.5rem] border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-7 text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
+                            rows="6"
+                            class="h-36 sm:h-44 rounded-[1.5rem] border border-slate-200 bg-slate-50 px-4 py-3 text-base leading-7 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
                             placeholder="Cuéntanos qué cambiarías, por qué y cómo crees que podría aplicarse."
                             required
                         >{{ old('idea') }}</textarea>
@@ -275,6 +292,7 @@
                             required
                         >
                         <span class="text-sm leading-6 text-slate-600">
+                            <span class="align-top text-rose-500">*</span>
                             Acepto que uséis mis datos para revisar esta propuesta y, si hace falta, responderme sobre
                             ella. No se publicará nada sin permiso.
                         </span>
@@ -283,9 +301,9 @@
                         <span class="text-sm text-rose-600">{{ $message }}</span>
                     @enderror
 
-                    <div class="flex flex-wrap items-center gap-3 pt-1">
-                        <button type="submit" class="inline-flex items-center justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition md:hover:bg-slate-800">
-                            Enviar propuesta
+                    <div class="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center">
+                        <button type="submit" class="inline-flex w-full cursor-pointer items-center justify-center whitespace-nowrap rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white shadow-sm transition duration-200 md:hover:-translate-y-0.5 md:hover:bg-slate-800 md:hover:shadow-lg sm:w-auto">
+                            Enviar idea
                         </button>
                         <p class="text-sm leading-6 text-slate-500">
                             Respondemos con calma y tratamos cada mensaje como material de trabajo.
@@ -296,15 +314,15 @@
         </div>
     </section>
 
-    <section class="py-4 lg:py-5">
-        <div class="rounded-[2rem] border border-slate-200 bg-slate-950 px-6 py-7 text-white shadow-[0_22px_60px_rgba(15,23,42,0.22)] sm:px-8 lg:px-10 lg:py-10">
+    <section class="py-4 sm:py-5">
+        <div class="rounded-[2rem] border border-slate-200 bg-slate-950 px-4 py-6 text-white shadow-[0_22px_60px_rgba(15,23,42,0.22)] sm:px-8 lg:px-10 lg:py-10">
             <div class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
                 <div>
-                    <p class="text-sm font-semibold uppercase tracking-[0.25em] text-amber-300">Último empujón</p>
-                    <h2 class="mt-3 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                    <p class="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300 sm:text-sm sm:tracking-[0.25em]">Último empujón</p>
+                    <h2 class="mt-3 text-2xl font-semibold tracking-tight text-white sm:text-4xl">
                         Si tienes una buena idea, este es el momento de contarla.
                     </h2>
-                    <p class="mt-4 max-w-2xl text-lg leading-8 text-brand-200">
+                    <p class="mt-3 max-w-2xl text-base leading-7 text-brand-200 sm:mt-4 sm:text-lg sm:leading-8">
                         Queremos un proyecto útil, abierto y bien pensado. Cuanto más concreta sea tu aportación,
                         más fácil será transformarla en algo que de verdad ayude.
                     </p>
