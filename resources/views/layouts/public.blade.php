@@ -20,7 +20,7 @@
             $isPrincipiosActive = request()->routeIs('principios');
             $isProgramaActive = request()->routeIs('programa');
             $isBlogActive = request()->routeIs('blog*');
-            $isWidePage = request()->routeIs('home') || request()->routeIs('programa') || request()->routeIs('blog*') || request()->routeIs('participa');
+            $isWidePage = request()->routeIs('home') || request()->routeIs('programa') || request()->routeIs('blog*') || request()->routeIs('participa') || request()->routeIs('proyecto');
             $activeNavLinkStyle = 'color: rgb(252 211 77) !important;';
         @endphp
 

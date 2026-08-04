@@ -337,6 +337,184 @@ const setupParticipationForm = () => {
     syncEmailField();
 };
 
+const setupLeaderPhotoCarousels = () => {
+    document.querySelectorAll('[data-leader-carousel]').forEach((carousel) => {
+        if (!(carousel instanceof HTMLElement)) {
+            return;
+        }
+
+        const slides = Array.from(carousel.querySelectorAll('[data-leader-slide]')).filter((slide) => slide instanceof HTMLElement);
+
+        if (slides.length <= 1) {
+            return;
+        }
+
+        const interval = Number(carousel.dataset.leaderCarouselInterval ?? 5000);
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let currentIndex = Math.max(0, slides.findIndex((slide) => slide.dataset.active === 'true'));
+        let isTransitioning = false;
+        let autoplayTimer = null;
+        let isPaused = false;
+
+        slides.forEach((slide, index) => {
+            slide.classList.toggle('is-active', index === currentIndex);
+            slide.classList.toggle('is-hidden', index !== currentIndex);
+        });
+
+        if (prefersReducedMotion) {
+            return;
+        }
+
+        const stopAutoplay = () => {
+            if (autoplayTimer === null) {
+                return;
+            }
+
+            window.clearInterval(autoplayTimer);
+            autoplayTimer = null;
+        };
+
+        const startAutoplay = () => {
+            if (autoplayTimer !== null || isPaused) {
+                return;
+            }
+
+            autoplayTimer = window.setInterval(showNextSlide, interval);
+        };
+
+        const pauseCarousel = () => {
+            isPaused = true;
+            stopAutoplay();
+        };
+
+        const resumeCarousel = () => {
+            if (!isPaused) {
+                return;
+            }
+
+            isPaused = false;
+            startAutoplay();
+        };
+
+        const showNextSlide = () => {
+            if (isTransitioning || slides.length <= 1 || isPaused) {
+                return;
+            }
+
+            isTransitioning = true;
+
+            const nextIndex = (currentIndex + 1) % slides.length;
+            const currentSlide = slides[currentIndex];
+            const nextSlide = slides[nextIndex];
+
+            nextSlide.classList.remove('is-hidden');
+            nextSlide.classList.add('is-entering');
+            nextSlide.offsetHeight;
+
+            requestAnimationFrame(() => {
+                currentSlide.classList.add('is-exiting');
+                currentSlide.classList.remove('is-active');
+
+                nextSlide.classList.add('is-active');
+                nextSlide.classList.remove('is-entering');
+            });
+
+            window.setTimeout(() => {
+                currentSlide.classList.remove('is-exiting');
+                currentSlide.classList.add('is-hidden');
+                currentIndex = nextIndex;
+                isTransitioning = false;
+            }, 450);
+        };
+
+        carousel.addEventListener('mouseenter', pauseCarousel);
+        carousel.addEventListener('mouseleave', resumeCarousel);
+        carousel.addEventListener('focusin', pauseCarousel);
+        carousel.addEventListener('focusout', resumeCarousel);
+
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                carousel.classList.add('is-ready');
+                startAutoplay();
+            });
+        });
+    });
+};
+
+const setupInfiniteMarquees = () => {
+    document.querySelectorAll('[data-marquee-speed]').forEach((viewport) => {
+        if (!(viewport instanceof HTMLElement)) {
+            return;
+        }
+
+        const track = viewport.querySelector('.marquee-track');
+        const groups = track instanceof HTMLElement
+            ? Array.from(track.querySelectorAll('.marquee-group')).filter((group) => group instanceof HTMLElement)
+            : [];
+
+        if (!(track instanceof HTMLElement) || groups.length < 2) {
+            return;
+        }
+
+        const primaryGroup = groups[0];
+        const secondaryGroup = groups[1];
+        const shouldAutofill = viewport.dataset.marqueeAutofill === 'true';
+        const autofillMultiplier = Number(viewport.dataset.marqueeAutofillMultiplier ?? 1.35);
+        const baseItems = Array.from(primaryGroup.children).map((child) => child.cloneNode(true));
+        let scheduledFrame = null;
+
+        const fillGroups = () => {
+            if (!shouldAutofill || baseItems.length === 0) {
+                return;
+            }
+
+            primaryGroup.replaceChildren(...baseItems.map((child) => child.cloneNode(true)));
+
+            let safetyCounter = 0;
+            const minWidth = Math.max(viewport.clientWidth, window.innerWidth) * autofillMultiplier;
+
+            while ((primaryGroup.scrollWidth < minWidth) && (safetyCounter < 20)) {
+                primaryGroup.append(...baseItems.map((child) => child.cloneNode(true)));
+                safetyCounter += 1;
+            }
+
+            secondaryGroup.replaceChildren(...Array.from(primaryGroup.children).map((child) => child.cloneNode(true)));
+        };
+
+        const updateDuration = () => {
+            fillGroups();
+
+            const speed = Number(viewport.dataset.marqueeSpeed ?? 50);
+            const groupWidth = primaryGroup.scrollWidth || primaryGroup.getBoundingClientRect().width;
+
+            if (groupWidth <= 0 || speed <= 0) {
+                return;
+            }
+
+            const duration = Math.max(12, groupWidth / speed);
+            track.style.setProperty('--marquee-duration', `${duration}s`);
+        };
+
+        const scheduleUpdate = () => {
+            if (scheduledFrame !== null) {
+                window.cancelAnimationFrame(scheduledFrame);
+            }
+
+            scheduledFrame = window.requestAnimationFrame(() => {
+                scheduledFrame = null;
+                updateDuration();
+            });
+        };
+
+        scheduleUpdate();
+        window.addEventListener('resize', scheduleUpdate, { passive: true });
+
+        if (document.fonts instanceof FontFaceSet) {
+            document.fonts.ready.then(scheduleUpdate).catch(() => {});
+        }
+    });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     const mobileNavToggle = document.querySelector('[data-nav-toggle]');
     const mobileNav = document.getElementById('mobile-navigation');
@@ -381,13 +559,15 @@ document.addEventListener('DOMContentLoaded', () => {
     setupProgramAccordion();
 
     try {
-        setupProgramBentoLayout();
+    setupProgramBentoLayout();
     } catch (error) {
         console.error(error);
     }
 
     setupBlogInfiniteScroll();
     setupParticipationForm();
+    setupLeaderPhotoCarousels();
+    setupInfiniteMarquees();
 });
 
 window.addEventListener('load', updateNavigationState, { passive: true });

@@ -58,31 +58,31 @@ Route::get('/proyecto', function () {
                     return [
                         'image' => asset('storage/'.$image->image_path),
                         'name' => 'Francisco Sabroso',
-                        'alt' => $image->alt_text ?: 'FotografÃ­a de Francisco Sabroso',
+                        'alt' => $image->alt_text ?: 'Fotograf?a de Francisco Sabroso',
                     ];
                 })->all()
                 : [
                     [
                         'image' => asset('images/programa-hero.webp'),
                         'name' => 'Francisco Sabroso',
-                        'alt' => 'FotografÃ­a de Francisco Sabroso',
+                        'alt' => 'Fotograf?a de Francisco Sabroso',
                     ],
                     [
                         'image' => asset('images/programa-hero.webp'),
                         'name' => 'Francisco Sabroso',
-                        'alt' => 'FotografÃ­a de Francisco Sabroso',
+                        'alt' => 'Fotograf?a de Francisco Sabroso',
                     ],
                     [
                         'image' => asset('images/programa-hero.webp'),
                         'name' => 'Francisco Sabroso',
-                        'alt' => 'FotografÃ­a de Francisco Sabroso',
+                        'alt' => 'Fotograf?a de Francisco Sabroso',
                     ],
                 ],
         ]
         : [
             'name' => 'Francisco Sabroso',
-            'role' => 'Ã¡rbitro internacional, exÃ¡rbitro de Superliga 1 y entrenador FIVB 2',
-            'description' => 'Francisco Sabroso es una persona con mucha experiencia en el voleibol. Ha sido Ã¡rbitro internacional, ha pitado un total de 638 partidos de Superliga 1 y es entrenador FIVB 2. Adem?s, ha estado designando durante muchos a?os a Ã¡rbitros madrileÃ±os de toda la comunidad, lo que le da un conocimiento directo del cuerpo arbitral y de los problemas de cada club, porque habla con ellos todos los fines de semana y conoce desde dentro los retos de organizaci?n.',
+            'role' => '?rbitro internacional, ex?rbitro de Superliga 1 y entrenador FIVB 2',
+            'description' => 'Francisco Sabroso es una persona con mucha experiencia en el voleibol. Ha sido ?rbitro internacional, ha pitado un total de 638 partidos de Superliga 1 y es entrenador FIVB 2. Adem?s, ha estado designando durante muchos a?os a ?rbitros madrile?os de toda la comunidad, lo que le da un conocimiento directo del cuerpo arbitral y de los problemas de cada club, porque habla con ellos todos los fines de semana y conoce desde dentro los retos de organizaci?n.',
             'show_leader_section' => true,
             'show_proposed_referees_section' => true,
             'show_proposed_coaches_section' => true,
@@ -92,17 +92,17 @@ Route::get('/proyecto', function () {
                 [
                     'image' => asset('images/programa-hero.webp'),
                     'name' => 'Francisco Sabroso',
-                    'alt' => 'FotografÃ­a de Francisco Sabroso',
+                    'alt' => 'Fotograf?a de Francisco Sabroso',
                 ],
                 [
                     'image' => asset('images/programa-hero.webp'),
                     'name' => 'Francisco Sabroso',
-                    'alt' => 'FotografÃ­a de Francisco Sabroso',
+                    'alt' => 'Fotograf?a de Francisco Sabroso',
                 ],
                 [
                     'image' => asset('images/programa-hero.webp'),
                     'name' => 'Francisco Sabroso',
-                    'alt' => 'FotografÃ­a de Francisco Sabroso',
+                    'alt' => 'Fotograf?a de Francisco Sabroso',
                 ],
             ],
         ];
@@ -115,7 +115,7 @@ Route::get('/proyecto', function () {
             'initials' => 'CL',
         ],
         [
-            'name' => 'Ã¡rbitros que aaaacompaÃ±an',
+            'name' => '?rbitros que aaacompa?an',
             'role' => 'Criterio y experiencia',
             'description' => 'Su mirada ayuda a ordenar el debate y a llevar propuestas realistas y bien medidas.',
             'initials' => 'AR',
@@ -123,7 +123,7 @@ Route::get('/proyecto', function () {
         [
             'name' => 'Comunidad que suma',
             'role' => 'Apoyo transversal',
-            'description' => 'TÃ©cnicos, familias y personas vinculadas al voleibol que quieren empujar en la misma direcciÃ³n.',
+            'description' => 'T?cnicos, familias y personas vinculadas al voleibol que quieren empujar en la misma direcci?n.',
             'initials' => 'CO',
         ],
     ];
@@ -161,7 +161,7 @@ Route::get('/proyecto', function () {
         ],
         [
             'name' => 'Club Universidad',
-            'label' => 'FormaciÃ³n y visi?n',
+            'label' => 'Formaci?n y visi?n',
             'initials' => 'CU',
             'badgeClass' => 'from-brand-950 via-slate-900 to-brand-800',
         ],
@@ -196,36 +196,36 @@ Route::get('/proyecto', function () {
 
     $refereeSupporters = [
         [
-            'name' => 'Ã¡rbitro colaborador 01',
-            'label' => 'Ã¡rbitro colaborador',
-            'description' => 'Ã¡rbitro auton?mico',
+            'name' => '?rbitro colaborador 01',
+            'label' => '?rbitro colaborador',
+            'description' => '?rbitro auton?mico',
             'initials' => 'A1',
             'badgeClass' => 'from-brand-950 via-brand-800 to-slate-900',
         ],
         [
-            'name' => 'Ã¡rbitra colaboradora 02',
-            'label' => 'Ã¡rbitra colaboradora',
-            'description' => 'Juez Ã¡rbitra con experiencia en cantera',
+            'name' => '?rbitra colaboradora 02',
+            'label' => '?rbitra colaboradora',
+            'description' => 'Juez ?rbitra con experiencia en cantera',
             'initials' => 'A2',
             'badgeClass' => 'from-slate-950 via-brand-900 to-brand-700',
         ],
         [
-            'name' => 'Ã¡rbitro colaborador 03',
-            'label' => 'Ã¡rbitro colaborador',
+            'name' => '?rbitro colaborador 03',
+            'label' => '?rbitro colaborador',
             'description' => 'Especialista en competici?n territorial',
             'initials' => 'A3',
             'badgeClass' => 'from-accent-900 via-accent-700 to-brand-950',
         ],
         [
-            'name' => 'Ã¡rbitro colaborador 04',
-            'label' => 'Ã¡rbitro colaborador',
+            'name' => '?rbitro colaborador 04',
+            'label' => '?rbitro colaborador',
             'description' => 'Referencia t?cnica y formativa',
             'initials' => 'A4',
             'badgeClass' => 'from-brand-800 via-slate-900 to-brand-950',
         ],
         [
-            'name' => 'Ã¡rbitra colaboradora 05',
-            'label' => 'Ã¡rbitra colaboradora',
+            'name' => '?rbitra colaboradora 05',
+            'label' => '?rbitra colaboradora',
             'description' => 'Competici?n y acompa?amiento',
             'initials' => 'A5',
             'badgeClass' => 'from-slate-900 via-brand-800 to-accent-800',
@@ -236,7 +236,7 @@ Route::get('/proyecto', function () {
         [
             'name' => 'Entrenador colaborador 01',
             'label' => 'Trabajo de base',
-            'description' => 'Acompa?a la iniciativa desde la formaci?n y la direcciÃ³n de equipos.',
+            'description' => 'Acompa?a la iniciativa desde la formaci?n y la direcci?n de equipos.',
             'initials' => 'E1',
             'badgeClass' => 'from-brand-950 via-brand-800 to-slate-950',
         ],
@@ -357,7 +357,7 @@ Route::get('/proyecto', function () {
     $refereeSupporters = $mapLogoSupporters(
         ProjectSupporterType::Referee,
         $refereeSupporters,
-        'Ã¡rbitro colaborador',
+        '?rbitro colaborador',
         'from-brand-950 via-brand-800 to-slate-900',
     );
 
@@ -389,8 +389,8 @@ Route::get('/proyecto', function () {
         ],
         [
             'eyebrow' => 'Apoyos',
-            'title' => 'Ã¡rbitros colaboradores',
-            'description' => 'Ã¡rbitros que suman criterio y experiencia con el mismo formato visual que los clubes.',
+            'title' => '?rbitros colaboradores',
+            'description' => '?rbitros que suman criterio y experiencia con el mismo formato visual que los clubes.',
             'items' => $refereeSupporters,
             'mode' => 'logos',
             'direction' => 'left',
@@ -403,7 +403,7 @@ Route::get('/proyecto', function () {
         [
             'eyebrow' => 'Apoyos',
             'title' => 'Entrenadores colaboradores',
-            'description' => 'Entrenadores que aportan experiencia t?cnica y aaaacompaÃ±an el proyecto.',
+            'description' => 'Entrenadores que aportan experiencia t?cnica y aaacompa?an el proyecto.',
             'items' => $coachSupporters,
             'mode' => 'logos',
             'direction' => 'right',
@@ -493,7 +493,7 @@ Route::get('/principios', function () {
     return view('page', [
         'title' => 'Principios',
         'eyebrow' => 'Principios',
-        'description' => 'Una pÃ¡gina interior para explicar los principios que gu?an el proyecto.',
+        'description' => 'Una p?gina interior para explicar los principios que gu?an el proyecto.',
         'intro' => 'Aqu? quedar?n recogidos los principios que sostienen la forma de trabajar y proponer.',
         'hero_image' => asset('images/programa-hero.webp'),
         'show_hero' => true,
@@ -506,13 +506,13 @@ Route::get('/programa', function () {
             ->map(function (array $section): array {
                 $section['subsections'] = [];
 
-                if (($section['beach_volleyball_enabled'] ?? false) === true && $section['anchor'] !== 'voley-playa') {
+                if (($section['beach_volleyball_enabled'] ? false) === true && $section['anchor'] !== 'voley-playa') {
                     $section['subsections'] = [
                         [
                             'anchor' => sprintf('%s-voley-playa', $section['anchor']),
                             'title' => 'Voley playa',
                             'description' => null,
-                            'items' => $section['beach_proposals'] ?? [],
+                            'items' => $section['beach_proposals'] ? [],
                         ],
                     ];
                 }
@@ -598,18 +598,18 @@ Route::get('/programa', function () {
             ],
             [
                 'anchor' => 'arbitros',
-                'title' => 'Ã¡rbitros',
+                'title' => '?rbitros',
                 'description' => 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                 'items' => [
                     [
                         'title' => 'Reuniones y cl?nics regulares durante la temporada',
                         'summary' => 'Una reuni?n de inicio de temporada, otra de cierre y cl?nics opcionales para seguir creciendo.',
-                        'details' => 'Habr? una reuni?n al inicio de temporada para actualizar la informaci?n sobre nuevas normas y directrices, y para ver c?mo afrontar esta nueva etapa. Al finalizar la temporada se celebrar? otra reuni?n para hacer un resumen de lo vivido y detectar mejoras de cara al curso siguiente. Adem?s, durante la temporada se realizar?n cl?nics opcionales a los que los Ã¡rbitros podr?n asistir para recibir informaci?n sobre temas concretos y seguir form?ndose en su carrera arbitral.',
+                        'details' => 'Habr? una reuni?n al inicio de temporada para actualizar la informaci?n sobre nuevas normas y directrices, y para ver c?mo afrontar esta nueva etapa. Al finalizar la temporada se celebrar? otra reuni?n para hacer un resumen de lo vivido y detectar mejoras de cara al curso siguiente. Adem?s, durante la temporada se realizar?n cl?nics opcionales a los que los ?rbitros podr?n asistir para recibir informaci?n sobre temas concretos y seguir form?ndose en su carrera arbitral.',
                     ],
                     [
                         'title' => 'Sistema de mentoring piramidal',
                         'summary' => 'Un modelo escalonado para que cada nivel acompa?e, forme y haga crecer al siguiente.',
-                        'details' => 'Los Ã¡rbitros de Superliga 1 tendr?n a su cargo a dos Ã¡rbitros de Superliga 2; estos, a su vez, acompa?ar?n a dos Ã¡rbitros nacionales. Cada Ã¡rbitro nacional har? lo propio con dos Ã¡rbitros de nivel 2, y cada Ã¡rbitro de nivel 2 con dos de nivel 1. El objetivo es que los niveles superiores formen a los inferiores, se preocupen por su asistencia a reuniones y eventos, les hagan llegar nuevas directrices y piten con ellos al menos una vez cada mes y medio para dar feedback constante. As? construiremos un equipo arbitral fuerte, unificado y capaz de crecer junto.',
+                        'details' => 'Los ?rbitros de Superliga 1 tendr?n a su cargo a dos ?rbitros de Superliga 2; estos, a su vez, acompa?ar?n a dos ?rbitros nacionales. Cada ?rbitro nacional har? lo propio con dos ?rbitros de nivel 2, y cada ?rbitro de nivel 2 con dos de nivel 1. El objetivo es que los niveles superiores formen a los inferiores, se preocupen por su asistencia a reuniones y eventos, les hagan llegar nuevas directrices y piten con ellos al menos una vez cada mes y medio para dar feedback constante. As? construiremos un equipo arbitral fuerte, unificado y capaz de crecer junto.',
                     ],
                 ],
                 'beach_volleyball_enabled' => false,
