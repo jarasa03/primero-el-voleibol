@@ -9,6 +9,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -59,6 +60,14 @@ abstract class AbstractProjectSupportersRelationManager extends RelationManager
                 ->directory('project/supporters')
                 ->visibility('public')
                 ->columnSpanFull(),
+            Select::make('club_id')
+                ->label('Club')
+                ->relationship('club', 'name')
+                ->searchable()
+                ->preload()
+                ->helperText('Selecciona el club para reutilizar su logo en la esquina inferior derecha.')
+                ->hidden(fn (): bool => ! in_array(static::supporterType(), [ProjectSupporterType::Coach, ProjectSupporterType::Player], true))
+                ->columnSpanFull(),
             TextInput::make('name')
                 ->label('Nombre')
                 ->required()
@@ -86,13 +95,19 @@ abstract class AbstractProjectSupportersRelationManager extends RelationManager
                         : $query->whereRaw('1 = 0');
                 }
 
-                return $query->where('supporter_type', static::supporterType()->value);
+                return $query
+                    ->with('club')
+                    ->where('supporter_type', static::supporterType()->value);
             })
             ->columns([
                 ImageColumn::make('image_path')
                     ->label('Imagen')
                     ->disk('public')
                     ->square(),
+                TextColumn::make('club.name')
+                    ->label('Club')
+                    ->placeholder('—')
+                    ->toggleable(),
                 TextColumn::make('name')
                     ->label('Nombre')
                     ->searchable()

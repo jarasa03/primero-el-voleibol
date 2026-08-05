@@ -4,6 +4,7 @@ use App\Enums\ProjectProposedPersonType;
 use App\Enums\ProjectSupporterType;
 use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\ParticipationController;
+use App\Models\Club;
 use App\Models\ProgramSection;
 use App\Models\Project;
 use App\Models\ProjectClubSupporter;
@@ -20,9 +21,10 @@ Route::get('/proyecto', function () {
     $project = Project::query()
         ->with([
             'images' => fn ($query) => $query->orderBy('sort')->orderBy('id'),
-            'supporters' => fn ($query) => $query->orderBy('sort')->orderBy('id'),
+            'supporters' => fn ($query) => $query->with('club')->orderBy('sort')->orderBy('id'),
             'proposedPeople' => fn ($query) => $query->orderBy('sort')->orderBy('id'),
         ])
+        ->latest('id')
         ->first();
 
     if (! $project instanceof Project) {
@@ -43,6 +45,10 @@ Route::get('/proyecto', function () {
             ->implode('');
     };
 
+    $showLeaderSection = $project instanceof Project
+        ? $project->show_leader_section
+        : true;
+
     $projectLeader = $project instanceof Project
         ? [
             'name' => $project->leader_name,
@@ -58,31 +64,31 @@ Route::get('/proyecto', function () {
                     return [
                         'image' => asset('storage/'.$image->image_path),
                         'name' => 'Francisco Sabroso',
-                        'alt' => $image->alt_text ?: 'FotografÃ­a de Francisco Sabroso',
+                        'alt' => $image->alt_text ?: 'Fotografía de Francisco Sabroso',
                     ];
                 })->all()
                 : [
                     [
                         'image' => asset('images/programa-hero.webp'),
                         'name' => 'Francisco Sabroso',
-                        'alt' => 'FotografÃ­a de Francisco Sabroso',
+                        'alt' => 'Fotografía de Francisco Sabroso',
                     ],
                     [
                         'image' => asset('images/programa-hero.webp'),
                         'name' => 'Francisco Sabroso',
-                        'alt' => 'FotografÃ­a de Francisco Sabroso',
+                        'alt' => 'Fotografía de Francisco Sabroso',
                     ],
                     [
                         'image' => asset('images/programa-hero.webp'),
                         'name' => 'Francisco Sabroso',
-                        'alt' => 'FotografÃ­a de Francisco Sabroso',
+                        'alt' => 'Fotografía de Francisco Sabroso',
                     ],
                 ],
         ]
         : [
             'name' => 'Francisco Sabroso',
-            'role' => 'Ã¡rbitro internacional, exÃ¡rbitro de Superliga 1 y entrenador FIVB 2',
-            'description' => 'Francisco Sabroso es una persona con mucha experiencia en el voleibol. Ha sido Ã¡rbitro internacional, ha pitado un total de 638 partidos de Superliga 1 y es entrenador FIVB 2. Adem?s, ha estado designando durante muchos a?os a Ã¡rbitros madrileÃ±os de toda la comunidad, lo que le da un conocimiento directo del cuerpo arbitral y de los problemas de cada club, porque habla con ellos todos los fines de semana y conoce desde dentro los retos de organizaci?n.',
+            'role' => 'árbitro internacional, exárbitro de Superliga 1 y entrenador FIVB 2',
+            'description' => 'Francisco Sabroso es una persona con mucha experiencia en el voleibol. Ha sido árbitro internacional, ha pitado un total de 638 partidos de Superliga 1 y es entrenador FIVB 2. Además, ha estado designando durante muchos años a árbitros madrileños de toda la comunidad, lo que le da un conocimiento directo del cuerpo arbitral y de los problemas de cada club, porque habla con ellos todos los fines de semana y conoce desde dentro los retos de organización.',
             'show_leader_section' => true,
             'show_proposed_referees_section' => true,
             'show_proposed_coaches_section' => true,
@@ -92,20 +98,24 @@ Route::get('/proyecto', function () {
                 [
                     'image' => asset('images/programa-hero.webp'),
                     'name' => 'Francisco Sabroso',
-                    'alt' => 'FotografÃ­a de Francisco Sabroso',
+                    'alt' => 'Fotografía de Francisco Sabroso',
                 ],
                 [
                     'image' => asset('images/programa-hero.webp'),
                     'name' => 'Francisco Sabroso',
-                    'alt' => 'FotografÃ­a de Francisco Sabroso',
+                    'alt' => 'Fotografía de Francisco Sabroso',
                 ],
                 [
                     'image' => asset('images/programa-hero.webp'),
                     'name' => 'Francisco Sabroso',
-                    'alt' => 'FotografÃ­a de Francisco Sabroso',
+                    'alt' => 'Fotografía de Francisco Sabroso',
                 ],
             ],
         ];
+
+    if (! $showLeaderSection) {
+        $projectLeader['photos'] = [];
+    }
 
     $projectSupporters = [
         [
@@ -115,7 +125,7 @@ Route::get('/proyecto', function () {
             'initials' => 'CL',
         ],
         [
-            'name' => 'Ã¡rbitros que aaaacompaÃ±an',
+            'name' => 'Árbitros que acompañan',
             'role' => 'Criterio y experiencia',
             'description' => 'Su mirada ayuda a ordenar el debate y a llevar propuestas realistas y bien medidas.',
             'initials' => 'AR',
@@ -123,7 +133,7 @@ Route::get('/proyecto', function () {
         [
             'name' => 'Comunidad que suma',
             'role' => 'Apoyo transversal',
-            'description' => 'TÃ©cnicos, familias y personas vinculadas al voleibol que quieren empujar en la misma direcciÃ³n.',
+            'description' => 'Técnicos, familias y personas vinculadas al voleibol que quieren empujar en la misma dirección.',
             'initials' => 'CO',
         ],
     ];
@@ -161,7 +171,7 @@ Route::get('/proyecto', function () {
         ],
         [
             'name' => 'Club Universidad',
-            'label' => 'FormaciÃ³n y visi?n',
+            'label' => 'Formación y visión',
             'initials' => 'CU',
             'badgeClass' => 'from-brand-950 via-slate-900 to-brand-800',
         ],
@@ -194,39 +204,58 @@ Route::get('/proyecto', function () {
         })->all()
         : $clubSupportersFallback;
 
+    $clubSupportersFromCatalog = Club::query()
+        ->where('show_as_collaborator', true)
+        ->orderBy('sort')
+        ->orderBy('id')
+        ->get();
+
+    $clubSupporters = $clubSupportersFromCatalog->isNotEmpty()
+        ? $clubSupportersFromCatalog->map(function (Club $club) use ($makeInitials): array {
+            return [
+                'name' => $club->name,
+                'description' => $club->description,
+                'label' => 'Club colaborador',
+                'image' => ! empty($club->logo_path) ? asset('storage/'.$club->logo_path) : null,
+                'initials' => $makeInitials($club->name),
+                'badgeClass' => 'from-brand-950 via-brand-800 to-slate-950',
+            ];
+        })->all()
+        : $clubSupportersFallback;
+
     $refereeSupporters = [
         [
-            'name' => 'Ã¡rbitro colaborador 01',
-            'label' => 'Ã¡rbitro colaborador',
-            'description' => 'Ã¡rbitro auton?mico',
+            'name' => 'Árbitro colaborador 01',
+            'label' => 'Árbitro colaborador',
+            'description' => 'árbitro autonómico',
             'initials' => 'A1',
             'badgeClass' => 'from-brand-950 via-brand-800 to-slate-900',
         ],
         [
-            'name' => 'Ã¡rbitra colaboradora 02',
-            'label' => 'Ã¡rbitra colaboradora',
-            'description' => 'Juez Ã¡rbitra con experiencia en cantera',
+            'name' => 'Árbitra colaboradora 02',
+            'label' => 'Árbitra colaboradora',
+            'description' => 'Juez árbitra con experiencia en cantera',
             'initials' => 'A2',
             'badgeClass' => 'from-slate-950 via-brand-900 to-brand-700',
         ],
         [
-            'name' => 'Ã¡rbitro colaborador 03',
-            'label' => 'Ã¡rbitro colaborador',
-            'description' => 'Especialista en competici?n territorial',
+            'name' => 'Árbitro colaborador 03',
+            'label' => 'Árbitro colaborador',
+            'description' => 'Especialista en competición territorial',
             'initials' => 'A3',
             'badgeClass' => 'from-accent-900 via-accent-700 to-brand-950',
         ],
         [
-            'name' => 'Ã¡rbitro colaborador 04',
-            'label' => 'Ã¡rbitro colaborador',
-            'description' => 'Referencia t?cnica y formativa',
+            'name' => 'Árbitro colaborador 04',
+            'label' => 'Árbitro colaborador',
+            'description' => 'Referencia técnica y formativa',
             'initials' => 'A4',
             'badgeClass' => 'from-brand-800 via-slate-900 to-brand-950',
         ],
         [
-            'name' => 'Ã¡rbitra colaboradora 05',
-            'label' => 'Ã¡rbitra colaboradora',
-            'description' => 'Competici?n y acompa?amiento',
+            'name' => 'Árbitra colaboradora 05',
+            'label' => 'Árbitra colaboradora',
+            'description' => 'Competición y acompañamiento',
             'initials' => 'A5',
             'badgeClass' => 'from-slate-900 via-brand-800 to-accent-800',
         ],
@@ -236,7 +265,7 @@ Route::get('/proyecto', function () {
         [
             'name' => 'Entrenador colaborador 01',
             'label' => 'Trabajo de base',
-            'description' => 'Acompa?a la iniciativa desde la formaci?n y la direcciÃ³n de equipos.',
+            'description' => 'Acompaña la iniciativa desde la formación y la dirección de equipos.',
             'initials' => 'E1',
             'badgeClass' => 'from-brand-950 via-brand-800 to-slate-950',
         ],
@@ -311,6 +340,9 @@ Route::get('/proyecto', function () {
                 'description' => $supporter->description,
                 'label' => $label,
                 'image' => ! empty($supporter->image_path) ? asset('storage/'.$supporter->image_path) : null,
+                'shield' => $supporter->club instanceof Club && ! empty($supporter->club->logo_path)
+                    ? asset('storage/'.$supporter->club->logo_path)
+                    : (! empty($supporter->shield_path) ? asset('storage/'.$supporter->shield_path) : null),
                 'initials' => $makeInitials($supporter->name),
                 'badgeClass' => $badgeClass,
             ];
@@ -347,17 +379,19 @@ Route::get('/proyecto', function () {
         })->all();
     };
 
-    $clubSupporters = $mapLogoSupporters(
-        ProjectSupporterType::Club,
-        $clubSupportersFallback,
-        'Club colaborador',
-        'from-brand-950 via-brand-800 to-slate-950',
-    );
+    if ($clubSupportersFromCatalog->isEmpty()) {
+        $clubSupporters = $mapLogoSupporters(
+            ProjectSupporterType::Club,
+            $clubSupportersFallback,
+            'Club colaborador',
+            'from-brand-950 via-brand-800 to-slate-950',
+        );
+    }
 
     $refereeSupporters = $mapLogoSupporters(
         ProjectSupporterType::Referee,
         $refereeSupporters,
-        'Ã¡rbitro colaborador',
+        'Árbitro colaborador',
         'from-brand-950 via-brand-800 to-slate-900',
     );
 
@@ -389,8 +423,8 @@ Route::get('/proyecto', function () {
         ],
         [
             'eyebrow' => 'Apoyos',
-            'title' => 'Ã¡rbitros colaboradores',
-            'description' => 'Ã¡rbitros que suman criterio y experiencia con el mismo formato visual que los clubes.',
+            'title' => 'Árbitros colaboradores',
+            'description' => 'Árbitros que suman criterio y experiencia con el mismo formato visual que los clubes.',
             'items' => $refereeSupporters,
             'mode' => 'logos',
             'direction' => 'left',
@@ -403,7 +437,7 @@ Route::get('/proyecto', function () {
         [
             'eyebrow' => 'Apoyos',
             'title' => 'Entrenadores colaboradores',
-            'description' => 'Entrenadores que aportan experiencia t?cnica y aaaacompaÃ±an el proyecto.',
+            'description' => 'Entrenadores que aportan experiencia técnica y acompañan el proyecto.',
             'items' => $coachSupporters,
             'mode' => 'logos',
             'direction' => 'right',
@@ -436,6 +470,10 @@ Route::get('/proyecto', function () {
         ];
     };
 
+    $refereesSectionVisible = $project instanceof Project ? $project->show_proposed_referees_section : true;
+    $coachesSectionVisible = $project instanceof Project ? $project->show_proposed_coaches_section : true;
+    $playersSectionVisible = $project instanceof Project ? $project->show_proposed_players_section : true;
+
     $mapProposedPeople = function (ProjectProposedPersonType $type, int $minimum) use ($project, $makePlaceholderProposedPerson): array {
         $proposedPeople = $project->proposedPeople->filter(function (ProjectProposedPerson $proposedPerson) use ($type): bool {
             $proposedType = $proposedPerson->proposed_type instanceof ProjectProposedPersonType
@@ -466,18 +504,18 @@ Route::get('/proyecto', function () {
     $proposedSections = [
         [
             'title' => 'Árbitros propuestos para la asamblea',
-            'items' => $mapProposedPeople(ProjectProposedPersonType::Referee, $project->proposed_referees_minimum_count),
-            'visible' => $project instanceof Project ? $project->show_proposed_referees_section : true,
+            'items' => $refereesSectionVisible ? $mapProposedPeople(ProjectProposedPersonType::Referee, $project->proposed_referees_minimum_count) : [],
+            'visible' => $refereesSectionVisible,
         ],
         [
             'title' => 'Entrenadores propuestos para la asamblea',
-            'items' => $mapProposedPeople(ProjectProposedPersonType::Coach, $project->proposed_coaches_minimum_count),
-            'visible' => $project instanceof Project ? $project->show_proposed_coaches_section : true,
+            'items' => $coachesSectionVisible ? $mapProposedPeople(ProjectProposedPersonType::Coach, $project->proposed_coaches_minimum_count) : [],
+            'visible' => $coachesSectionVisible,
         ],
         [
             'title' => 'Jugadores propuestos para la asamblea',
-            'items' => $mapProposedPeople(ProjectProposedPersonType::Player, $project->proposed_players_minimum_count),
-            'visible' => $project instanceof Project ? $project->show_proposed_players_section : true,
+            'items' => $playersSectionVisible ? $mapProposedPeople(ProjectProposedPersonType::Player, $project->proposed_players_minimum_count) : [],
+            'visible' => $playersSectionVisible,
         ],
     ];
 
@@ -493,8 +531,8 @@ Route::get('/principios', function () {
     return view('page', [
         'title' => 'Principios',
         'eyebrow' => 'Principios',
-        'description' => 'Una pÃ¡gina interior para explicar los principios que gu?an el proyecto.',
-        'intro' => 'Aqu? quedar?n recogidos los principios que sostienen la forma de trabajar y proponer.',
+        'description' => 'Una página interior para explicar los principios que guían el proyecto.',
+        'intro' => 'Aquí quedarán recogidos los principios que sostienen la forma de trabajar y proponer.',
         'hero_image' => asset('images/programa-hero.webp'),
         'show_hero' => true,
     ]);
@@ -598,18 +636,18 @@ Route::get('/programa', function () {
             ],
             [
                 'anchor' => 'arbitros',
-                'title' => 'Ã¡rbitros',
+                'title' => 'árbitros',
                 'description' => 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                 'items' => [
                     [
                         'title' => 'Reuniones y cl?nics regulares durante la temporada',
                         'summary' => 'Una reuni?n de inicio de temporada, otra de cierre y cl?nics opcionales para seguir creciendo.',
-                        'details' => 'Habr? una reuni?n al inicio de temporada para actualizar la informaci?n sobre nuevas normas y directrices, y para ver c?mo afrontar esta nueva etapa. Al finalizar la temporada se celebrar? otra reuni?n para hacer un resumen de lo vivido y detectar mejoras de cara al curso siguiente. Adem?s, durante la temporada se realizar?n cl?nics opcionales a los que los Ã¡rbitros podr?n asistir para recibir informaci?n sobre temas concretos y seguir form?ndose en su carrera arbitral.',
+                        'details' => 'Habrá una reunión al inicio de temporada para actualizar la información sobre nuevas normas y directrices, y para ver cómo afrontar esta nueva etapa. Al finalizar la temporada se celebrará otra reunión para hacer un resumen de lo vivido y detectar mejoras de cara al curso siguiente. Además, durante la temporada se realizarán clinics opcionales a los que los árbitros podrán asistir para recibir información sobre temas concretos y seguir formándose en su carrera arbitral.',
                     ],
                     [
                         'title' => 'Sistema de mentoring piramidal',
                         'summary' => 'Un modelo escalonado para que cada nivel acompa?e, forme y haga crecer al siguiente.',
-                        'details' => 'Los Ã¡rbitros de Superliga 1 tendr?n a su cargo a dos Ã¡rbitros de Superliga 2; estos, a su vez, acompa?ar?n a dos Ã¡rbitros nacionales. Cada Ã¡rbitro nacional har? lo propio con dos Ã¡rbitros de nivel 2, y cada Ã¡rbitro de nivel 2 con dos de nivel 1. El objetivo es que los niveles superiores formen a los inferiores, se preocupen por su asistencia a reuniones y eventos, les hagan llegar nuevas directrices y piten con ellos al menos una vez cada mes y medio para dar feedback constante. As? construiremos un equipo arbitral fuerte, unificado y capaz de crecer junto.',
+                        'details' => 'Los árbitros de Superliga 1 tendrán a su cargo a dos árbitros de Superliga 2; estos, a su vez, acompañarán a dos árbitros nacionales. Cada árbitro nacional hará lo propio con dos árbitros de nivel 2, y cada árbitro de nivel 2 con dos de nivel 1. El objetivo es que los niveles superiores formen a los inferiores, se preocupen por su asistencia a reuniones y eventos, les hagan llegar nuevas directrices y piten con ellos al menos una vez cada mes y medio para dar feedback constante. Así construiremos un equipo arbitral fuerte, unificado y capaz de crecer junto.',
                     ],
                 ],
                 'beach_volleyball_enabled' => false,

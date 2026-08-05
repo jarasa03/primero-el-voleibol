@@ -2,13 +2,15 @@
 
 use App\Enums\ProjectProposedPersonType;
 use App\Enums\ProjectSupporterType;
+use App\Models\Club;
 use App\Models\Project;
 use App\Models\ProjectClubSupporter;
 use App\Models\ProjectProposedPerson;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-uses(DatabaseMigrations::class);
+uses(RefreshDatabase::class);
 
 it('renders the project page with the support carousels', function (): void {
     $response = $this->get(route('proyecto'));
@@ -81,52 +83,117 @@ it('pads proposed sections up to the configured minimum', function (): void {
 it('renders supporters from the database', function (): void {
     $project = Project::factory()->create();
 
-    ProjectClubSupporter::factory()
+    Club::factory()
         ->create([
-            'project_id' => $project->id,
-            'supporter_type' => ProjectSupporterType::Club,
             'name' => 'Club Test',
             'description' => 'Club visible en el carrusel',
-            'image_path' => 'project/clubs/test-club.jpg',
+            'logo_path' => 'clubs/test-club-logo.png',
+            'show_as_collaborator' => true,
+        ]);
+
+    Club::factory()
+        ->create([
+            'name' => 'Club Oculto',
+            'description' => 'No debe aparecer en la página pública',
+            'logo_path' => 'clubs/test-club-hidden-logo.png',
+            'show_as_collaborator' => false,
         ]);
 
     if (Schema::hasColumn('project_club_supporters', 'supporter_type')) {
-        ProjectClubSupporter::factory()
-            ->create([
+        $coachClub = Club::factory()->create([
+            'name' => 'Club Escudo Entrenador',
+            'description' => 'Club del entrenador',
+            'logo_path' => 'clubs/test-coach-shield.png',
+            'show_as_collaborator' => false,
+        ]);
+
+        $coachWithoutPhotoClub = Club::factory()->create([
+            'name' => 'Club Sin Foto Entrenador',
+            'description' => 'Club del entrenador sin foto',
+            'logo_path' => 'clubs/test-coach-no-photo-shield.png',
+            'show_as_collaborator' => false,
+        ]);
+
+        $playerClub = Club::factory()->create([
+            'name' => 'Club Escudo Jugador',
+            'description' => 'Club del jugador',
+            'logo_path' => 'clubs/test-player-shield.png',
+            'show_as_collaborator' => false,
+        ]);
+
+        DB::table('project_club_supporters')->insert([
+            [
                 'project_id' => $project->id,
-                'supporter_type' => ProjectSupporterType::Referee,
+                'supporter_type' => 'club',
+                'name' => 'Club Test',
+                'description' => 'Club visible en el carrusel',
+                'image_path' => '',
+                'club_id' => null,
+                'sort' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'project_id' => $project->id,
+                'supporter_type' => 'referee',
                 'name' => 'Árbitro Test',
                 'description' => 'Árbitro visible en el carrusel',
                 'image_path' => 'project/supporters/test-referee.jpg',
-            ]);
-
-        ProjectClubSupporter::factory()
-            ->create([
+                'club_id' => null,
+                'sort' => 2,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'project_id' => $project->id,
-                'supporter_type' => ProjectSupporterType::Coach,
+                'supporter_type' => 'coach',
                 'name' => 'Entrenador Test',
                 'description' => 'Entrenador visible en el carrusel',
                 'image_path' => 'project/supporters/test-coach.jpg',
-            ]);
-
-        ProjectClubSupporter::factory()
-            ->create([
+                'club_id' => $coachClub->getKey(),
+                'sort' => 3,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'project_id' => $project->id,
-                'supporter_type' => ProjectSupporterType::Player,
+                'supporter_type' => 'coach',
+                'name' => 'Entrenador Sin Foto',
+                'description' => 'Entrenador visible solo con escudo',
+                'image_path' => '',
+                'club_id' => $coachWithoutPhotoClub->getKey(),
+                'sort' => 4,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'project_id' => $project->id,
+                'supporter_type' => 'player',
                 'name' => 'Jugador Test',
                 'description' => 'Jugador visible en el carrusel',
                 'image_path' => 'project/supporters/test-player.jpg',
-            ]);
+                'club_id' => $playerClub->getKey(),
+                'sort' => 5,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
+
     }
 
     $response = $this->get(route('proyecto'));
 
     $response->assertOk();
-    expect($project->fresh()->supporters()->count())->toBe(4);
+    $response->assertSee('storage/clubs/test-club-logo.png');
+    $response->assertDontSee('storage/clubs/test-club-hidden-logo.png');
+    $response->assertSee('storage/clubs/test-coach-shield.png');
+    $response->assertSee('storage/clubs/test-coach-no-photo-shield.png');
+    $response->assertSee('storage/clubs/test-player-shield.png');
+    expect($project->fresh()->supporters()->count())->toBe(5);
     if (Schema::hasColumn('project_club_supporters', 'supporter_type')) {
         expect($project->fresh()->clubSupporters()->count())->toBe(1);
         expect($project->fresh()->refereeSupporters()->count())->toBe(1);
-        expect($project->fresh()->coachSupporters()->count())->toBe(1);
+        expect($project->fresh()->coachSupporters()->count())->toBe(2);
         expect($project->fresh()->playerSupporters()->count())->toBe(1);
     }
 });

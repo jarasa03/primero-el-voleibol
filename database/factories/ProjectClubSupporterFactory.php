@@ -19,6 +19,7 @@ class ProjectClubSupporterFactory extends Factory
     {
         $definition = [
             'project_id' => Project::factory(),
+            'club_id' => null,
             'name' => fake()->company().' Vóley',
             'description' => fake()->sentence(12),
             'image_path' => 'project/clubs/'.fake()->uuid().'.jpg',

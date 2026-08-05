@@ -14,13 +14,16 @@ class ProjectClubSupporter extends Model
     use HasFactory;
 
     protected ?string $previousImagePath = null;
+    protected ?string $previousShieldPath = null;
 
     protected $fillable = [
         'project_id',
+        'club_id',
         'supporter_type',
         'name',
         'description',
         'image_path',
+        'shield_path',
         'sort',
     ];
 
@@ -44,28 +47,39 @@ class ProjectClubSupporter extends Model
                 $projectClubSupporter->image_path = '';
             }
 
-            if (! $projectClubSupporter->isDirty('image_path')) {
-                return;
+            if ($projectClubSupporter->shield_path === null) {
+                $projectClubSupporter->shield_path = '';
             }
 
-            $projectClubSupporter->previousImagePath = (string) $projectClubSupporter->getOriginal('image_path');
+            if ($projectClubSupporter->isDirty('image_path')) {
+                $projectClubSupporter->previousImagePath = (string) $projectClubSupporter->getOriginal('image_path');
+            }
+
+            if ($projectClubSupporter->isDirty('shield_path')) {
+                $projectClubSupporter->previousShieldPath = (string) $projectClubSupporter->getOriginal('shield_path');
+            }
         });
 
         static::saved(function (ProjectClubSupporter $projectClubSupporter): void {
-            if ($projectClubSupporter->previousImagePath === null || $projectClubSupporter->previousImagePath === '') {
-                return;
+            if ($projectClubSupporter->previousImagePath !== null && $projectClubSupporter->previousImagePath !== '') {
+                Storage::disk('public')->delete($projectClubSupporter->previousImagePath);
+                $projectClubSupporter->previousImagePath = null;
             }
 
-            Storage::disk('public')->delete($projectClubSupporter->previousImagePath);
-            $projectClubSupporter->previousImagePath = null;
+            if ($projectClubSupporter->previousShieldPath !== null && $projectClubSupporter->previousShieldPath !== '') {
+                Storage::disk('public')->delete($projectClubSupporter->previousShieldPath);
+                $projectClubSupporter->previousShieldPath = null;
+            }
         });
 
         static::deleted(function (ProjectClubSupporter $projectClubSupporter): void {
-            if ($projectClubSupporter->image_path === '') {
-                return;
+            if ($projectClubSupporter->image_path !== '') {
+                Storage::disk('public')->delete($projectClubSupporter->image_path);
             }
 
-            Storage::disk('public')->delete($projectClubSupporter->image_path);
+            if ($projectClubSupporter->shield_path !== '') {
+                Storage::disk('public')->delete($projectClubSupporter->shield_path);
+            }
         });
 
         static::creating(function (ProjectClubSupporter $projectClubSupporter): void {
@@ -92,5 +106,10 @@ class ProjectClubSupporter extends Model
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function club(): BelongsTo
+    {
+        return $this->belongsTo(Club::class);
     }
 }

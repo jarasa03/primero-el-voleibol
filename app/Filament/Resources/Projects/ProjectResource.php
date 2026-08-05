@@ -5,7 +5,6 @@ namespace App\Filament\Resources\Projects;
 use App\Filament\Resources\Projects\Pages\EditProject;
 use App\Filament\Resources\Projects\Pages\ListProjects;
 use App\Filament\Resources\Projects\Pages\ViewProject;
-use App\Filament\Resources\Projects\RelationManagers\ProjectClubSupportersRelationManager;
 use App\Filament\Resources\Projects\RelationManagers\ProjectCoachSupportersRelationManager;
 use App\Filament\Resources\Projects\RelationManagers\ProjectImagesRelationManager;
 use App\Filament\Resources\Projects\RelationManagers\ProjectPlayerSupportersRelationManager;
@@ -15,7 +14,6 @@ use App\Filament\Resources\Projects\RelationManagers\ProjectProposedRefereesRela
 use App\Filament\Resources\Projects\RelationManagers\ProjectRefereeSupportersRelationManager;
 use App\Filament\Resources\Projects\Tables\ProjectsTable;
 use App\Models\Project;
-use App\Models\ProjectClubSupporter;
 use BackedEnum;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -104,16 +102,8 @@ class ProjectResource extends Resource
 
     public static function getRelations(): array
     {
-        if (! ProjectClubSupporter::hasSupporterTypeColumn()) {
-            return [
-                'images' => ProjectImagesRelationManager::class,
-                'clubs' => ProjectClubSupportersRelationManager::class,
-            ];
-        }
-
         return [
             'images' => ProjectImagesRelationManager::class,
-            'clubs' => ProjectClubSupportersRelationManager::class,
             'referees' => ProjectRefereeSupportersRelationManager::class,
             'coaches' => ProjectCoachSupportersRelationManager::class,
             'players' => ProjectPlayerSupportersRelationManager::class,

@@ -104,6 +104,7 @@
                         @php
                             $image = is_array($item) ? ($item['image'] ?? null) : null;
                             $description = is_array($item) ? ($item['description'] ?? ($item['label'] ?? null)) : null;
+                            $shield = is_array($item) ? ($item['shield'] ?? null) : null;
                             $fallbackInitials = is_array($item) ? ($item['initials'] ?? 'PV') : 'PV';
                             $fallbackClass = is_array($item) ? ($item['badgeClass'] ?? 'from-brand-950 via-slate-900 to-slate-700') : 'from-brand-950 via-slate-900 to-slate-700';
                         @endphp
@@ -117,6 +118,31 @@
                                         class="marquee-logo-card__image {{ $isCoverImageFit ? 'marquee-logo-card__image--cover' : '' }}"
                                         loading="lazy"
                                     >
+                                    @if (! empty($shield))
+                                        <div class="absolute bottom-4 right-4 z-10 size-12">
+                                            <img
+                                                src="{{ $shield }}"
+                                                alt=""
+                                                class="h-full w-full object-contain drop-shadow-[0_6px_12px_rgba(15,23,42,0.28)]"
+                                                aria-hidden="true"
+                                                loading="lazy"
+                                            >
+                                        </div>
+                                    @endif
+                                @elseif (! empty($shield))
+                                    <div class="marquee-logo-card__fallback bg-gradient-to-br {{ $fallbackClass }} {{ $isCoverImageFit ? 'marquee-logo-card__fallback--cover' : '' }}">
+                                        <span class="marquee-logo-card__initials">{{ $fallbackInitials }}</span>
+                                    </div>
+
+                                    <div class="absolute bottom-4 right-4 z-10 size-12">
+                                        <img
+                                            src="{{ $shield }}"
+                                            alt=""
+                                            class="h-full w-full object-contain drop-shadow-[0_6px_12px_rgba(15,23,42,0.28)]"
+                                            aria-hidden="true"
+                                            loading="lazy"
+                                        >
+                                    </div>
                                 @else
                                     <div class="marquee-logo-card__fallback bg-gradient-to-br {{ $fallbackClass }} {{ $isCoverImageFit ? 'marquee-logo-card__fallback--cover' : '' }}">
                                         <span class="marquee-logo-card__initials">{{ $fallbackInitials }}</span>

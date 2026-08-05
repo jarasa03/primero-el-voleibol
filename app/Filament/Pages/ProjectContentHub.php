@@ -4,7 +4,9 @@ namespace App\Filament\Pages;
 
 use App\Enums\ProjectProposedPersonType;
 use App\Enums\ProjectSupporterType;
+use App\Filament\Resources\Clubs\ClubResource;
 use App\Filament\Resources\Projects\ProjectResource;
+use App\Models\Club;
 use App\Models\Project;
 use App\Models\ProjectClubSupporter;
 use BackedEnum;
@@ -72,10 +74,10 @@ class ProjectContentHub extends Page implements HasTable
                     [
                         'id' => ProjectSupporterType::Club->value,
                         'section' => ProjectSupporterType::Club->sectionLabel(),
-                        'description' => 'Clubes que respaldan la iniciativa. Cada uno puede tener nombre, descripción e imagen.',
-                        'status' => $project->clubSupporters()->exists() ? 'Con registros' : 'Vacío',
+                        'description' => 'Clubes del proyecto con logo propio y un interruptor para mostrarlos o no como colaboradores.',
+                        'status' => Club::query()->exists() ? 'Con registros' : 'Vacío',
                         'primary_action_label' => 'Editar',
-                        'primary_action_url' => $buildProjectUrl('clubs'),
+                        'primary_action_url' => ClubResource::getUrl('index'),
                     ],
                     [
                         'id' => ProjectSupporterType::Referee->value,

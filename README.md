@@ -56,3 +56,18 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Despliegue en Synology
+
+Esta aplicación está preparada para ejecutarse como una imagen de producción con FrankenPHP, PHP 8.4 y SQLite persistente fuera del contenedor.
+
+1. Genera una sola vez la `APP_KEY` con `php artisan key:generate --show` y guárdala en `deploy/.env`.
+2. Crea `deploy/.env` a partir de `deploy/.env.example`.
+3. Crea las carpetas `deploy/data/sqlite` y `deploy/data/storage`.
+4. Crea el proyecto en Synology Container Manager usando `deploy/compose.yaml` y el archivo `deploy/.env`.
+5. Usa la imagen `ghcr.io/jarasa03/primero-el-voleibol:latest`.
+6. Abre la web en `http://192.168.0.24:8080`.
+7. Revisa los logs del contenedor y el healthcheck en `/up` si algo no arranca como esperas.
+8. Haz copias de seguridad de `deploy/data/sqlite/database.sqlite` y de toda `deploy/data/storage` antes de actualizar.
+9. Para restaurar, detén el contenedor, devuelve la copia de `database.sqlite` y de `storage`, y vuelve a arrancarlo.
+10. Para actualizar manualmente, sustituye la imagen del contenedor por la nueva versión sin borrar los volúmenes persistentes.

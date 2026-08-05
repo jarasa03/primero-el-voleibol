@@ -856,7 +856,7 @@
         }
 
         to {
-            transform: translate3d(calc(var(--marquee-start-offset, 0%) - 50%), 0, 0);
+            transform: translate3d(calc(var(--marquee-start-offset, 0%) - 50% - (var(--marquee-gap, 1.25rem) / 2)), 0, 0);
         }
     }
 

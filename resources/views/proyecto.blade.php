@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Proyecto')
-@section('meta_description', 'Conoce quiÃ©n lidera Primero el Voleibol, los clubes y Ã¡rbitros que apoyan la iniciativa, y la propuesta arbitral para la Asamblea de Madrid.')
+@section('meta_description', 'Conoce quién lidera Primero el Voleibol, los clubes y árbitros que apoyan la iniciativa, y la propuesta arbitral para la Asamblea de Madrid.')
 @section('body_class', 'page-interior page-proyecto')
 
 @section('content')
@@ -18,12 +18,12 @@
                 <div class="flex h-full w-full flex-col justify-center">
                     <p class="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300 sm:text-sm sm:tracking-[0.25em]">Proyecto</p>
                     <h1 class="mt-2 w-full max-w-none text-4xl font-semibold tracking-tight text-white sm:mt-3 sm:text-5xl lg:text-5xl">
-                        QuiÃ©n lidera, quiÃ©n apoya y quiÃ©n representa
+                        Quién lidera, quién apoya y quién representa
                     </h1>
 
                     <p class="mt-5 w-full max-w-none text-lg leading-8 text-brand-200 sm:text-xl">
-                        En esta pÃ¡gina dejamos clara la estructura del proyecto: una persona que lo impulsa,
-                        clubes que lo respaldan, Ã¡rbitros que suman criterio y una propuesta concreta para la
+                        En esta página dejamos clara la estructura del proyecto: una persona que lo impulsa,
+                        clubes que lo respaldan, árbitros que suman criterio y una propuesta concreta para la
                         Asamblea de Madrid.
                     </p>
 
@@ -44,19 +44,19 @@
                             <div class="rounded-2xl border border-white/10 bg-slate-900/40 p-4">
                                 <p class="text-base font-semibold text-white">Visibilidad</p>
                                 <p class="mt-2 text-sm leading-6 text-brand-100/80">
-                                    La persona que lidera el proyecto debe aparecer con claridad y sin ambigÃ¼edades.
+                                    La persona que lidera el proyecto debe aparecer con claridad y sin ambigüedades.
                                 </p>
                             </div>
                             <div class="rounded-2xl border border-white/10 bg-slate-900/30 p-4">
                                 <p class="text-base font-semibold text-white">Apoyos reales</p>
                                 <p class="mt-2 text-sm leading-6 text-brand-100/80">
-                                    Queremos que clubes y Ã¡rbitros tengan un espacio visual fuerte y memorable.
+                                    Queremos que clubes y árbitros tengan un espacio visual fuerte y memorable.
                                 </p>
                             </div>
                             <div class="rounded-2xl border border-white/10 bg-slate-900/20 p-4">
-                                <p class="text-base font-semibold text-white">RepresentaciÃ³n</p>
+                                <p class="text-base font-semibold text-white">Representación</p>
                                 <p class="mt-2 text-sm leading-6 text-brand-100/80">
-                                    Los tres Ã¡rbitros propuestos deben quedar presentados como una apuesta clara de futuro.
+                                    Los tres árbitros propuestos deben quedar presentados como una apuesta clara de futuro.
                                 </p>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                 <article class="max-w-3xl rounded-[2rem] border border-slate-200 bg-white px-4 py-6 shadow-sm sm:px-5 lg:px-6 lg:py-7">
                     <p class="text-sm font-semibold uppercase tracking-[0.25em] text-accent-700">Liderazgo</p>
                     <h2 class="mt-2 text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
-                        QuiÃ©n lidera el proyecto
+                        Quién lidera el proyecto
                     </h2>
 
                     <div class="mt-5 overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_10px_30px_rgba(15,23,42,0.05)]">
@@ -99,14 +99,14 @@
                         <div class="mt-4 space-y-3">
                             <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3">
                                 <p class="text-xs font-semibold uppercase tracking-[0.22em] text-accent-700">Trayectoria</p>
-                                <p class="mt-1 text-sm leading-6 text-slate-700">Ã¡rbitro internacional con recorrido en la ?lite.</p>
+                                <p class="mt-1 text-sm leading-6 text-slate-700">Árbitro internacional con recorrido en la élite.</p>
                             </div>
                             <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3">
                                 <p class="text-xs font-semibold uppercase tracking-[0.22em] text-accent-700">Superliga 1</p>
-                                <p class="mt-1 text-sm leading-6 text-slate-700">638 partidos pitados en la mÃ¡xima referencia nacional.</p>
+                                <p class="mt-1 text-sm leading-6 text-slate-700">638 partidos pitados en la máxima referencia nacional.</p>
                             </div>
                             <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3">
-                                <p class="text-xs font-semibold uppercase tracking-[0.22em] text-accent-700">FormaciÃ³n</p>
+                                <p class="text-xs font-semibold uppercase tracking-[0.22em] text-accent-700">Formación</p>
                                 <p class="mt-1 text-sm leading-6 text-slate-700">Entrenador FIVB 2 y referente de criterio arbitral.</p>
                             </div>
                         </div>
@@ -212,3 +212,6 @@
         </section>
     </div>
 @endsection
+
+
+
