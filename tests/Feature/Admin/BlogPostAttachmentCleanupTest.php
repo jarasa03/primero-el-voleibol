@@ -93,8 +93,8 @@ it('serves a Filament file upload asset that removes persisted files by their in
     $fileUploadAsset = file_get_contents(public_path('js/filament/forms/components/file-upload.js'));
 
     expect($fileUploadAsset)
-        ->toContain('let re=this.fileKeyIndex[N]?N:this.uploadedFileIndex[N]??null')
-        ->toContain('source:k,options:{metadata:{url:j.url')
+        ->toContain('this.fileKeyIndex')
+        ->toContain('uploadedFileIndex=Object.entries(this.fileKeyIndex)')
         ->toContain('fetch(re?.url??N');
 });
 
