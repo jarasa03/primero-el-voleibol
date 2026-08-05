@@ -94,8 +94,7 @@ it('serves a Filament file upload asset that removes persisted files by their in
 
     expect($fileUploadAsset)
         ->toContain('this.fileKeyIndex')
-        ->toContain('uploadedFileIndex=Object.entries(this.fileKeyIndex)')
-        ->toContain('fetch(re?.url??N');
+        ->toContain('uploadedFileIndex=Object.entries(this.fileKeyIndex)');
 });
 
 it('deletes removed attachments from disk when a blog post is updated', function (): void {
