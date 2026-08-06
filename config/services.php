@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'filament' => [
+        'admin_email' => env('FILAMENT_ADMIN_EMAIL'),
+    ],
+
 ];
