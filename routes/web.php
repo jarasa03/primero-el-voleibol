@@ -64,31 +64,31 @@ Route::get('/proyecto', function () {
                     return [
                         'image' => asset('storage/'.$image->image_path),
                         'name' => 'Francisco Sabroso',
-                        'alt' => $image->alt_text ?: 'Fotografía de Francisco Sabroso',
+                        'alt' => $image->alt_text ?: 'Fotograf?a de Francisco Sabroso',
                     ];
                 })->all()
                 : [
                     [
                         'image' => asset('images/programa-hero.webp'),
                         'name' => 'Francisco Sabroso',
-                        'alt' => 'Fotografía de Francisco Sabroso',
+                        'alt' => 'Fotograf?a de Francisco Sabroso',
                     ],
                     [
                         'image' => asset('images/programa-hero.webp'),
                         'name' => 'Francisco Sabroso',
-                        'alt' => 'Fotografía de Francisco Sabroso',
+                        'alt' => 'Fotograf?a de Francisco Sabroso',
                     ],
                     [
                         'image' => asset('images/programa-hero.webp'),
                         'name' => 'Francisco Sabroso',
-                        'alt' => 'Fotografía de Francisco Sabroso',
+                        'alt' => 'Fotograf?a de Francisco Sabroso',
                     ],
                 ],
         ]
         : [
             'name' => 'Francisco Sabroso',
-            'role' => 'árbitro internacional, exárbitro de Superliga 1 y entrenador FIVB 2',
-            'description' => 'Francisco Sabroso es una persona con mucha experiencia en el voleibol. Ha sido árbitro internacional, ha pitado un total de 638 partidos de Superliga 1 y es entrenador FIVB 2. Además, ha estado designando durante muchos años a árbitros madrileños de toda la comunidad, lo que le da un conocimiento directo del cuerpo arbitral y de los problemas de cada club, porque habla con ellos todos los fines de semana y conoce desde dentro los retos de organización.',
+            'role' => 'ÃƒÂ¡rbitro internacional, exÃƒÂ¡rbitro de Superliga 1 y entrenador FIVB 2',
+            'description' => 'Francisco Sabroso es una persona con mucha experiencia en el voleibol. Ha sido ÃƒÂ¡rbitro internacional, ha pitado un total de 638 partidos de Superliga 1 y es entrenador FIVB 2. AdemÃƒÂ¡s, ha estado designando durante muchos aÃƒÂ±os a ÃƒÂ¡rbitros madrileÃƒÂ±os de toda la comunidad, lo que le da un conocimiento directo del cuerpo arbitral y de los problemas de cada club, porque habla con ellos todos los fines de semana y conoce desde dentro los retos de organizaciÃƒÂ³n.',
             'show_leader_section' => true,
             'show_proposed_referees_section' => true,
             'show_proposed_coaches_section' => true,
@@ -98,17 +98,17 @@ Route::get('/proyecto', function () {
                 [
                     'image' => asset('images/programa-hero.webp'),
                     'name' => 'Francisco Sabroso',
-                    'alt' => 'Fotografía de Francisco Sabroso',
+                    'alt' => 'Fotograf?a de Francisco Sabroso',
                 ],
                 [
                     'image' => asset('images/programa-hero.webp'),
                     'name' => 'Francisco Sabroso',
-                    'alt' => 'Fotografía de Francisco Sabroso',
+                    'alt' => 'Fotograf?a de Francisco Sabroso',
                 ],
                 [
                     'image' => asset('images/programa-hero.webp'),
                     'name' => 'Francisco Sabroso',
-                    'alt' => 'Fotografía de Francisco Sabroso',
+                    'alt' => 'Fotograf?a de Francisco Sabroso',
                 ],
             ],
         ];
@@ -125,7 +125,7 @@ Route::get('/proyecto', function () {
             'initials' => 'CL',
         ],
         [
-            'name' => 'Árbitros que acompañan',
+            'name' => 'ÃƒÂrbitros que acompaÃƒÂ±an',
             'role' => 'Criterio y experiencia',
             'description' => 'Su mirada ayuda a ordenar el debate y a llevar propuestas realistas y bien medidas.',
             'initials' => 'AR',
@@ -133,7 +133,7 @@ Route::get('/proyecto', function () {
         [
             'name' => 'Comunidad que suma',
             'role' => 'Apoyo transversal',
-            'description' => 'Técnicos, familias y personas vinculadas al voleibol que quieren empujar en la misma dirección.',
+            'description' => 'TÃƒÂ©cnicos, familias y personas vinculadas al voleibol que quieren empujar en la misma direcciÃƒÂ³n.',
             'initials' => 'CO',
         ],
     ];
@@ -171,7 +171,7 @@ Route::get('/proyecto', function () {
         ],
         [
             'name' => 'Club Universidad',
-            'label' => 'Formación y visión',
+            'label' => 'FormaciÃƒÂ³n y visiÃƒÂ³n',
             'initials' => 'CU',
             'badgeClass' => 'from-brand-950 via-slate-900 to-brand-800',
         ],
@@ -225,37 +225,37 @@ Route::get('/proyecto', function () {
 
     $refereeSupporters = [
         [
-            'name' => 'Árbitro colaborador 01',
-            'label' => 'Árbitro colaborador',
-            'description' => 'árbitro autonómico',
+            'name' => 'ÃƒÂrbitro colaborador 01',
+            'label' => 'ÃƒÂrbitro colaborador',
+            'description' => 'ÃƒÂ¡rbitro autonÃƒÂ³mico',
             'initials' => 'A1',
             'badgeClass' => 'from-brand-950 via-brand-800 to-slate-900',
         ],
         [
-            'name' => 'Árbitra colaboradora 02',
-            'label' => 'Árbitra colaboradora',
-            'description' => 'Juez árbitra con experiencia en cantera',
+            'name' => 'ÃƒÂrbitra colaboradora 02',
+            'label' => 'ÃƒÂrbitra colaboradora',
+            'description' => 'Juez ÃƒÂ¡rbitra con experiencia en cantera',
             'initials' => 'A2',
             'badgeClass' => 'from-slate-950 via-brand-900 to-brand-700',
         ],
         [
-            'name' => 'Árbitro colaborador 03',
-            'label' => 'Árbitro colaborador',
-            'description' => 'Especialista en competición territorial',
+            'name' => 'ÃƒÂrbitro colaborador 03',
+            'label' => 'ÃƒÂrbitro colaborador',
+            'description' => 'Especialista en competiciÃƒÂ³n territorial',
             'initials' => 'A3',
             'badgeClass' => 'from-accent-900 via-accent-700 to-brand-950',
         ],
         [
-            'name' => 'Árbitro colaborador 04',
-            'label' => 'Árbitro colaborador',
-            'description' => 'Referencia técnica y formativa',
+            'name' => 'ÃƒÂrbitro colaborador 04',
+            'label' => 'ÃƒÂrbitro colaborador',
+            'description' => 'Referencia tÃƒÂ©cnica y formativa',
             'initials' => 'A4',
             'badgeClass' => 'from-brand-800 via-slate-900 to-brand-950',
         ],
         [
-            'name' => 'Árbitra colaboradora 05',
-            'label' => 'Árbitra colaboradora',
-            'description' => 'Competición y acompañamiento',
+            'name' => 'ÃƒÂrbitra colaboradora 05',
+            'label' => 'ÃƒÂrbitra colaboradora',
+            'description' => 'CompeticiÃƒÂ³n y acompaÃƒÂ±amiento',
             'initials' => 'A5',
             'badgeClass' => 'from-slate-900 via-brand-800 to-accent-800',
         ],
@@ -265,7 +265,7 @@ Route::get('/proyecto', function () {
         [
             'name' => 'Entrenador colaborador 01',
             'label' => 'Trabajo de base',
-            'description' => 'Acompaña la iniciativa desde la formación y la dirección de equipos.',
+            'description' => 'AcompaÃƒÂ±a la iniciativa desde la formaciÃƒÂ³n y la direcciÃƒÂ³n de equipos.',
             'initials' => 'E1',
             'badgeClass' => 'from-brand-950 via-brand-800 to-slate-950',
         ],
@@ -305,6 +305,67 @@ Route::get('/proyecto', function () {
             'label' => 'Cantera y presente',
             'description' => 'Refuerza la conexi?n entre la base y el futuro del proyecto.',
             'initials' => 'J3',
+            'badgeClass' => 'from-brand-950 via-slate-900 to-brand-800',
+        ],
+    ];
+
+    $projectSupporters = [
+        [
+            'name' => 'Contenido en construcción',
+            'role' => 'Liderazgo',
+            'description' => 'Mostraremos aquí la persona que impulsa el proyecto cuando esté publicada en la base de datos.',
+            'initials' => 'PV',
+        ],
+        [
+            'name' => 'Apoyos por confirmar',
+            'role' => 'Clubes',
+            'description' => 'Este bloque se completará con clubes reales en cuanto haya registros disponibles.',
+            'initials' => 'CL',
+        ],
+        [
+            'name' => 'Apoyo arbitral',
+            'role' => 'Árbitros',
+            'description' => 'Aquí aparecerán los árbitros colaboradores cuando se publiquen sus datos.',
+            'initials' => 'AR',
+        ],
+    ];
+
+    $clubSupportersFallback = [
+        [
+            'name' => 'Clubes en construcción',
+            'description' => 'Los clubes colaboradores reales aparecerán aquí cuando estén disponibles.',
+            'label' => 'Club colaborador',
+            'initials' => 'CL',
+            'badgeClass' => 'from-brand-950 via-brand-800 to-slate-950',
+        ],
+    ];
+
+    $refereeSupporters = [
+        [
+            'name' => 'Árbitros en construcción',
+            'label' => 'Árbitro colaborador',
+            'description' => 'Aquí mostraremos los árbitros colaboradores cuando haya registros reales.',
+            'initials' => 'AR',
+            'badgeClass' => 'from-brand-950 via-brand-800 to-slate-900',
+        ],
+    ];
+
+    $coachSupportersFallback = [
+        [
+            'name' => 'Entrenadores en construcción',
+            'label' => 'Entrenador colaborador',
+            'description' => 'Esta franja se completará con entrenadores reales en cuanto se publiquen.',
+            'initials' => 'EN',
+            'badgeClass' => 'from-slate-950 via-brand-900 to-brand-700',
+        ],
+    ];
+
+    $playerSupportersFallback = [
+        [
+            'name' => 'Jugadores en construcción',
+            'label' => 'Jugador colaborador',
+            'description' => 'Aquí aparecerán los jugadores colaboradores cuando haya datos reales.',
+            'initials' => 'JG',
             'badgeClass' => 'from-brand-950 via-slate-900 to-brand-800',
         ],
     ];
@@ -437,7 +498,7 @@ Route::get('/proyecto', function () {
         [
             'eyebrow' => 'Apoyos',
             'title' => 'Entrenadores colaboradores',
-            'description' => 'Entrenadores que aportan experiencia técnica y acompañan el proyecto.',
+            'description' => 'Entrenadores que aportan experiencia t?cnica y acompa?an el proyecto.',
             'items' => $coachSupporters,
             'mode' => 'logos',
             'direction' => 'right',
@@ -599,17 +660,12 @@ Route::get('/programa', function () {
             [
                 'anchor' => 'clubes',
                 'title' => 'Clubes',
-                'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                'description' => 'Contenido en construccion. Esta seccion se completara con propuestas reales cuando haya datos publicados.',
                 'items' => [
                     [
-                        'title' => 'Lorem ipsum dolor sit amet',
-                        'summary' => 'Curabitur pretium tincidunt lacus. Nulla gravida orci a odio.',
-                        'details' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.',
-                    ],
-                    [
-                        'title' => 'Sed do eiusmod tempor',
-                        'summary' => 'Aliquam tincidunt mauris eu risus. Vestibulum auctor dapibus neque.',
-                        'details' => 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.',
+                        'title' => 'Contenido en construccion',
+                        'summary' => 'Estamos preparando esta parte del programa.',
+                        'details' => 'Aqui publicaremos las propuestas definitivas cuando esten disponibles en la base de datos.',
                     ],
                 ],
                 'beach_volleyball_enabled' => false,
@@ -617,18 +673,13 @@ Route::get('/programa', function () {
             ],
             [
                 'anchor' => 'federacion',
-                'title' => 'Federaci?n',
-                'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                'title' => 'Federacion',
+                'description' => 'Contenido en construccion. Esta seccion se completara con propuestas reales cuando haya datos publicados.',
                 'items' => [
                     [
-                        'title' => 'Lorem ipsum dolor sit amet',
-                        'summary' => 'Curabitur pretium tincidunt lacus. Nulla gravida orci a odio.',
-                        'details' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.',
-                    ],
-                    [
-                        'title' => 'Sed do eiusmod tempor',
-                        'summary' => 'Aliquam tincidunt mauris eu risus. Vestibulum auctor dapibus neque.',
-                        'details' => 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.',
+                        'title' => 'Contenido en construccion',
+                        'summary' => 'Estamos preparando esta parte del programa.',
+                        'details' => 'Aqui publicaremos las propuestas definitivas cuando esten disponibles en la base de datos.',
                     ],
                 ],
                 'beach_volleyball_enabled' => false,
@@ -636,18 +687,13 @@ Route::get('/programa', function () {
             ],
             [
                 'anchor' => 'arbitros',
-                'title' => 'árbitros',
-                'description' => 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                'title' => 'Arbitros',
+                'description' => 'Contenido en construccion. Esta seccion se completara con propuestas reales cuando haya datos publicados.',
                 'items' => [
                     [
-                        'title' => 'Reuniones y cl?nics regulares durante la temporada',
-                        'summary' => 'Una reuni?n de inicio de temporada, otra de cierre y cl?nics opcionales para seguir creciendo.',
-                        'details' => 'Habrá una reunión al inicio de temporada para actualizar la información sobre nuevas normas y directrices, y para ver cómo afrontar esta nueva etapa. Al finalizar la temporada se celebrará otra reunión para hacer un resumen de lo vivido y detectar mejoras de cara al curso siguiente. Además, durante la temporada se realizarán clinics opcionales a los que los árbitros podrán asistir para recibir información sobre temas concretos y seguir formándose en su carrera arbitral.',
-                    ],
-                    [
-                        'title' => 'Sistema de mentoring piramidal',
-                        'summary' => 'Un modelo escalonado para que cada nivel acompa?e, forme y haga crecer al siguiente.',
-                        'details' => 'Los árbitros de Superliga 1 tendrán a su cargo a dos árbitros de Superliga 2; estos, a su vez, acompañarán a dos árbitros nacionales. Cada árbitro nacional hará lo propio con dos árbitros de nivel 2, y cada árbitro de nivel 2 con dos de nivel 1. El objetivo es que los niveles superiores formen a los inferiores, se preocupen por su asistencia a reuniones y eventos, les hagan llegar nuevas directrices y piten con ellos al menos una vez cada mes y medio para dar feedback constante. Así construiremos un equipo arbitral fuerte, unificado y capaz de crecer junto.',
+                        'title' => 'Contenido en construccion',
+                        'summary' => 'Estamos preparando esta parte del programa.',
+                        'details' => 'Aqui publicaremos las propuestas definitivas cuando esten disponibles en la base de datos.',
                     ],
                 ],
                 'beach_volleyball_enabled' => false,
@@ -656,17 +702,12 @@ Route::get('/programa', function () {
             [
                 'anchor' => 'entrenadores',
                 'title' => 'Entrenadores',
-                'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
+                'description' => 'Contenido en construccion. Esta seccion se completara con propuestas reales cuando haya datos publicados.',
                 'items' => [
                     [
-                        'title' => 'Lorem ipsum dolor sit amet',
-                        'summary' => 'Morbi leo risus, porta ac consectetur ac, vestibulum at eros.',
-                        'details' => 'Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Maecenas sed diam eget risus varius blandit.',
-                    ],
-                    [
-                        'title' => 'Consectetur adipiscing elit',
-                        'summary' => 'Aenean lacinia bibendum nulla sed consectetur. Cras mattis consectetur purus sit amet fermentum.',
-                        'details' => 'Nullam quis risus eget urna mollis ornare vel eu leo. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.',
+                        'title' => 'Contenido en construccion',
+                        'summary' => 'Estamos preparando esta parte del programa.',
+                        'details' => 'Aqui publicaremos las propuestas definitivas cuando esten disponibles en la base de datos.',
                     ],
                 ],
                 'beach_volleyball_enabled' => false,
@@ -675,17 +716,12 @@ Route::get('/programa', function () {
             [
                 'anchor' => 'voley-playa',
                 'title' => 'Voley playa',
-                'description' => 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
+                'description' => 'Contenido en construccion. Esta seccion se completara con propuestas reales cuando haya datos publicados.',
                 'items' => [
                     [
-                        'title' => 'Lorem ipsum dolor sit amet',
-                        'summary' => 'Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.',
-                        'details' => 'Etiam porta sem malesuada magna mollis euismod. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.',
-                    ],
-                    [
-                        'title' => 'Ut labore et dolore magna aliqua',
-                        'summary' => 'Donec sed odio dui. Nulla vitae elit libero, a pharetra augue.',
-                        'details' => 'Cras justo odio, dapibus ac facilisis in, egestas eget quam. Maecenas faucibus mollis interdum.',
+                        'title' => 'Contenido en construccion',
+                        'summary' => 'Estamos preparando esta parte del programa.',
+                        'details' => 'Aqui publicaremos las propuestas definitivas cuando esten disponibles en la base de datos.',
                     ],
                 ],
                 'beach_volleyball_enabled' => false,

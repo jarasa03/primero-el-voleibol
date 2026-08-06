@@ -39,7 +39,7 @@ it('hides the leadership section when disabled', function (): void {
     $response = $this->get(route('proyecto'));
 
     $response->assertOk();
-    expect($response->getContent())->not->toContain('Quién lidera el proyecto');
+    expect($response->getContent())->not->toContain('¿');
 });
 
 it('hides proposed sections when disabled', function (): void {
@@ -178,7 +178,6 @@ it('renders supporters from the database', function (): void {
                 'updated_at' => now(),
             ],
         ]);
-
     }
 
     $response = $this->get(route('proyecto'));
