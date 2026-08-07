@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Filament\Resources\Clubs;
+namespace App\Filament\Resources\Players;
 
-use App\Filament\Resources\Clubs\Pages\CreateClub;
-use App\Filament\Resources\Clubs\Pages\EditClub;
-use App\Filament\Resources\Clubs\Pages\ListClubs;
-use App\Models\Club;
+use App\Filament\Resources\Players\Pages\CreatePlayer;
+use App\Filament\Resources\Players\Pages\EditPlayer;
+use App\Filament\Resources\Players\Pages\ListPlayers;
+use App\Models\Player;
 use BackedEnum;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
@@ -19,15 +19,15 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use UnitEnum;
 
-class ClubResource extends Resource
+class PlayerResource extends Resource
 {
-    protected static ?string $model = Club::class;
+    protected static ?string $model = Player::class;
 
-    protected static ?string $modelLabel = 'club';
+    protected static ?string $modelLabel = 'jugador';
 
-    protected static ?string $pluralModelLabel = 'clubes';
+    protected static ?string $pluralModelLabel = 'jugadores';
 
-    protected static ?string $navigationLabel = 'Clubes';
+    protected static ?string $navigationLabel = 'Jugadores';
 
     protected static string|UnitEnum|null $navigationGroup = 'Contenido';
 
@@ -49,7 +49,7 @@ class ClubResource extends Resource
                     ->imageEditor()
                     ->required()
                     ->disk('public')
-                    ->directory('clubs')
+                    ->directory('players')
                     ->visibility('public')
                     ->columnSpanFull(),
                 TextInput::make('name')
@@ -62,12 +62,12 @@ class ClubResource extends Resource
                     ->rows(4)
                     ->columnSpanFull(),
                 Toggle::make('show_as_collaborator')
-                    ->label('Mostrar como club colaborador')
-                    ->helperText('Si está activado, este club aparecerá en el carrusel público de clubes.')
+                    ->label('Mostrar como jugador colaborador')
+                    ->helperText('Si está activado, este jugador aparecerá en el carrusel público de jugadores colaboradores.')
                     ->default(false),
                 Toggle::make('show_as_proposed_for_assembly')
-                    ->label('Mostrar como club propuesto')
-                    ->helperText('Si está activado, este club aparecerá en la sección pública de clubes propuestos.')
+                    ->label('Mostrar como jugador propuesto')
+                    ->helperText('Si está activado, este jugador aparecerá en la sección pública de jugadores propuestos.')
                     ->default(false),
             ]);
     }
@@ -110,9 +110,9 @@ class ClubResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListClubs::route('/'),
-            'create' => CreateClub::route('/create'),
-            'edit' => EditClub::route('/{record}/edit'),
+            'index' => ListPlayers::route('/'),
+            'create' => CreatePlayer::route('/create'),
+            'edit' => EditPlayer::route('/{record}/edit'),
         ];
     }
 }

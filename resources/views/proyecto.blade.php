@@ -169,35 +169,73 @@
             <div class="space-y-10 lg:space-y-12">
                 @foreach ($proposedSections as $section)
                     @if ($section['visible'])
+                        @php($isSliderSection = in_array($section['title'], ['Clubes propuestos para la asamblea', 'Jugadores propuestos para la asamblea'], true))
+                        @php($isClubSliderSection = $section['title'] === 'Clubes propuestos para la asamblea')
+
                         <div>
                             <h2 class="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
                                 {{ $section["title"] }}
                             </h2>
 
-                            <div class="mt-6 grid gap-6 lg:grid-cols-3">
+                            <div @class([
+                                'mt-6',
+                                'flex gap-5 overflow-x-auto pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden' => $isSliderSection,
+                                'grid gap-6 lg:grid-cols-3' => ! $isSliderSection,
+                            ])>
                                 @foreach ($section["items"] as $person)
-                                    <article class="overflow-hidden rounded-[1.9rem] border border-slate-200 bg-slate-50 shadow-[0_10px_30px_rgba(15,23,42,0.05)]">
-                                        <div class="relative aspect-[4/5] bg-gradient-to-br from-brand-950 via-slate-900 to-slate-800">
+                                    <article @class([
+                                        'overflow-hidden rounded-[1.9rem] border border-slate-200 bg-slate-50 shadow-[0_10px_30px_rgba(15,23,42,0.05)]',
+                                        'min-w-[14rem] snap-start sm:min-w-[15rem] lg:min-w-[16rem]' => $isClubSliderSection,
+                                        'min-w-[18rem] snap-start sm:min-w-[20rem] lg:min-w-[22rem]' => $isSliderSection && ! $isClubSliderSection,
+                                    ])>
+                                        <div @class([
+                                            'relative bg-gradient-to-br from-brand-950 via-slate-900 to-slate-800',
+                                            'aspect-[3/4]' => $isClubSliderSection,
+                                            'aspect-[4/5]' => ! $isClubSliderSection,
+                                        ])>
                                             <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(251,191,36,0.22),transparent_40%)]"></div>
-                                            <div class="absolute inset-0 grid place-items-center p-6">
-                                                <div class="grid size-28 place-items-center rounded-[2rem] border border-white/10 bg-white/10 text-3xl font-semibold tracking-[0.24em] text-white backdrop-blur-sm">
+                                            <div @class([
+                                                'absolute inset-0 grid place-items-center',
+                                                'p-4' => $isClubSliderSection,
+                                                'p-6' => ! $isClubSliderSection,
+                                            ])>
+                                                <div @class([
+                                                    'grid place-items-center rounded-[2rem] border border-white/10 bg-white/10 font-semibold tracking-[0.24em] text-white backdrop-blur-sm',
+                                                    'size-20 text-xl' => $isClubSliderSection,
+                                                    'size-28 text-3xl' => ! $isClubSliderSection,
+                                                ])>
                                                     {{ $person["initials"] }}
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="p-6">
+                                        <div @class([
+                                            'p-4' => $isClubSliderSection,
+                                            'p-6' => ! $isClubSliderSection,
+                                        ])>
                                             <p class="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">
                                                 Propuesto para la asamblea
                                             </p>
-                                            <h3 class="mt-3 text-xl font-semibold tracking-tight text-slate-950">
+                                            <h3 @class([
+                                                'mt-3 font-semibold tracking-tight text-slate-950',
+                                                'text-base sm:text-lg' => $isClubSliderSection,
+                                                'text-xl' => ! $isClubSliderSection,
+                                            ])>
                                                 {{ $person["name"] }}
                                             </h3>
-                                            <p class="mt-2 text-sm font-medium text-slate-600">
+                                            <p @class([
+                                                'mt-2 font-medium text-slate-600',
+                                                'text-xs sm:text-sm' => $isClubSliderSection,
+                                                'text-sm' => ! $isClubSliderSection,
+                                            ])>
                                                 {{ $person["title"] }}
                                             </p>
                                             @if (! empty($person["description"]))
-                                                <p class="mt-4 text-sm leading-7 text-slate-600">
+                                                <p @class([
+                                                    'mt-4 leading-7 text-slate-600',
+                                                    'text-xs sm:text-sm' => $isClubSliderSection,
+                                                    'text-sm' => ! $isClubSliderSection,
+                                                ])>
                                                     {{ $person["description"] }}
                                                 </p>
                                             @endif

@@ -8,6 +8,7 @@ use App\Filament\Resources\Projects\Pages\ViewProject;
 use App\Filament\Resources\Projects\RelationManagers\ProjectCoachSupportersRelationManager;
 use App\Filament\Resources\Projects\RelationManagers\ProjectImagesRelationManager;
 use App\Filament\Resources\Projects\RelationManagers\ProjectPlayerSupportersRelationManager;
+use App\Filament\Resources\Projects\RelationManagers\ProjectProposedClubsRelationManager;
 use App\Filament\Resources\Projects\RelationManagers\ProjectProposedCoachesRelationManager;
 use App\Filament\Resources\Projects\RelationManagers\ProjectProposedPlayersRelationManager;
 use App\Filament\Resources\Projects\RelationManagers\ProjectProposedRefereesRelationManager;
@@ -53,6 +54,19 @@ class ProjectResource extends Resource
                             ->label('Mostrar liderazgo')
                             ->helperText('Controla si la tarjeta de Francisco Sabroso aparece en la página pública de proyecto.'),
                     ]),
+                Section::make('Clubes propuestos')
+                    ->schema([
+                        Toggle::make('show_proposed_clubs_section')
+                            ->label('Mostrar clubes propuestos')
+                            ->helperText('Controla si el bloque de clubes propuestos aparece en la página pública de proyecto.'),
+                        TextInput::make('proposed_clubs_minimum_count')
+                            ->label('Mínimo de clubes')
+                            ->helperText('Las tarjetas vacías se completarán con "Aún por definir" hasta llegar a este número.')
+                            ->numeric()
+                            ->minValue(0)
+                            ->default(3),
+                    ])
+                    ->columns(2),
                 Section::make('Árbitros propuestos')
                     ->schema([
                         Toggle::make('show_proposed_referees_section')
@@ -107,6 +121,7 @@ class ProjectResource extends Resource
             'referees' => ProjectRefereeSupportersRelationManager::class,
             'coaches' => ProjectCoachSupportersRelationManager::class,
             'players' => ProjectPlayerSupportersRelationManager::class,
+            'proposed_clubs' => ProjectProposedClubsRelationManager::class,
             'proposed_referees' => ProjectProposedRefereesRelationManager::class,
             'proposed_coaches' => ProjectProposedCoachesRelationManager::class,
             'proposed_players' => ProjectProposedPlayersRelationManager::class,

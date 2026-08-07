@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Filament\Resources\Clubs;
+namespace App\Filament\Resources\Referees;
 
-use App\Filament\Resources\Clubs\Pages\CreateClub;
-use App\Filament\Resources\Clubs\Pages\EditClub;
-use App\Filament\Resources\Clubs\Pages\ListClubs;
-use App\Models\Club;
+use App\Filament\Resources\Referees\Pages\CreateReferee;
+use App\Filament\Resources\Referees\Pages\EditReferee;
+use App\Filament\Resources\Referees\Pages\ListReferees;
+use App\Models\Referee;
 use BackedEnum;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
@@ -19,15 +19,15 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use UnitEnum;
 
-class ClubResource extends Resource
+class RefereeResource extends Resource
 {
-    protected static ?string $model = Club::class;
+    protected static ?string $model = Referee::class;
 
-    protected static ?string $modelLabel = 'club';
+    protected static ?string $modelLabel = 'árbitro';
 
-    protected static ?string $pluralModelLabel = 'clubes';
+    protected static ?string $pluralModelLabel = 'árbitros';
 
-    protected static ?string $navigationLabel = 'Clubes';
+    protected static ?string $navigationLabel = 'Árbitros';
 
     protected static string|UnitEnum|null $navigationGroup = 'Contenido';
 
@@ -49,7 +49,7 @@ class ClubResource extends Resource
                     ->imageEditor()
                     ->required()
                     ->disk('public')
-                    ->directory('clubs')
+                    ->directory('referees')
                     ->visibility('public')
                     ->columnSpanFull(),
                 TextInput::make('name')
@@ -62,12 +62,12 @@ class ClubResource extends Resource
                     ->rows(4)
                     ->columnSpanFull(),
                 Toggle::make('show_as_collaborator')
-                    ->label('Mostrar como club colaborador')
-                    ->helperText('Si está activado, este club aparecerá en el carrusel público de clubes.')
+                    ->label('Mostrar como árbitro colaborador')
+                    ->helperText('Si está activado, este árbitro aparecerá en el carrusel público de árbitros colaboradores.')
                     ->default(false),
                 Toggle::make('show_as_proposed_for_assembly')
-                    ->label('Mostrar como club propuesto')
-                    ->helperText('Si está activado, este club aparecerá en la sección pública de clubes propuestos.')
+                    ->label('Mostrar como árbitro propuesto')
+                    ->helperText('Si está activado, este árbitro aparecerá en la sección pública de árbitros propuestos.')
                     ->default(false),
             ]);
     }
@@ -110,9 +110,9 @@ class ClubResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListClubs::route('/'),
-            'create' => CreateClub::route('/create'),
-            'edit' => EditClub::route('/{record}/edit'),
+            'index' => ListReferees::route('/'),
+            'create' => CreateReferee::route('/create'),
+            'edit' => EditReferee::route('/{record}/edit'),
         ];
     }
 }

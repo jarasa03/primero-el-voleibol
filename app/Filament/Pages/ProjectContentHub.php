@@ -2,13 +2,16 @@
 
 namespace App\Filament\Pages;
 
-use App\Enums\ProjectProposedPersonType;
-use App\Enums\ProjectSupporterType;
 use App\Filament\Resources\Clubs\ClubResource;
+use App\Filament\Resources\Coaches\CoachResource;
+use App\Filament\Resources\Players\PlayerResource;
 use App\Filament\Resources\Projects\ProjectResource;
+use App\Filament\Resources\Referees\RefereeResource;
 use App\Models\Club;
+use App\Models\Coach;
+use App\Models\Player;
 use App\Models\Project;
-use App\Models\ProjectClubSupporter;
+use App\Models\Referee;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Pages\Page;
@@ -50,18 +53,24 @@ class ProjectContentHub extends Page implements HasTable
     public function table(Table $table): Table
     {
         $project = Project::ensureSingleton();
-        $buildProjectUrl = function (?string $relation = null) use ($project): string {
-            $parameters = ['record' => $project];
+        $makeStatus = function (Collection $items, string $typeLabel): string {
+            $collaborators = $items->where('show_as_collaborator', true)->count();
+            $proposed = $items->where('show_as_proposed_for_assembly', true)->count();
 
-            if (filled($relation)) {
-                $parameters['relation'] = $relation;
+            if ($collaborators === 0 && $proposed === 0) {
+                return 'Vacío';
             }
 
-            return ProjectResource::getUrl('edit', $parameters);
+            return sprintf('%s · %d colaboradores · %d propuestos', $typeLabel, $collaborators, $proposed);
         };
 
         return $table
-            ->records(function () use ($project, $buildProjectUrl): Collection {
+            ->records(function () use ($project, $makeStatus): Collection {
+                $clubs = Club::query()->orderBy('sort')->orderBy('id')->get();
+                $referees = Referee::query()->orderBy('sort')->orderBy('id')->get();
+                $coaches = Coach::query()->orderBy('sort')->orderBy('id')->get();
+                $players = Player::query()->orderBy('sort')->orderBy('id')->get();
+
                 return collect([
                     [
                         'id' => 'leadership',
@@ -72,66 +81,36 @@ class ProjectContentHub extends Page implements HasTable
                         'primary_action_url' => ProjectResource::getUrl('edit', ['record' => $project]),
                     ],
                     [
-                        'id' => ProjectSupporterType::Club->value,
-                        'section' => ProjectSupporterType::Club->sectionLabel(),
-                        'description' => 'Clubes del proyecto con logo propio y un interruptor para mostrarlos o no como colaboradores.',
-                        'status' => Club::query()->exists() ? 'Con registros' : 'Vacío',
+                        'id' => 'clubs',
+                        'section' => 'Clubes',
+                        'description' => 'Catálogo de clubes con su presencia como colaboradores y como propuestos para la asamblea.',
+                        'status' => $makeStatus($clubs, 'Catálogo'),
                         'primary_action_label' => 'Editar',
                         'primary_action_url' => ClubResource::getUrl('index'),
                     ],
                     [
-                        'id' => ProjectSupporterType::Referee->value,
-                        'section' => ProjectSupporterType::Referee->sectionLabel(),
-                        'description' => 'Árbitros que suman criterio y experiencia al proyecto.',
-                        'status' => $project->refereeSupporters()->exists() ? 'Con registros' : 'Vacío',
+                        'id' => 'referees',
+                        'section' => 'Árbitros',
+                        'description' => 'Catálogo de árbitros con sus dos casillas de visibilidad.',
+                        'status' => $makeStatus($referees, 'Catálogo'),
                         'primary_action_label' => 'Editar',
-                        'primary_action_url' => ProjectClubSupporter::hasSupporterTypeColumn() ? $buildProjectUrl('referees') : null,
+                        'primary_action_url' => RefereeResource::getUrl('index'),
                     ],
                     [
-                        'id' => ProjectSupporterType::Coach->value,
-                        'section' => ProjectSupporterType::Coach->sectionLabel(),
-                        'description' => 'Entrenadores que acompañan y refuerzan la propuesta.',
-                        'status' => $project->coachSupporters()->exists() ? 'Con registros' : 'Vacío',
+                        'id' => 'coaches',
+                        'section' => 'Entrenadores',
+                        'description' => 'Catálogo de entrenadores con opciones de colaborador y propuesto.',
+                        'status' => $makeStatus($coaches, 'Catálogo'),
                         'primary_action_label' => 'Editar',
-                        'primary_action_url' => ProjectClubSupporter::hasSupporterTypeColumn() ? $buildProjectUrl('coaches') : null,
+                        'primary_action_url' => CoachResource::getUrl('index'),
                     ],
                     [
-                        'id' => ProjectSupporterType::Player->value,
-                        'section' => ProjectSupporterType::Player->sectionLabel(),
-                        'description' => 'Jugadores que se identifican con la iniciativa y la impulsan.',
-                        'status' => $project->playerSupporters()->exists() ? 'Con registros' : 'Vacío',
+                        'id' => 'players',
+                        'section' => 'Jugadores',
+                        'description' => 'Catálogo de jugadores con opciones de colaborador y propuesto.',
+                        'status' => $makeStatus($players, 'Catálogo'),
                         'primary_action_label' => 'Editar',
-                        'primary_action_url' => ProjectClubSupporter::hasSupporterTypeColumn() ? $buildProjectUrl('players') : null,
-                    ],
-                    [
-                        'id' => ProjectProposedPersonType::Referee->value,
-                        'section' => ProjectProposedPersonType::Referee->sectionLabel(),
-                        'description' => 'Tarjetas de árbitros que todavía pueden estar por definir o cerrar.',
-                        'status' => $project->show_proposed_referees_section
-                            ? ($project->proposedReferees()->exists() ? sprintf('Visible · %d tarjetas', $project->proposedReferees()->count()) : 'Visible')
-                            : 'Oculto',
-                        'primary_action_label' => 'Editar',
-                        'primary_action_url' => $buildProjectUrl('proposed_referees'),
-                    ],
-                    [
-                        'id' => ProjectProposedPersonType::Coach->value,
-                        'section' => ProjectProposedPersonType::Coach->sectionLabel(),
-                        'description' => 'Tarjetas de entrenadores propuestos para la asamblea.',
-                        'status' => $project->show_proposed_coaches_section
-                            ? ($project->proposedCoaches()->exists() ? sprintf('Visible · %d tarjetas', $project->proposedCoaches()->count()) : 'Visible')
-                            : 'Oculto',
-                        'primary_action_label' => 'Editar',
-                        'primary_action_url' => $buildProjectUrl('proposed_coaches'),
-                    ],
-                    [
-                        'id' => ProjectProposedPersonType::Player->value,
-                        'section' => ProjectProposedPersonType::Player->sectionLabel(),
-                        'description' => 'Tarjetas de jugadores propuestos para la asamblea.',
-                        'status' => $project->show_proposed_players_section
-                            ? ($project->proposedPlayers()->exists() ? sprintf('Visible · %d tarjetas', $project->proposedPlayers()->count()) : 'Visible')
-                            : 'Oculto',
-                        'primary_action_label' => 'Editar',
-                        'primary_action_url' => $buildProjectUrl('proposed_players'),
+                        'primary_action_url' => PlayerResource::getUrl('index'),
                     ],
                 ]);
             })
@@ -146,9 +125,9 @@ class ProjectContentHub extends Page implements HasTable
                     ->label('Estado')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'Visible', 'Con registros' => 'success',
+                        'Visible', 'Catálogo' => 'success',
                         'Oculto' => 'gray',
-                        default => str_contains($state, 'tarjetas') ? 'success' : 'warning',
+                        default => str_contains($state, 'propuestos') ? 'success' : 'warning',
                     }),
             ])
             ->recordActions([

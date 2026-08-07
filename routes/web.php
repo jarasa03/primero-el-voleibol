@@ -5,10 +5,13 @@ use App\Enums\ProjectSupporterType;
 use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\ParticipationController;
 use App\Models\Club;
+use App\Models\Coach;
+use App\Models\Player;
 use App\Models\ProgramSection;
 use App\Models\Project;
 use App\Models\ProjectClubSupporter;
 use App\Models\ProjectProposedPerson;
+use App\Models\Referee;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
@@ -30,10 +33,291 @@ Route::get('/proyecto', function () {
     if (! $project instanceof Project) {
         $project = Project::ensureSingleton()->load([
             'images' => fn ($query) => $query->orderBy('sort')->orderBy('id'),
-            'supporters' => fn ($query) => $query->orderBy('sort')->orderBy('id'),
-            'proposedPeople' => fn ($query) => $query->orderBy('sort')->orderBy('id'),
         ]);
     }
+
+    $makeInitials = function (string $value): string {
+        return Str::of($value)
+            ->trim()
+            ->explode(' ')
+            ->filter()
+            ->map(fn (string $part): string => Str::upper(Str::substr($part, 0, 1)))
+            ->take(2)
+            ->implode('');
+    };
+
+    $projectLeader = [
+        'name' => $project->leader_name,
+        'role' => $project->leader_title,
+        'description' => $project->leader_description,
+        'show_leader_section' => $project->show_leader_section,
+        'show_proposed_referees_section' => $project->show_proposed_referees_section,
+        'show_proposed_coaches_section' => $project->show_proposed_coaches_section,
+        'show_proposed_players_section' => $project->show_proposed_players_section,
+        'initials' => $makeInitials($project->leader_name),
+        'photos' => $project->images->isNotEmpty()
+            ? $project->images->map(function ($image): array {
+                return [
+                    'image' => asset('storage/'.$image->image_path),
+                    'name' => 'Francisco Sabroso',
+                    'alt' => $image->alt_text ?: 'Fotografía de Francisco Sabroso',
+                ];
+            })->all()
+            : [
+                [
+                    'image' => asset('images/programa-hero.webp'),
+                    'name' => 'Francisco Sabroso',
+                    'alt' => 'Fotografía de Francisco Sabroso',
+                ],
+                [
+                    'image' => asset('images/programa-hero.webp'),
+                    'name' => 'Francisco Sabroso',
+                    'alt' => 'Fotografía de Francisco Sabroso',
+                ],
+                [
+                    'image' => asset('images/programa-hero.webp'),
+                    'name' => 'Francisco Sabroso',
+                    'alt' => 'Fotografía de Francisco Sabroso',
+                ],
+            ],
+    ];
+
+    if (! $projectLeader['show_leader_section']) {
+        $projectLeader['photos'] = [];
+    }
+
+    $projectSupporters = [
+        [
+            'name' => 'Contenido en construcción',
+            'role' => 'Liderazgo',
+            'description' => 'Mostraremos aquí la persona que impulsa el proyecto cuando esté publicada en la base de datos.',
+            'initials' => 'PV',
+        ],
+        [
+            'name' => 'Clubes en construcción',
+            'role' => 'Clubes',
+            'description' => 'Los clubes colaboradores reales aparecerán aquí cuando haya registros disponibles.',
+            'initials' => 'CL',
+        ],
+        [
+            'name' => 'Árbitros en construcción',
+            'role' => 'Árbitros',
+            'description' => 'Aquí aparecerán los árbitros colaboradores cuando se publiquen sus datos.',
+            'initials' => 'AR',
+        ],
+    ];
+
+    $buildCatalogSupporters = function ($catalogItems, string $label, string $badgeClass, array $fallback) use ($makeInitials): array {
+        if ($catalogItems->isEmpty()) {
+            return $fallback;
+        }
+
+        return $catalogItems->map(function ($catalogItem) use ($label, $badgeClass, $makeInitials): array {
+            return [
+                'name' => $catalogItem->name,
+                'label' => $label,
+                'description' => $catalogItem->description,
+                'image' => ! empty($catalogItem->logo_path) ? asset('storage/'.$catalogItem->logo_path) : null,
+                'initials' => $makeInitials($catalogItem->name),
+                'badgeClass' => $badgeClass,
+            ];
+        })->all();
+    };
+
+    $clubCatalogSupporters = Club::query()
+        ->where('show_as_collaborator', true)
+        ->orderBy('sort')
+        ->orderBy('id')
+        ->get();
+
+    $refereeCatalogSupporters = Referee::query()
+        ->where('show_as_collaborator', true)
+        ->orderBy('sort')
+        ->orderBy('id')
+        ->get();
+
+    $coachCatalogSupporters = Coach::query()
+        ->where('show_as_collaborator', true)
+        ->orderBy('sort')
+        ->orderBy('id')
+        ->get();
+
+    $playerCatalogSupporters = Player::query()
+        ->where('show_as_collaborator', true)
+        ->orderBy('sort')
+        ->orderBy('id')
+        ->get();
+
+    $supportSections = [
+        [
+            'eyebrow' => 'Apoyos',
+            'title' => 'Clubes colaboradores',
+            'description' => 'Clubes que respaldan la iniciativa y se muestran con un carrusel continuo de logos.',
+            'items' => $buildCatalogSupporters(
+                $clubCatalogSupporters,
+                'Club colaborador',
+                'from-brand-950 via-brand-800 to-slate-950',
+                [
+                    [
+                        'name' => 'Clubes en construcción',
+                        'label' => 'Club colaborador',
+                        'description' => 'Los clubes colaboradores reales aparecerán aquí cuando haya registros disponibles.',
+                        'initials' => 'CL',
+                        'badgeClass' => 'from-brand-950 via-brand-800 to-slate-950',
+                    ],
+                ],
+            ),
+            'mode' => 'logos',
+            'direction' => 'right',
+            'speed' => 50,
+            'gap' => 1.1,
+            'fadeColor' => '#f8fafc',
+        ],
+        [
+            'eyebrow' => 'Apoyos',
+            'title' => 'Árbitros colaboradores',
+            'description' => 'Árbitros que suman criterio y experiencia con el mismo formato visual que los clubes.',
+            'items' => $buildCatalogSupporters(
+                $refereeCatalogSupporters,
+                'Árbitro colaborador',
+                'from-brand-950 via-brand-800 to-slate-900',
+                [
+                    [
+                        'name' => 'Árbitros en construcción',
+                        'label' => 'Árbitro colaborador',
+                        'description' => 'Aquí mostraremos los árbitros colaboradores cuando haya registros reales.',
+                        'initials' => 'AR',
+                        'badgeClass' => 'from-brand-950 via-brand-800 to-slate-900',
+                    ],
+                ],
+            ),
+            'mode' => 'logos',
+            'direction' => 'left',
+            'speed' => 50,
+            'gap' => 1.1,
+            'fadeColor' => '#f8fafc',
+            'imageFit' => 'cover',
+            'autofillMultiplier' => 2.4,
+        ],
+        [
+            'eyebrow' => 'Apoyos',
+            'title' => 'Entrenadores colaboradores',
+            'description' => 'Entrenadores que aportan experiencia técnica y acompañan el proyecto.',
+            'items' => $buildCatalogSupporters(
+                $coachCatalogSupporters,
+                'Entrenador colaborador',
+                'from-slate-950 via-brand-900 to-brand-700',
+                [
+                    [
+                        'name' => 'Entrenadores en construcción',
+                        'label' => 'Entrenador colaborador',
+                        'description' => 'Esta franja se completará con entrenadores reales en cuanto se publiquen.',
+                        'initials' => 'EN',
+                        'badgeClass' => 'from-slate-950 via-brand-900 to-brand-700',
+                    ],
+                ],
+            ),
+            'mode' => 'logos',
+            'direction' => 'right',
+            'speed' => 50,
+            'gap' => 1.1,
+            'fadeColor' => '#f8fafc',
+            'imageFit' => 'cover',
+            'autofillMultiplier' => 2.4,
+        ],
+        [
+            'eyebrow' => 'Apoyos',
+            'title' => 'Jugadores colaboradores',
+            'description' => 'Jugadores que refuerzan la iniciativa desde la pista y la comunidad.',
+            'items' => $buildCatalogSupporters(
+                $playerCatalogSupporters,
+                'Jugador colaborador',
+                'from-accent-900 via-accent-700 to-brand-950',
+                [
+                    [
+                        'name' => 'Jugadores en construcción',
+                        'label' => 'Jugador colaborador',
+                        'description' => 'Aquí aparecerán los jugadores colaboradores cuando haya datos reales.',
+                        'initials' => 'JG',
+                        'badgeClass' => 'from-brand-950 via-slate-900 to-brand-800',
+                    ],
+                ],
+            ),
+            'mode' => 'logos',
+            'direction' => 'left',
+            'speed' => 50,
+            'gap' => 1.1,
+            'fadeColor' => '#f8fafc',
+            'imageFit' => 'cover',
+        ],
+    ];
+
+    $clubsSectionVisible = $project->show_proposed_clubs_section;
+    $refereesSectionVisible = $project->show_proposed_referees_section;
+    $coachesSectionVisible = $project->show_proposed_coaches_section;
+    $playersSectionVisible = $project->show_proposed_players_section;
+
+    $buildProposedItems = function ($catalogItems, int $minimum) use ($makeInitials): array {
+        $items = $catalogItems
+            ->filter(function ($catalogItem): bool {
+                return (bool) $catalogItem->show_as_proposed_for_assembly;
+            })
+            ->map(function ($catalogItem) use ($makeInitials): array {
+                return [
+                    'name' => $catalogItem->name,
+                    'title' => filled($catalogItem->description) ? $catalogItem->description : 'Pendiente de completar',
+                    'description' => null,
+                    'initials' => $makeInitials($catalogItem->name),
+                ];
+            })
+            ->values();
+
+        while ($items->count() < $minimum) {
+            $items->push([
+                'name' => 'Aún por definir',
+                'title' => 'Pendiente de completar',
+                'description' => null,
+                'initials' => 'AD',
+            ]);
+        }
+
+        return $items->take($minimum)->all();
+    };
+
+    $clubProposalCatalog = Club::query()->orderBy('sort')->orderBy('id')->get();
+    $refereeProposalCatalog = Referee::query()->orderBy('sort')->orderBy('id')->get();
+    $coachProposalCatalog = Coach::query()->orderBy('sort')->orderBy('id')->get();
+    $playerProposalCatalog = Player::query()->orderBy('sort')->orderBy('id')->get();
+
+    $proposedSections = [
+        [
+            'title' => 'Clubes propuestos para la asamblea',
+            'items' => $clubsSectionVisible ? $buildProposedItems($clubProposalCatalog, 31) : [],
+            'visible' => $clubsSectionVisible,
+        ],
+        [
+            'title' => 'Árbitros propuestos para la asamblea',
+            'items' => $refereesSectionVisible ? $buildProposedItems($refereeProposalCatalog, 3) : [],
+            'visible' => $refereesSectionVisible,
+        ],
+        [
+            'title' => 'Entrenadores propuestos para la asamblea',
+            'items' => $coachesSectionVisible ? $buildProposedItems($coachProposalCatalog, 8) : [],
+            'visible' => $coachesSectionVisible,
+        ],
+        [
+            'title' => 'Jugadores propuestos para la asamblea',
+            'items' => $playersSectionVisible ? $buildProposedItems($playerProposalCatalog, 15) : [],
+            'visible' => $playersSectionVisible,
+        ],
+    ];
+
+    return view('proyecto', [
+        'projectLeader' => $projectLeader,
+        'projectSupporters' => $projectSupporters,
+        'supportSections' => $supportSections,
+        'proposedSections' => $proposedSections,
+    ]);
 
     $makeInitials = function (string $value): string {
         return Str::of($value)
@@ -531,6 +815,7 @@ Route::get('/proyecto', function () {
         ];
     };
 
+    $clubsSectionVisible = $project instanceof Project ? $project->show_proposed_clubs_section : true;
     $refereesSectionVisible = $project instanceof Project ? $project->show_proposed_referees_section : true;
     $coachesSectionVisible = $project instanceof Project ? $project->show_proposed_coaches_section : true;
     $playersSectionVisible = $project instanceof Project ? $project->show_proposed_players_section : true;
@@ -564,6 +849,11 @@ Route::get('/proyecto', function () {
 
     $proposedSections = [
         [
+            'title' => 'Clubes propuestos para la asamblea',
+            'items' => $clubsSectionVisible ? $mapProposedPeople(ProjectProposedPersonType::Club, $project->proposed_clubs_minimum_count) : [],
+            'visible' => $clubsSectionVisible,
+        ],
+        [
             'title' => 'Árbitros propuestos para la asamblea',
             'items' => $refereesSectionVisible ? $mapProposedPeople(ProjectProposedPersonType::Referee, $project->proposed_referees_minimum_count) : [],
             'visible' => $refereesSectionVisible,
@@ -577,6 +867,176 @@ Route::get('/proyecto', function () {
             'title' => 'Jugadores propuestos para la asamblea',
             'items' => $playersSectionVisible ? $mapProposedPeople(ProjectProposedPersonType::Player, $project->proposed_players_minimum_count) : [],
             'visible' => $playersSectionVisible,
+        ],
+    ];
+
+    $clubCatalogSupporters = Club::query()
+        ->where('show_as_collaborator', true)
+        ->orderBy('sort')
+        ->orderBy('id')
+        ->get();
+
+    $refereeCatalogSupporters = Referee::query()
+        ->where('show_as_collaborator', true)
+        ->orderBy('sort')
+        ->orderBy('id')
+        ->get();
+
+    $coachCatalogSupporters = Coach::query()
+        ->where('show_as_collaborator', true)
+        ->orderBy('sort')
+        ->orderBy('id')
+        ->get();
+
+    $playerCatalogSupporters = Player::query()
+        ->where('show_as_collaborator', true)
+        ->orderBy('sort')
+        ->orderBy('id')
+        ->get();
+
+    $catalogSupporterItem = function ($catalogItem, string $label, string $badgeClass) use ($makeInitials): array {
+        return [
+            'name' => $catalogItem->name,
+            'label' => $label,
+            'description' => $catalogItem->description,
+            'image' => ! empty($catalogItem->logo_path) ? asset('storage/'.$catalogItem->logo_path) : null,
+            'shield' => null,
+            'initials' => $makeInitials($catalogItem->name),
+            'badgeClass' => $badgeClass,
+        ];
+    };
+
+    $catalogProposalItem = function ($catalogItem) use ($makeInitials): array {
+        return [
+            'name' => $catalogItem->name,
+            'title' => filled($catalogItem->description) ? $catalogItem->description : 'Pendiente de completar',
+            'description' => null,
+            'initials' => $makeInitials($catalogItem->name),
+        ];
+    };
+
+    $makeFixedProposalItems = function ($catalogItems, int $minimum) use ($catalogProposalItem): array {
+        $items = $catalogItems
+            ->filter(fn ($catalogItem): bool => (bool) $catalogItem->show_as_proposed_for_assembly)
+            ->sortBy('sort')
+            ->sortBy('id')
+            ->take($minimum)
+            ->map($catalogProposalItem)
+            ->values();
+
+        while ($items->count() < $minimum) {
+            $items->push([
+                'name' => 'Aún por definir',
+                'title' => 'Pendiente de completar',
+                'description' => null,
+                'initials' => 'AD',
+            ]);
+        }
+
+        return $items->all();
+    };
+
+    $projectSupporters = [
+        [
+            'name' => 'Contenido en construcción',
+            'role' => 'Liderazgo',
+            'description' => 'Mostraremos aquí la persona que impulsa el proyecto cuando esté publicada en la base de datos.',
+            'initials' => 'PV',
+        ],
+        [
+            'name' => 'Apoyos por confirmar',
+            'role' => 'Clubes',
+            'description' => 'Este bloque se completará con clubes reales en cuanto haya registros disponibles.',
+            'initials' => 'CL',
+        ],
+        [
+            'name' => 'Apoyo arbitral',
+            'role' => 'Árbitros',
+            'description' => 'Aquí aparecerán los árbitros colaboradores cuando se publiquen sus datos.',
+            'initials' => 'AR',
+        ],
+    ];
+
+    $supportSections = [
+        [
+            'eyebrow' => 'Apoyos',
+            'title' => 'Clubes colaboradores',
+            'description' => 'Clubes que respaldan la iniciativa y se muestran con un carrusel continuo de logos.',
+            'items' => $clubCatalogSupporters->isNotEmpty()
+                ? $clubCatalogSupporters->map(fn ($catalogItem): array => $catalogSupporterItem($catalogItem, 'Club colaborador', 'from-brand-950 via-brand-800 to-slate-950'))->all()
+                : [],
+            'mode' => 'logos',
+            'direction' => 'right',
+            'speed' => 50,
+            'gap' => 1.1,
+            'fadeColor' => '#f8fafc',
+        ],
+        [
+            'eyebrow' => 'Apoyos',
+            'title' => 'Árbitros colaboradores',
+            'description' => 'Árbitros que suman criterio y experiencia con el mismo formato visual que los clubes.',
+            'items' => $refereeCatalogSupporters->isNotEmpty()
+                ? $refereeCatalogSupporters->map(fn ($catalogItem): array => $catalogSupporterItem($catalogItem, 'Árbitro colaborador', 'from-brand-950 via-brand-800 to-slate-900'))->all()
+                : [],
+            'mode' => 'logos',
+            'direction' => 'left',
+            'speed' => 50,
+            'gap' => 1.1,
+            'fadeColor' => '#f8fafc',
+            'imageFit' => 'cover',
+            'autofillMultiplier' => 2.4,
+        ],
+        [
+            'eyebrow' => 'Apoyos',
+            'title' => 'Entrenadores colaboradores',
+            'description' => 'Entrenadores que aportan experiencia técnica y acompañan el proyecto.',
+            'items' => $coachCatalogSupporters->isNotEmpty()
+                ? $coachCatalogSupporters->map(fn ($catalogItem): array => $catalogSupporterItem($catalogItem, 'Entrenador colaborador', 'from-slate-950 via-brand-900 to-brand-700'))->all()
+                : [],
+            'mode' => 'logos',
+            'direction' => 'right',
+            'speed' => 50,
+            'gap' => 1.1,
+            'fadeColor' => '#f8fafc',
+            'imageFit' => 'cover',
+            'autofillMultiplier' => 2.4,
+        ],
+        [
+            'eyebrow' => 'Apoyos',
+            'title' => 'Jugadores colaboradores',
+            'description' => 'Jugadores que refuerzan la iniciativa desde la pista y la comunidad.',
+            'items' => $playerCatalogSupporters->isNotEmpty()
+                ? $playerCatalogSupporters->map(fn ($catalogItem): array => $catalogSupporterItem($catalogItem, 'Jugador colaborador', 'from-accent-900 via-accent-700 to-brand-950'))->all()
+                : [],
+            'mode' => 'logos',
+            'direction' => 'left',
+            'speed' => 50,
+            'gap' => 1.1,
+            'fadeColor' => '#f8fafc',
+            'imageFit' => 'cover',
+        ],
+    ];
+
+    $proposedSections = [
+        [
+            'title' => 'Clubes propuestos para la asamblea',
+            'items' => $makeFixedProposalItems($clubCatalogSupporters, 31),
+            'visible' => true,
+        ],
+        [
+            'title' => 'Árbitros propuestos para la asamblea',
+            'items' => $makeFixedProposalItems($refereeCatalogSupporters, 3),
+            'visible' => true,
+        ],
+        [
+            'title' => 'Entrenadores propuestos para la asamblea',
+            'items' => $makeFixedProposalItems($coachCatalogSupporters, 8),
+            'visible' => true,
+        ],
+        [
+            'title' => 'Jugadores propuestos para la asamblea',
+            'items' => $makeFixedProposalItems($playerCatalogSupporters, 15),
+            'visible' => true,
         ],
     ];
 
@@ -746,4 +1206,3 @@ Route::post('/participa', [ParticipationController::class, 'store'])->name('part
 Route::view('/aviso-legal', 'legal.aviso-legal')->name('legal.aviso-legal');
 Route::view('/politica-de-privacidad', 'legal.politica-de-privacidad')->name('legal.politica-de-privacidad');
 Route::view('/politica-de-cookies', 'legal.politica-de-cookies')->name('legal.politica-de-cookies');
-

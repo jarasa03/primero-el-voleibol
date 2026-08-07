@@ -4,6 +4,7 @@ namespace App\Enums;
 
 enum ProjectProposedPersonType: string
 {
+    case Club = 'club';
     case Referee = 'referee';
     case Coach = 'coach';
     case Player = 'player';
@@ -11,6 +12,7 @@ enum ProjectProposedPersonType: string
     public function label(): string
     {
         return match ($this) {
+            self::Club => 'Club',
             self::Referee => 'Árbitro',
             self::Coach => 'Entrenador',
             self::Player => 'Jugador',
@@ -20,6 +22,7 @@ enum ProjectProposedPersonType: string
     public function pluralLabel(): string
     {
         return match ($this) {
+            self::Club => 'Clubes',
             self::Referee => 'Árbitros',
             self::Coach => 'Entrenadores',
             self::Player => 'Jugadores',
@@ -29,6 +32,7 @@ enum ProjectProposedPersonType: string
     public function sectionLabel(): string
     {
         return match ($this) {
+            self::Club => 'Clubes propuestos',
             self::Referee => 'Árbitros propuestos',
             self::Coach => 'Entrenadores propuestos',
             self::Player => 'Jugadores propuestos',
