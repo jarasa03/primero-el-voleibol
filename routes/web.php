@@ -21,20 +21,11 @@ Route::view('/', 'home')->name('home');
 Route::get('/proyecto', function () {
     $hasSupporterTypeColumn = Schema::hasColumn('project_club_supporters', 'supporter_type');
 
-    $project = Project::query()
-        ->with([
-            'images' => fn ($query) => $query->orderBy('sort')->orderBy('id'),
-            'supporters' => fn ($query) => $query->with('club')->orderBy('sort')->orderBy('id'),
-            'proposedPeople' => fn ($query) => $query->orderBy('sort')->orderBy('id'),
-        ])
-        ->latest('id')
-        ->first();
-
-    if (! $project instanceof Project) {
-        $project = Project::ensureSingleton()->load([
-            'images' => fn ($query) => $query->orderBy('sort')->orderBy('id'),
-        ]);
-    }
+    $project = Project::ensureSingleton()->load([
+        'images' => fn ($query) => $query->orderBy('sort')->orderBy('id'),
+        'supporters' => fn ($query) => $query->with('club')->orderBy('sort')->orderBy('id'),
+        'proposedPeople' => fn ($query) => $query->with('club')->orderBy('sort')->orderBy('id'),
+    ]);
 
     $makeInitials = function (string $value): string {
         return Str::of($value)
@@ -107,17 +98,18 @@ Route::get('/proyecto', function () {
         ],
     ];
 
-    $buildCatalogSupporters = function ($catalogItems, string $label, string $badgeClass, array $fallback) use ($makeInitials): array {
+    $buildCatalogSupporters = function ($catalogItems, string $label, string $badgeClass, array $fallback, ?Closure $shieldResolver = null) use ($makeInitials): array {
         if ($catalogItems->isEmpty()) {
             return $fallback;
         }
 
-        return $catalogItems->map(function ($catalogItem) use ($label, $badgeClass, $makeInitials): array {
+        return $catalogItems->map(function ($catalogItem) use ($label, $badgeClass, $makeInitials, $shieldResolver): array {
             return [
                 'name' => $catalogItem->name,
                 'label' => $label,
                 'description' => $catalogItem->description,
                 'image' => ! empty($catalogItem->logo_path) ? asset('storage/'.$catalogItem->logo_path) : null,
+                'shield' => $shieldResolver instanceof Closure ? $shieldResolver($catalogItem) : null,
                 'initials' => $makeInitials($catalogItem->name),
                 'badgeClass' => $badgeClass,
             ];
@@ -138,12 +130,14 @@ Route::get('/proyecto', function () {
 
     $coachCatalogSupporters = Coach::query()
         ->where('show_as_collaborator', true)
+        ->with('club')
         ->orderBy('sort')
         ->orderBy('id')
         ->get();
 
     $playerCatalogSupporters = Player::query()
         ->where('show_as_collaborator', true)
+        ->with('club')
         ->orderBy('sort')
         ->orderBy('id')
         ->get();
@@ -216,6 +210,9 @@ Route::get('/proyecto', function () {
                         'badgeClass' => 'from-slate-950 via-brand-900 to-brand-700',
                     ],
                 ],
+                fn ($catalogItem): ?string => $catalogItem->club instanceof Club && filled($catalogItem->club->logo_path)
+                    ? asset('storage/'.$catalogItem->club->logo_path)
+                    : null,
             ),
             'mode' => 'logos',
             'direction' => 'right',
@@ -242,6 +239,9 @@ Route::get('/proyecto', function () {
                         'badgeClass' => 'from-brand-950 via-slate-900 to-brand-800',
                     ],
                 ],
+                fn ($catalogItem): ?string => $catalogItem->club instanceof Club && filled($catalogItem->club->logo_path)
+                    ? asset('storage/'.$catalogItem->club->logo_path)
+                    : null,
             ),
             'mode' => 'logos',
             'direction' => 'left',
@@ -257,16 +257,18 @@ Route::get('/proyecto', function () {
     $coachesSectionVisible = $project->show_proposed_coaches_section;
     $playersSectionVisible = $project->show_proposed_players_section;
 
-    $buildProposedItems = function ($catalogItems, int $minimum) use ($makeInitials): array {
+    $buildProposedItems = function ($catalogItems, int $minimum, ?Closure $shieldResolver = null) use ($makeInitials): array {
         $items = $catalogItems
             ->filter(function ($catalogItem): bool {
                 return (bool) $catalogItem->show_as_proposed_for_assembly;
             })
-            ->map(function ($catalogItem) use ($makeInitials): array {
+            ->map(function ($catalogItem) use ($makeInitials, $shieldResolver): array {
                 return [
                     'name' => $catalogItem->name,
                     'title' => filled($catalogItem->description) ? $catalogItem->description : 'Pendiente de completar',
                     'description' => null,
+                    'image' => ! empty($catalogItem->logo_path) ? asset('storage/'.$catalogItem->logo_path) : null,
+                    'shield' => $shieldResolver instanceof Closure ? $shieldResolver($catalogItem) : null,
                     'initials' => $makeInitials($catalogItem->name),
                 ];
             })
@@ -286,8 +288,8 @@ Route::get('/proyecto', function () {
 
     $clubProposalCatalog = Club::query()->orderBy('sort')->orderBy('id')->get();
     $refereeProposalCatalog = Referee::query()->orderBy('sort')->orderBy('id')->get();
-    $coachProposalCatalog = Coach::query()->orderBy('sort')->orderBy('id')->get();
-    $playerProposalCatalog = Player::query()->orderBy('sort')->orderBy('id')->get();
+    $coachProposalCatalog = Coach::query()->with('club')->orderBy('sort')->orderBy('id')->get();
+    $playerProposalCatalog = Player::query()->with('club')->orderBy('sort')->orderBy('id')->get();
 
     $proposedSections = [
         [
@@ -302,12 +304,16 @@ Route::get('/proyecto', function () {
         ],
         [
             'title' => 'Entrenadores propuestos para la asamblea',
-            'items' => $coachesSectionVisible ? $buildProposedItems($coachProposalCatalog, 8) : [],
+            'items' => $coachesSectionVisible ? $buildProposedItems($coachProposalCatalog, 8, fn ($catalogItem): ?string => $catalogItem->club instanceof Club && filled($catalogItem->club->logo_path)
+                ? asset('storage/'.$catalogItem->club->logo_path)
+                : null) : [],
             'visible' => $coachesSectionVisible,
         ],
         [
             'title' => 'Jugadores propuestos para la asamblea',
-            'items' => $playersSectionVisible ? $buildProposedItems($playerProposalCatalog, 15) : [],
+            'items' => $playersSectionVisible ? $buildProposedItems($playerProposalCatalog, 15, fn ($catalogItem): ?string => $catalogItem->club instanceof Club && filled($catalogItem->club->logo_path)
+                ? asset('storage/'.$catalogItem->club->logo_path)
+                : null) : [],
             'visible' => $playersSectionVisible,
         ],
     ];
@@ -829,13 +835,18 @@ Route::get('/proyecto', function () {
             return $proposedType === $type;
         });
 
-        $items = $proposedPeople->map(function (ProjectProposedPerson $proposedPerson) use ($makePlaceholderProposedPerson): array {
+        $items = $proposedPeople->map(function (ProjectProposedPerson $proposedPerson) use ($type, $makePlaceholderProposedPerson): array {
             $placeholder = $makePlaceholderProposedPerson();
+            $hasClubBadge = in_array($type, [ProjectProposedPersonType::Coach, ProjectProposedPersonType::Player], true)
+                && $proposedPerson->club instanceof Club
+                && filled($proposedPerson->club->logo_path);
 
             return [
                 'name' => filled($proposedPerson->name) ? $proposedPerson->name : $placeholder['name'],
                 'title' => filled($proposedPerson->title) ? $proposedPerson->title : $placeholder['title'],
                 'description' => filled($proposedPerson->description) ? $proposedPerson->description : $placeholder['description'],
+                'image' => filled($proposedPerson->logo_path) ? asset('storage/'.$proposedPerson->logo_path) : null,
+                'shield' => $hasClubBadge ? asset('storage/'.$proposedPerson->club->logo_path) : null,
                 'initials' => filled($proposedPerson->initials) ? $proposedPerson->initials : $placeholder['initials'],
             ];
         })->values();
@@ -911,6 +922,7 @@ Route::get('/proyecto', function () {
             'name' => $catalogItem->name,
             'title' => filled($catalogItem->description) ? $catalogItem->description : 'Pendiente de completar',
             'description' => null,
+            'image' => ! empty($catalogItem->logo_path) ? asset('storage/'.$catalogItem->logo_path) : null,
             'initials' => $makeInitials($catalogItem->name),
         ];
     };

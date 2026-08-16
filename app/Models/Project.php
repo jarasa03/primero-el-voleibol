@@ -56,7 +56,7 @@ class Project extends Model
 
     public static function ensureSingleton(): self
     {
-        $project = static::query()->first();
+        $project = static::query()->latest('id')->first();
 
         if ($project instanceof self) {
             return $project;

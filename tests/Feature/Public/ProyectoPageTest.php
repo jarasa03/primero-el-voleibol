@@ -68,7 +68,22 @@ it('hides the leadership section when disabled', function (): void {
     $response = $this->get(route('proyecto'));
 
     $response->assertOk();
-    expect($response->getContent())->not->toContain('¿');
+    expect($response->getContent())->not->toContain('Quién lidera el proyecto');
+});
+
+it('uses the latest project record for the public page', function (): void {
+    Project::factory()->create([
+        'show_leader_section' => true,
+    ]);
+
+    Project::factory()->create([
+        'show_leader_section' => false,
+    ]);
+
+    $response = $this->get(route('proyecto'));
+
+    $response->assertOk();
+    expect($response->getContent())->not->toContain('Quién lidera el proyecto');
 });
 
 it('pads proposed sections up to the configured fixed counts', function (): void {

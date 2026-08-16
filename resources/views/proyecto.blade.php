@@ -171,77 +171,87 @@
                     @if ($section['visible'])
                         @php($isSliderSection = in_array($section['title'], ['Clubes propuestos para la asamblea', 'Jugadores propuestos para la asamblea'], true))
                         @php($isClubSliderSection = $section['title'] === 'Clubes propuestos para la asamblea')
+                        @php($isCoachGridSection = $section['title'] === 'Entrenadores propuestos para la asamblea')
+                        @php($isCoachProposedSection = $section['title'] === 'Entrenadores propuestos para la asamblea')
 
                         <div>
                             <h2 class="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
                                 {{ $section["title"] }}
                             </h2>
 
-                            <div @class([
-                                'mt-6',
-                                'flex gap-5 overflow-x-auto pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden' => $isSliderSection,
-                                'grid gap-6 lg:grid-cols-3' => ! $isSliderSection,
-                            ])>
-                                @foreach ($section["items"] as $person)
-                                    <article @class([
-                                        'overflow-hidden rounded-[1.9rem] border border-slate-200 bg-slate-50 shadow-[0_10px_30px_rgba(15,23,42,0.05)]',
-                                        'min-w-[14rem] snap-start sm:min-w-[15rem] lg:min-w-[16rem]' => $isClubSliderSection,
-                                        'min-w-[18rem] snap-start sm:min-w-[20rem] lg:min-w-[22rem]' => $isSliderSection && ! $isClubSliderSection,
-                                    ])>
-                                        <div @class([
-                                            'relative bg-gradient-to-br from-brand-950 via-slate-900 to-slate-800',
-                                            'aspect-[3/4]' => $isClubSliderSection,
-                                            'aspect-[4/5]' => ! $isClubSliderSection,
+                            <div class="mt-6 overflow-visible">
+                                <div @class([
+                                    'flex gap-5 overflow-x-auto pb-8 pt-4 lg:pb-10 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden' => $isSliderSection,
+                                    'grid gap-6 lg:grid-cols-4' => $isCoachGridSection,
+                                    'grid gap-6 lg:grid-cols-3' => ! $isSliderSection && ! $isCoachGridSection,
+                                ])>
+                                    @foreach ($section["items"] as $person)
+                                        <article @class([
+                                            'overflow-hidden rounded-[1.9rem] border border-slate-200 bg-slate-50 shadow-[0_10px_30px_rgba(15,23,42,0.05)]',
+                                            'min-w-[18rem] snap-start sm:min-w-[20rem] lg:min-w-[22rem]' => $isSliderSection,
                                         ])>
-                                            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(251,191,36,0.22),transparent_40%)]"></div>
-                                            <div @class([
-                                                'absolute inset-0 grid place-items-center',
-                                                'p-4' => $isClubSliderSection,
-                                                'p-6' => ! $isClubSliderSection,
-                                            ])>
-                                                <div @class([
-                                                    'grid place-items-center rounded-[2rem] border border-white/10 bg-white/10 font-semibold tracking-[0.24em] text-white backdrop-blur-sm',
-                                                    'size-20 text-xl' => $isClubSliderSection,
-                                                    'size-28 text-3xl' => ! $isClubSliderSection,
-                                                ])>
-                                                    {{ $person["initials"] }}
-                                                </div>
+                                            <div class="relative aspect-[4/5] bg-gradient-to-br from-brand-950 via-slate-900 to-slate-800">
+                                                @php($shield = $person['shield'] ?? null)
+                                                @if (! empty($person['image']))
+                                                    <img
+                                                        src="{{ $person['image'] }}"
+                                                        alt=""
+                                                        class="absolute inset-0 h-full w-full object-cover"
+                                                        loading="lazy"
+                                                        aria-hidden="true"
+                                                    >
+                                                @else
+                                                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(251,191,36,0.22),transparent_40%)]"></div>
+                                                @endif
+                                                @if (empty($person['image']))
+                                                    <div @class([
+                                                        'absolute inset-0 grid place-items-center',
+                                                        'p-6',
+                                                    ])>
+                                                        <div @class([
+                                                            'grid place-items-center rounded-[2rem] border border-white/10 bg-white/10 font-semibold tracking-[0.24em] text-white backdrop-blur-sm',
+                                                            'size-28 text-3xl',
+                                                        ])>
+                                                            {{ $person["initials"] }}
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                @if (! empty($shield))
+                                                    <div @class([
+                                                        'absolute z-10',
+                                                        'bottom-4 right-4 size-12' => ! $isCoachProposedSection,
+                                                        'bottom-5 right-5 size-14' => $isCoachProposedSection,
+                                                    ])>
+                                                        <img
+                                                            src="{{ $shield }}"
+                                                            alt=""
+                                                            class="h-full w-full object-contain drop-shadow-[0_6px_12px_rgba(15,23,42,0.28)]"
+                                                            aria-hidden="true"
+                                                            loading="lazy"
+                                                        >
+                                                    </div>
+                                                @endif
                                             </div>
-                                        </div>
 
-                                        <div @class([
-                                            'p-4' => $isClubSliderSection,
-                                            'p-6' => ! $isClubSliderSection,
-                                        ])>
-                                            <p class="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">
-                                                Propuesto para la asamblea
-                                            </p>
-                                            <h3 @class([
-                                                'mt-3 font-semibold tracking-tight text-slate-950',
-                                                'text-base sm:text-lg' => $isClubSliderSection,
-                                                'text-xl' => ! $isClubSliderSection,
-                                            ])>
-                                                {{ $person["name"] }}
-                                            </h3>
-                                            <p @class([
-                                                'mt-2 font-medium text-slate-600',
-                                                'text-xs sm:text-sm' => $isClubSliderSection,
-                                                'text-sm' => ! $isClubSliderSection,
-                                            ])>
-                                                {{ $person["title"] }}
-                                            </p>
-                                            @if (! empty($person["description"]))
-                                                <p @class([
-                                                    'mt-4 leading-7 text-slate-600',
-                                                    'text-xs sm:text-sm' => $isClubSliderSection,
-                                                    'text-sm' => ! $isClubSliderSection,
-                                                ])>
-                                                    {{ $person["description"] }}
+                                            <div class="p-6">
+                                                <p class="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">
+                                                    Propuesto para la asamblea
                                                 </p>
-                                            @endif
-                                        </div>
-                                    </article>
-                                @endforeach
+                                                <h3 class="mt-3 text-xl font-semibold tracking-tight text-slate-950">
+                                                    {{ $person["name"] }}
+                                                </h3>
+                                                <p class="mt-2 text-sm font-medium text-slate-600">
+                                                    {{ $person["title"] }}
+                                                </p>
+                                                @if (! empty($person["description"]))
+                                                    <p class="mt-4 text-sm leading-7 text-slate-600">
+                                                        {{ $person["description"] }}
+                                                    </p>
+                                                @endif
+                                            </div>
+                                        </article>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     @endif

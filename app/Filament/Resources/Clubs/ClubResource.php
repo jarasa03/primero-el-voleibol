@@ -47,7 +47,6 @@ class ClubResource extends Resource
                     ->label('Logotipo')
                     ->image()
                     ->imageEditor()
-                    ->required()
                     ->disk('public')
                     ->directory('clubs')
                     ->visibility('public')

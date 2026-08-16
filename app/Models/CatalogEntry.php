@@ -16,6 +16,7 @@ abstract class CatalogEntry extends Model
         'name',
         'description',
         'logo_path',
+        'club_id',
         'show_as_collaborator',
         'show_as_proposed_for_assembly',
         'sort',
@@ -33,6 +34,10 @@ abstract class CatalogEntry extends Model
     protected static function booted(): void
     {
         static::saving(function (self $catalogEntry): void {
+            if ($catalogEntry->logo_path === null) {
+                $catalogEntry->logo_path = '';
+            }
+
             if (! $catalogEntry->isDirty('logo_path')) {
                 return;
             }
@@ -50,7 +55,7 @@ abstract class CatalogEntry extends Model
         });
 
         static::deleted(function (self $catalogEntry): void {
-            if ($catalogEntry->logo_path === '') {
+            if (empty($catalogEntry->logo_path)) {
                 return;
             }
 

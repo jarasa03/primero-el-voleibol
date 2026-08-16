@@ -26,6 +26,7 @@ class ProjectProposedPersonFactory extends Factory
             'title' => fake()->jobTitle(),
             'description' => fake()->sentence(),
             'initials' => strtoupper(fake()->lexify('??')),
+            'logo_path' => 'project/proposed-people/'.fake()->uuid().'.png',
             'sort' => fake()->numberBetween(0, 10),
         ];
     }

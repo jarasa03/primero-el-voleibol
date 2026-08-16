@@ -6,11 +6,14 @@ use App\Enums\ProjectProposedPersonType;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -39,6 +42,22 @@ abstract class AbstractProjectProposedPeopleRelationManager extends RelationMana
             ->components([
                 Hidden::make('proposed_type')
                     ->default(static::proposedType()->value),
+                FileUpload::make('logo_path')
+                    ->label('Foto')
+                    ->image()
+                    ->imageEditor()
+                    ->disk('public')
+                    ->directory('project/proposed-people')
+                    ->visibility('public')
+                    ->columnSpanFull(),
+                Select::make('club_id')
+                    ->label('Club')
+                    ->relationship('club', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->helperText('Selecciona el club para reutilizar su logo en la esquina inferior derecha.')
+                    ->hidden(fn (): bool => ! in_array(static::proposedType(), [ProjectProposedPersonType::Coach, ProjectProposedPersonType::Player], true))
+                    ->columnSpanFull(),
                 TextInput::make('initials')
                     ->label('Iniciales')
                     ->maxLength(10)
@@ -67,6 +86,14 @@ abstract class AbstractProjectProposedPeopleRelationManager extends RelationMana
                 return $query->where('proposed_type', static::proposedType()->value);
             })
             ->columns([
+                ImageColumn::make('logo_path')
+                    ->label('Foto')
+                    ->disk('public')
+                    ->square(),
+                TextColumn::make('club.name')
+                    ->label('Club')
+                    ->placeholder('—')
+                    ->toggleable(),
                 TextColumn::make('initials')
                     ->label('Iniciales')
                     ->placeholder('Pendiente')

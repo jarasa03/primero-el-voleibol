@@ -47,7 +47,6 @@ class RefereeResource extends Resource
                     ->label('Logotipo')
                     ->image()
                     ->imageEditor()
-                    ->required()
                     ->disk('public')
                     ->directory('referees')
                     ->visibility('public')

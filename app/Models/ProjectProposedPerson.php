@@ -19,6 +19,8 @@ class ProjectProposedPerson extends Model
         'title',
         'description',
         'initials',
+        'logo_path',
+        'club_id',
         'sort',
     ];
 
@@ -57,5 +59,10 @@ class ProjectProposedPerson extends Model
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function club(): BelongsTo
+    {
+        return $this->belongsTo(Club::class);
     }
 }

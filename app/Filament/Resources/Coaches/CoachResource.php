@@ -8,6 +8,7 @@ use App\Filament\Resources\Coaches\Pages\ListCoaches;
 use App\Models\Coach;
 use BackedEnum;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -47,7 +48,6 @@ class CoachResource extends Resource
                     ->label('Logotipo')
                     ->image()
                     ->imageEditor()
-                    ->required()
                     ->disk('public')
                     ->directory('coaches')
                     ->visibility('public')
@@ -61,6 +61,12 @@ class CoachResource extends Resource
                     ->label('Descripción')
                     ->rows(4)
                     ->columnSpanFull(),
+                Select::make('club_id')
+                    ->label('Club')
+                    ->relationship('club', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->helperText('Selecciona el club para reutilizar su logo en la esquina inferior derecha.'),
                 Toggle::make('show_as_collaborator')
                     ->label('Mostrar como entrenador colaborador')
                     ->helperText('Si está activado, este entrenador aparecerá en el carrusel público de entrenadores colaboradores.')

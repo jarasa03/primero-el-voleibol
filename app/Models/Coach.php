@@ -2,4 +2,12 @@
 
 namespace App\Models;
 
-class Coach extends CatalogEntry {}
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Coach extends CatalogEntry
+{
+    public function club(): BelongsTo
+    {
+        return $this->belongsTo(Club::class);
+    }
+}
