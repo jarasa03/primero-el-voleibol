@@ -17,7 +17,8 @@ it('renders collaborator submission triggers on the project page', function (): 
     $response->assertSee('Nombre del club');
     $response->assertSee('Nivel de voleibol');
     $response->assertSee('Nivel de voleyplaya');
-    $response->assertSee('Nivel de entrenador');
+    $response->assertSee('Nivel de voleibol');
+    $response->assertSee('Nivel de voleyplaya');
     $response->assertSee('División en la que juegas');
     $response->assertSee('Equipo en el que juegas');
     $response->assertSee('Email de contacto');
