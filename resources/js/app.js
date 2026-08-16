@@ -441,6 +441,274 @@ const setupLeaderPhotoCarousels = () => {
     });
 };
 
+const setupScrollToTopButton = () => {
+    const button = document.querySelector('[data-scroll-to-top]');
+
+    if (!(button instanceof HTMLButtonElement)) {
+        return;
+    }
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const showThreshold = 300;
+    let isVisible = false;
+
+    const setButtonVisibility = () => {
+        const shouldShow = window.scrollY > showThreshold;
+
+        if (shouldShow === isVisible) {
+            return;
+        }
+
+        isVisible = shouldShow;
+        button.classList.toggle('opacity-100', shouldShow);
+        button.classList.toggle('translate-y-0', shouldShow);
+        button.classList.toggle('scale-100', shouldShow);
+        button.classList.toggle('pointer-events-auto', shouldShow);
+        button.classList.toggle('opacity-0', ! shouldShow);
+        button.classList.toggle('translate-y-4', ! shouldShow);
+        button.classList.toggle('scale-95', ! shouldShow);
+        button.classList.toggle('pointer-events-none', ! shouldShow);
+        button.setAttribute('aria-hidden', shouldShow ? 'false' : 'true');
+        button.tabIndex = shouldShow ? 0 : -1;
+    };
+
+    button.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        });
+    });
+
+    setButtonVisibility();
+    window.addEventListener('scroll', setButtonVisibility, { passive: true });
+    window.addEventListener('resize', setButtonVisibility, { passive: true });
+};
+
+const setupProjectCollaboratorModal = () => {
+    const modal = document.querySelector('[data-collaborator-modal]');
+
+    if (!(modal instanceof HTMLElement)) {
+        return;
+    }
+
+    const openButtons = Array.from(document.querySelectorAll('[data-collaborator-modal-open]'));
+    const closeButtons = Array.from(modal.querySelectorAll('[data-collaborator-modal-close]'));
+    const typeInput = modal.querySelector('[data-collaborator-type-input]');
+    const nameInput = modal.querySelector('[data-collaborator-modal-name]');
+    const nameLabel = modal.querySelector('[data-collaborator-name-label]');
+    const photoLabel = modal.querySelector('[data-collaborator-photo-label]');
+    const photoHelp = modal.querySelector('[data-collaborator-photo-help]');
+    const sectionLabel = modal.querySelector('[data-collaborator-modal-section-label]');
+    const clubOnlyFields = Array.from(modal.querySelectorAll('[data-collaborator-club-only]'));
+    const clubRequiredFields = Array.from(modal.querySelectorAll('[data-collaborator-club-required]'));
+    const refereeOnlyFields = Array.from(modal.querySelectorAll('[data-collaborator-referee-only]'));
+    const refereeRequiredFields = Array.from(modal.querySelectorAll('[data-collaborator-referee-required]'));
+    const coachOnlyFields = Array.from(modal.querySelectorAll('[data-collaborator-coach-only]'));
+    const coachRequiredFields = Array.from(modal.querySelectorAll('[data-collaborator-coach-required]'));
+    const playerOnlyFields = Array.from(modal.querySelectorAll('[data-collaborator-player-only]'));
+    const playerRequiredFields = Array.from(modal.querySelectorAll('[data-collaborator-player-required]'));
+    const defaultType = modal.dataset.collaboratorModalDefaultType ?? 'club';
+    const openOnLoad = modal.dataset.collaboratorModalOpenOnLoad === 'true';
+    const typeLabels = {
+        club: {
+            section: 'Clubes colaboradores',
+            nameLabel: 'Nombre del club',
+            namePlaceholder: 'Nombre oficial del club',
+            photoLabel: 'Foto',
+            photoHelp: 'Sube el logo del club para que podamos preparar su ficha.',
+            intro: 'Cuéntame el nombre del club, la localidad y los datos de contacto para poder coordinar la publicación.',
+            showClubFields: true,
+            showRefereeFields: false,
+            showCoachFields: false,
+            showPlayerFields: false,
+        },
+        referee: {
+            section: 'Árbitros colaboradores',
+            nameLabel: 'Nombre completo',
+            namePlaceholder: 'Tu nombre y apellidos',
+            photoLabel: 'Foto',
+            photoHelp: 'Sube una foto clara para que podamos preparar tu ficha.',
+            intro: 'Cuéntame tu nombre completo y los niveles de voleibol o voleyplaya que tengas, además de los datos de contacto para poder revisar la colaboración.',
+            showClubFields: false,
+            showRefereeFields: true,
+            showCoachFields: false,
+            showPlayerFields: false,
+            refereeLevelLabel: 'Nivel arbitral',
+            refereeLevelPlaceholder: 'Nivel arbitral o categoría',
+            refereeContactEmailLabel: 'Email de contacto',
+            refereeContactEmailPlaceholder: 'correo@ejemplo.com',
+            refereeContactPhoneLabel: 'Número de teléfono de contacto',
+            refereeContactPhonePlaceholder: '600 000 000',
+            refereeLicenseText: 'Asumo que al enviar esto soy un árbitro federado con licencia en vigor.',
+        },
+        coach: {
+            section: 'Entrenadores colaboradores',
+            nameLabel: 'Nombre completo',
+            namePlaceholder: 'Tu nombre y apellidos',
+            photoLabel: 'Foto',
+            photoHelp: 'Sube una foto clara para que podamos preparar tu ficha.',
+            intro: 'Cuéntame tu nombre completo y si entrenas voleibol, voleyplaya o ambos, además del club principal y la forma en la que quieres aparecer en la ficha.',
+            showClubFields: false,
+            showRefereeFields: false,
+            showCoachFields: true,
+            showPlayerFields: false,
+        },
+        player: {
+            section: 'Jugadores colaboradores',
+            nameLabel: 'Nombre completo',
+            namePlaceholder: 'Tu nombre y apellidos',
+            photoLabel: 'Foto',
+            photoHelp: 'Sube una foto clara para que podamos preparar tu ficha.',
+            intro: 'Cuéntame tu nombre completo, tu división, el equipo en el que juegas y cómo quieres aparecer en la tarjeta.',
+            showClubFields: false,
+            showRefereeFields: false,
+            showCoachFields: false,
+            showPlayerFields: true,
+        },
+    };
+    let isOpen = false;
+
+    const applyType = (type) => {
+        const normalizedType = Object.prototype.hasOwnProperty.call(typeLabels, type) ? type : defaultType;
+        const typeCopy = typeLabels[normalizedType] ?? typeLabels.club;
+
+        if (typeInput instanceof HTMLInputElement || typeInput instanceof HTMLSelectElement) {
+            typeInput.value = normalizedType;
+        }
+
+        if (nameLabel instanceof HTMLElement) {
+            nameLabel.innerHTML = `${typeCopy.nameLabel} <span class="align-top text-rose-500">*</span>`;
+        }
+
+        if (nameInput instanceof HTMLInputElement) {
+            nameInput.placeholder = typeCopy.namePlaceholder;
+        }
+
+        if (photoLabel instanceof HTMLElement) {
+            photoLabel.innerHTML = `${typeCopy.photoLabel} <span class="align-top text-rose-500">*</span>`;
+        }
+
+        if (photoHelp instanceof HTMLElement) {
+            photoHelp.textContent = typeCopy.photoHelp;
+        }
+
+        clubOnlyFields.forEach((field) => {
+            field.classList.toggle('hidden', ! typeCopy.showClubFields);
+        });
+
+        clubRequiredFields.forEach((field) => {
+            if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement || field instanceof HTMLSelectElement) {
+                field.required = Boolean(typeCopy.showClubFields);
+            }
+        });
+
+        refereeOnlyFields.forEach((field) => {
+            field.classList.toggle('hidden', ! typeCopy.showRefereeFields);
+        });
+
+        refereeRequiredFields.forEach((field) => {
+            if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement || field instanceof HTMLSelectElement) {
+                field.required = Boolean(typeCopy.showRefereeFields);
+            }
+        });
+
+        coachOnlyFields.forEach((field) => {
+            field.classList.toggle('hidden', ! typeCopy.showCoachFields);
+        });
+
+        coachRequiredFields.forEach((field) => {
+            if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement || field instanceof HTMLSelectElement) {
+                field.required = Boolean(typeCopy.showCoachFields);
+            }
+        });
+
+        playerOnlyFields.forEach((field) => {
+            field.classList.toggle('hidden', ! typeCopy.showPlayerFields);
+        });
+
+        playerRequiredFields.forEach((field) => {
+            if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement || field instanceof HTMLSelectElement) {
+                field.required = Boolean(typeCopy.showPlayerFields);
+            }
+        });
+
+        if (sectionLabel instanceof HTMLElement) {
+            sectionLabel.textContent = `Dónde quieres salir: ${typeCopy.section}. ${typeCopy.intro}`;
+        }
+    };
+
+    const openModal = (type = defaultType) => {
+        applyType(type);
+        modal.hidden = false;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('overflow-hidden');
+        isOpen = true;
+
+        window.requestAnimationFrame(() => {
+            if (nameInput instanceof HTMLInputElement) {
+                nameInput.focus();
+            }
+        });
+    };
+
+    const closeModal = () => {
+        if (!isOpen && modal.hidden) {
+            return;
+        }
+
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        modal.setAttribute('aria-hidden', 'true');
+        modal.hidden = true;
+        document.body.classList.remove('overflow-hidden');
+        isOpen = false;
+    };
+
+    openButtons.forEach((button) => {
+        if (!(button instanceof HTMLButtonElement)) {
+            return;
+        }
+
+        button.addEventListener('click', () => {
+            openModal(button.dataset.collaboratorType ?? defaultType);
+        });
+    });
+
+    closeButtons.forEach((button) => {
+        if (!(button instanceof HTMLButtonElement)) {
+            return;
+        }
+
+        button.addEventListener('click', closeModal);
+    });
+
+    if (typeInput instanceof HTMLSelectElement) {
+        typeInput.addEventListener('change', () => {
+            applyType(typeInput.value);
+        });
+    }
+
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+
+    window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && ! modal.hidden) {
+            closeModal();
+        }
+    });
+
+    if (openOnLoad) {
+        openModal(modal.dataset.collaboratorModalDefaultType ?? defaultType);
+    } else {
+        closeModal();
+    }
+};
+
 const setupInfiniteMarquees = () => {
     document.querySelectorAll('[data-marquee-speed]').forEach((viewport) => {
         if (!(viewport instanceof HTMLElement)) {
@@ -567,6 +835,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setupBlogInfiniteScroll();
     setupParticipationForm();
     setupLeaderPhotoCarousels();
+    setupProjectCollaboratorModal();
+    setupScrollToTopButton();
     setupInfiniteMarquees();
 });
 

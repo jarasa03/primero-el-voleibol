@@ -217,7 +217,7 @@
     }
 
     body[data-nav-scrolled='true'] .site-header-band {
-        background-color: rgb(11 23 40 / 0.96);
+        background-color: rgb(15 23 42 / 1);
         backdrop-filter: blur(18px);
         box-shadow: 0 14px 40px rgba(11, 23, 40, 0.28);
         transition: background-color 500ms ease-in-out, box-shadow 500ms ease-in-out, backdrop-filter 500ms ease-in-out;
@@ -271,7 +271,7 @@
     }
     body[data-nav-scrolled='true'] .site-mobile-nav {
         border-color: rgb(30 41 59 / 0.9);
-        background-color: rgb(11 23 40 / 0.98);
+        background-color: rgb(15 23 42 / 1);
         box-shadow: 0 14px 40px rgba(11, 23, 40, 0.28);
     }
     body[data-nav-scrolled='true'] .site-mobile-nav .site-header-link {

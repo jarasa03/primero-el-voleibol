@@ -190,6 +190,22 @@
                         </div>
                     </div>
                 </footer>
+
+            <button
+                type="button"
+                class="scroll-to-top-button fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom))] right-4 z-40 inline-flex size-12 items-center justify-center rounded-full border border-brand-700/70 bg-brand-950 text-accent-300 shadow-lg shadow-brand-950/20 transition-all duration-300 ease-out opacity-0 translate-y-4 scale-95 pointer-events-none cursor-pointer md:right-6 md:size-14 md:hover:-translate-y-1 md:hover:bg-brand-900 md:hover:text-white md:hover:shadow-xl md:hover:shadow-brand-950/25 md:hover:cursor-pointer motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-300/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50"
+                aria-label="Subir al inicio de la página"
+                aria-hidden="true"
+                data-scroll-to-top
+                tabindex="-1"
+            >
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="size-6 md:size-7">
+                    <path d="M6.5 14.5C7.7 17.1 9.7 18.5 12 18.5c2.3 0 4.3-1.4 5.5-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M12 5.5v9" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/>
+                    <path d="m8.5 9 3.5-3.5L15.5 9" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="sr-only">Subir al inicio de la página</span>
+            </button>
             </div>
         </div>
     </body>

@@ -4,6 +4,7 @@ use App\Enums\ProjectProposedPersonType;
 use App\Enums\ProjectSupporterType;
 use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\ParticipationController;
+use App\Http\Controllers\ProjectCollaboratorSubmissionController;
 use App\Models\Club;
 use App\Models\Coach;
 use App\Models\Player;
@@ -1214,6 +1215,7 @@ Route::get('/blog/{blogPost:slug}', [BlogPostController::class, 'show'])->name('
 
 Route::get('/participa', [ParticipationController::class, 'show'])->name('participa');
 Route::post('/participa', [ParticipationController::class, 'store'])->name('participa.store');
+Route::post('/proyecto/colaboradores', [ProjectCollaboratorSubmissionController::class, 'store'])->name('proyecto.colaboradores.store');
 
 Route::view('/aviso-legal', 'legal.aviso-legal')->name('legal.aviso-legal');
 Route::view('/politica-de-privacidad', 'legal.politica-de-privacidad')->name('legal.politica-de-privacidad');
