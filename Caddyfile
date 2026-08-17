@@ -8,5 +8,15 @@
 
     encode zstd gzip
 
+    header X-Robots-Tag "noindex, nofollow, noarchive, nosnippet"
+
+    @protected {
+        not path /up
+    }
+
+    basic_auth @protected argon2id {
+        {$BASIC_AUTH_USER} {$BASIC_AUTH_HASH}
+    }
+
     php_server
 }
