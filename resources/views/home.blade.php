@@ -1,10 +1,11 @@
 @extends('layouts.public')
 
 @section('title', 'Primero el Voleibol')
-@section('meta_description', 'Un movimiento para escuchar, proponer y construir el futuro del voleibol madrileño desde la pista, los clubes y las personas que lo hacen posible.')
+@section('meta_description', 'Primero el Voleibol es un proyecto abierto para mejorar el voleibol madrileño con propuestas concretas, debate y participación.')
+@section('body_class', 'page-home')
 
 @section('content')
-    <section class="pb-8 pt-8 lg:pb-10 lg:pt-10">
+    <section class="pb-6 pt-6 lg:pb-7 lg:pt-7">
         <div class="relative overflow-hidden rounded-[2.25rem] bg-slate-950 px-4 py-10 text-white shadow-[0_28px_80px_rgba(15,23,42,0.24)] sm:px-6 lg:px-8 lg:py-12">
             <div class="pointer-events-none absolute inset-0">
                 <div
@@ -25,47 +26,47 @@
 
                     <h1 class="mt-6 max-w-3xl text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl">
                         Primero el voleibol.
-                        <span class="block text-brand-100">Madrid merece más.</span>
+                        <span class="block text-brand-100">Un proyecto para mejorarlo.</span>
                     </h1>
 
                     <p class="mt-6 max-w-3xl text-lg leading-8 text-brand-200 sm:text-xl">
-                        Un movimiento para escuchar, proponer y construir el futuro del voleibol madrileño desde la pista, los clubes y las personas que lo hacen posible.
+                        Un proyecto abierto para escuchar a quienes viven el voleibol madrileño, poner sobre la mesa problemas concretos y trabajar soluciones que puedan mejorar la competición, la formación y la vida de clubes y colectivos.
                     </p>
 
                     <div class="mt-8 flex flex-wrap gap-4">
-                        <a href="{{ route('participa') }}" class="inline-flex items-center justify-center rounded-full bg-amber-400 px-6 py-3 text-sm font-semibold text-slate-950 transition md:hover:bg-amber-300">
-                            Participa
+                        <a href="{{ route('proyecto') }}" class="inline-flex items-center justify-center rounded-full bg-amber-400 px-6 py-3 text-sm font-semibold text-slate-950 transition md:hover:bg-amber-300">
+                            Conoce el proyecto
                         </a>
-                        <a href="{{ route('participa') }}" class="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition md:hover:bg-white/10">
-                            Escríbenos
+                        <a href="{{ route('programa') }}" class="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition md:hover:bg-white/10">
+                            Ver propuestas
                         </a>
                     </div>
 
                     <p class="mt-8 max-w-3xl border-l-4 border-amber-400 pl-4 text-xl font-medium leading-9 text-white">
-                        El voleibol madrileño merece estar donde le corresponde.
+                        Queremos que el voleibol madrileño tenga una organización a la altura de quienes lo sostienen cada semana.
                     </p>
                 </div>
 
                 <aside class="lg:justify-self-end">
                     <div class="rounded-[2rem] border border-white/10 bg-white/5 p-6 shadow-[0_12px_30px_rgba(15,23,42,0.18)]">
-                        <p class="text-sm font-semibold uppercase tracking-[0.25em] text-amber-300">Qué queremos hacer</p>
+                        <p class="text-sm font-semibold uppercase tracking-[0.25em] text-amber-300">Cómo trabajamos</p>
                         <div class="mt-5 grid gap-3">
                             <div class="rounded-2xl border border-white/10 bg-slate-900/40 p-4">
-                                <p class="text-base font-semibold text-white">Escuchar a la pista</p>
+                                <p class="text-base font-semibold text-white">Conocer la realidad</p>
                                 <p class="mt-2 text-sm leading-6 text-brand-100/80">
-                                    Recoger la voz de clubes, jugadores, entrenadores, árbitros y familias.
+                                    Partir de lo que viven clubes, jugadores, entrenadores, árbitros y familias.
                                 </p>
                             </div>
                             <div class="rounded-2xl border border-white/10 bg-slate-900/30 p-4">
-                                <p class="text-base font-semibold text-white">Ordenar el debate</p>
+                                <p class="text-base font-semibold text-white">Proponer con criterio</p>
                                 <p class="mt-2 text-sm leading-6 text-brand-100/80">
-                                    Convertir ideas sueltas en propuestas concretas, viables y útiles.
+                                    Convertir problemas y experiencias en medidas concretas, viables y útiles.
                                 </p>
                             </div>
                             <div class="rounded-2xl border border-white/10 bg-slate-900/20 p-4">
-                                <p class="text-base font-semibold text-white">Abrir futuro</p>
+                                <p class="text-base font-semibold text-white">Sumar voces</p>
                                 <p class="mt-2 text-sm leading-6 text-brand-100/80">
-                                    Pensar un proyecto ambicioso, abierto y a largo plazo para Madrid.
+                                    Mantener un proyecto abierto al debate y a las aportaciones de toda la comunidad.
                                 </p>
                             </div>
                         </div>
@@ -75,12 +76,12 @@
         </div>
     </section>
 
-    <section id="proyecto" class="py-10 lg:py-14">
+    <section id="proyecto" class="py-6 lg:py-7">
         <div class="rounded-[2rem] border border-slate-200 bg-white px-4 py-8 shadow-sm sm:px-6 lg:px-8 lg:py-10">
         <div class="mb-6 flex items-end justify-between gap-4">
             <div>
                 <p class="text-sm font-semibold uppercase tracking-[0.25em] text-accent-700">Proyecto</p>
-                <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">Una base clara para hablar de voleibol</h2>
+                <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">Un proyecto que empieza por escuchar</h2>
             </div>
         </div>
 
@@ -88,104 +89,89 @@
             <article class="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm">
                 <div class="flex items-center gap-3">
                     <span class="size-3 rounded-full bg-amber-400"></span>
-                    <p class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">Escuchar</p>
+                    <p class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">Realidad</p>
                 </div>
-                <h3 class="mt-5 text-xl font-semibold text-slate-950">La voz de la pista</h3>
+                <h3 class="mt-5 text-xl font-semibold text-slate-950">El voleibol se construye desde abajo</h3>
                 <p class="mt-3 text-[1rem] leading-7 text-slate-600">
-                    Queremos recoger la voz de clubes, jugadores, entrenadores, árbitros y familias. Las mejores ideas nacen de quienes viven el voleibol cada semana.
+                    Clubes, jugadores, entrenadores, árbitros y familias conocen de primera mano qué funciona y qué se puede mejorar.
                 </p>
             </article>
 
             <article id="principios" class="rounded-[1.75rem] border border-slate-200 bg-slate-100 p-6 shadow-sm">
                 <div class="flex items-center gap-3">
                     <span class="size-3 rounded-full bg-slate-700"></span>
-                    <p class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">Proponer</p>
+                    <p class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">Principios</p>
                 </div>
-                <h3 class="mt-5 text-xl font-semibold text-slate-950">Rigor y utilidad</h3>
+                <h3 class="mt-5 text-xl font-semibold text-slate-950">Claridad, transparencia y trabajo</h3>
                 <p class="mt-3 text-[1rem] leading-7 text-slate-600">
-                    No basta con quejarse. Queremos ordenar propuestas concretas, viables y útiles para mejorar el voleibol madrileño.
+                    Defendemos un debate claro y una forma de trabajar abierta, responsable y pegada a la práctica del voleibol madrileño.
                 </p>
             </article>
 
             <article id="participa" class="rounded-[1.75rem] border border-slate-900 bg-slate-950 p-6 text-white shadow-[0_18px_40px_rgba(15,23,42,0.18)]">
                 <div class="flex items-center gap-3">
                     <span class="size-3 rounded-full bg-amber-400"></span>
-                    <p class="text-sm font-semibold uppercase tracking-[0.22em] text-brand-100/80">Construir</p>
+                    <p class="text-sm font-semibold uppercase tracking-[0.22em] text-brand-100/80">Participación</p>
                 </div>
-                <h3 class="mt-5 text-xl font-semibold text-white">Un futuro compartido</h3>
+                <h3 class="mt-5 text-xl font-semibold text-white">Las ideas tienen que circular</h3>
                 <p class="mt-3 text-[1rem] leading-7 text-brand-200">
-                    Madrid tiene talento, clubes y personas. Ahora necesita un proyecto ambicioso, abierto y pensado a largo plazo.
+                    Primero el Voleibol no quiere hablar solo. Queremos recibir experiencias, ideas y propuestas de quienes forman parte de este deporte.
                 </p>
             </article>
         </div>
         </div>
     </section>
 
-    <section id="programa" class="py-10 lg:py-14">
+    <section id="programa" class="py-6 lg:py-7">
         <div class="rounded-[2rem] border border-slate-200 bg-white px-4 py-8 shadow-sm sm:px-6 lg:px-8 lg:py-10">
-            <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-                <div class="max-w-3xl">
+            <div class="max-w-3xl">
                     <p class="text-sm font-semibold uppercase tracking-[0.25em] text-accent-700">Programa</p>
                     <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
-                        Una base para ir sumando ideas
+                        Propuestas para problemas concretos
                     </h2>
                     <p class="mt-4 max-w-2xl text-lg leading-8 text-slate-700">
-                        Este apartado ira creciendo con nuevas propuestas. Empezamos por tres medidas concretas que
-                        queremos poner sobre la mesa para abrir debate y mejorar el voleibol madrileño.
+                        Ya hay medidas trabajadas sobre la mesa. Estas son una muestra de los cambios que proponemos para que el voleibol madrileño funcione mejor.
                     </p>
-                </div>
-
-                <div class="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-6 shadow-[0_10px_30px_rgba(15,23,42,0.05)]">
-                    <p class="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">La idea es sencilla</p>
-                    <p class="mt-4 text-base leading-7 text-slate-700">
-                        Medidas claras, comprensibles y aplicables. Queremos que el programa no sea un documento
-                        cerrado, sino un espacio vivo donde ir incorporando propuestas con sentido.
-                    </p>
-                </div>
             </div>
 
             <div class="mt-8 grid gap-6 lg:grid-cols-3">
-                <article class="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-6">
-                    <div class="flex items-center gap-3">
-                        <span class="size-3 rounded-full bg-amber-400"></span>
-                        <p class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">01</p>
-                    </div>
-                    <h3 class="mt-5 text-xl font-semibold tracking-tight text-slate-950">
-                        Tarjetas con consecuencias
-                    </h3>
-                    <p class="mt-3 text-[1rem] leading-7 text-slate-600">
-                        Cada 4 tarjetas amarillas, o cada 2 rojas, debería haber 1 partido de suspensión. Una
-                        expulsión debería suponer 2 partidos de suspensión y una descalificación, 4 partidos.
-                    </p>
-                </article>
+                @forelse ($homeProposals as $proposal)
+                    <article @class([
+                        'rounded-[1.75rem] p-6 shadow-sm',
+                        'border border-slate-200 bg-slate-50' => $loop->first,
+                        'border border-slate-200 bg-white' => $loop->last && ! $loop->first,
+                        'border border-slate-900 bg-slate-950 text-white shadow-[0_18px_40px_rgba(15,23,42,0.18)]' => $loop->iteration === 2,
+                    ])>
+                        <div class="flex items-center gap-3">
+                            <span class="size-3 rounded-full bg-amber-400"></span>
+                            <p @class([
+                                'text-sm font-semibold uppercase tracking-[0.22em]',
+                                'text-slate-500' => $loop->iteration !== 2,
+                                'text-brand-100/80' => $loop->iteration === 2,
+                            ])>{{ $proposal['section']->name }}</p>
+                        </div>
+                        <h3 @class([
+                            'mt-5 text-xl font-semibold tracking-tight',
+                            'text-slate-950' => $loop->iteration !== 2,
+                            'text-white' => $loop->iteration === 2,
+                        ])>
+                            {{ $proposal['proposal']->title }}
+                        </h3>
+                        <p @class([
+                            'mt-3 text-[1rem] leading-7',
+                            'text-slate-600' => $loop->iteration !== 2,
+                            'text-brand-200' => $loop->iteration === 2,
+                        ])>
+                            {{ $proposal['excerpt'] }}
+                        </p>
+                    </article>
+                @empty
+                    <p class="text-slate-600">Estamos preparando nuevas propuestas para publicar.</p>
+                @endforelse
+            </div>
 
-                <article class="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm">
-                    <div class="flex items-center gap-3">
-                        <span class="size-3 rounded-full bg-slate-700"></span>
-                        <p class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">02</p>
-                    </div>
-                    <h3 class="mt-5 text-xl font-semibold tracking-tight text-slate-950">
-                        Formación anual obligatoria
-                    </h3>
-                    <p class="mt-3 text-[1rem] leading-7 text-slate-600">
-                        Los árbitros deberían realizar al menos una reunión anual para informar de cambios,
-                        criterios de temporada y directrices comunes.
-                    </p>
-                </article>
-
-                <article class="rounded-[1.75rem] border border-slate-900 bg-slate-950 p-6 text-white shadow-[0_18px_40px_rgba(15,23,42,0.18)]">
-                    <div class="flex items-center gap-3">
-                        <span class="size-3 rounded-full bg-amber-400"></span>
-                        <p class="text-sm font-semibold uppercase tracking-[0.22em] text-brand-100/80">03</p>
-                    </div>
-                    <h3 class="mt-5 text-xl font-semibold tracking-tight text-white">
-                        Feedback entre niveles
-                    </h3>
-                    <p class="mt-3 text-[1rem] leading-7 text-brand-200">
-                        A los árbitros de mayor nivel se les podría pedir que elaboren informes sobre árbitros de
-                        menor nivel, para acompañar su mejora durante toda la temporada.
-                    </p>
-                </article>
+            <div class="mt-8 flex justify-end">
+                <a href="{{ route('programa') }}" class="inline-flex items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition md:hover:bg-slate-800">Ver todas las propuestas</a>
             </div>
 
             <div class="mt-8 rounded-[1.75rem] border border-slate-200 bg-slate-100 px-4 py-6 sm:px-6 lg:px-8">
@@ -201,37 +187,61 @@
                     <a href="{{ route('participa') }}" class="inline-flex items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition md:hover:bg-slate-800">
                         Escríbenos
                     </a>
-                </div>
             </div>
         </div>
     </section>
 
-    <section id="blog" class="py-10 lg:py-14">
-        <div class="grid gap-6 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm lg:grid-cols-[1fr_1.15fr] lg:p-8">
+    <section id="blog" class="py-6 lg:py-7">
+        <div class="p-0">
             <div class="max-w-2xl">
                 <p class="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">Blog</p>
-                <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-950">Seguimos abriendo conversación</h2>
+                <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-950">Últimas publicaciones</h2>
             </div>
 
-            <p class="max-w-2xl text-lg leading-8 text-slate-700">
-                Pronto publicaremos novedades, propuestas y contenido para seguir abriendo conversación alrededor del voleibol madrileño.
-            </p>
+            @if ($latestPosts->isNotEmpty())
+                <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    @foreach ($latestPosts as $post)
+                        <a href="{{ route('blog.show', $post) }}" class="group overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 transition md:hover:border-slate-300 md:hover:bg-white">
+                            <div class="aspect-[16/9] overflow-hidden bg-slate-200">
+                                @if (filled($post->featured_image_path))
+                                    <img src="{{ $post->featuredImageUrl() }}" alt="{{ $post->title }}" class="size-full object-cover transition duration-700 group-hover:scale-105">
+                                @else
+                                    <div class="flex size-full items-center justify-center px-4 text-center text-sm font-medium text-slate-500">
+                                        Sin imagen destacada
+                                    </div>
+                                @endif
+                            </div>
+
+                            <div class="p-3 sm:p-4">
+                                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">{{ $post->published_at?->format('d/m/Y') }}</p>
+                                <h3 class="mt-2 font-semibold text-slate-950">{{ $post->title }}</h3>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+            @else
+                <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-700">Aquí publicaremos novedades, reflexiones y propuestas para seguir dando forma al proyecto.</p>
+            @endif
+            <a href="{{ route('blog') }}" class="mt-6 inline-flex font-semibold text-accent-700 transition md:hover:text-accent-900">Ver toda la actualidad</a>
         </div>
     </section>
 
-    <section id="sumate" class="py-10 lg:py-14">
+    <section id="sumate" class="py-6 lg:py-7">
         <div class="rounded-[2.25rem] bg-slate-950 px-4 py-8 text-white shadow-[0_22px_60px_rgba(15,23,42,0.22)] sm:px-6 lg:px-8 lg:py-10">
             <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
                 <div class="max-w-2xl">
                     <p class="text-sm font-semibold uppercase tracking-[0.25em] text-amber-300">Participa</p>
+                    <h2 class="mt-3 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+                        El proyecto también se construye con lo que tú ves cada semana.
+                    </h2>
                     <p class="mt-4 max-w-2xl text-lg leading-8 text-brand-200">
-                        Si quieres escribirnos, compartir una idea o empezar a sumar, estamos aquí.
+                        Si formas parte del voleibol madrileño y hay algo que debería cambiar, queremos escucharlo.
                     </p>
                 </div>
 
                 <div class="lg:justify-self-end">
-                    <a href="mailto:info@primeroelvoleibol.es" class="inline-flex w-full items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition md:hover:bg-white/10 sm:w-auto">
-                        info@primeroelvoleibol.es
+                    <a href="{{ route('participa') }}" class="inline-flex w-full items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition md:hover:bg-white/10 sm:w-auto">
+                        Participa o aporta una idea
                     </a>
                 </div>
             </div>

@@ -5,9 +5,11 @@ use App\Enums\ProjectSupporterType;
 use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\ParticipationController;
 use App\Http\Controllers\ProjectCollaboratorSubmissionController;
+use App\Models\BlogPost;
 use App\Models\Club;
 use App\Models\Coach;
 use App\Models\Player;
+use App\Models\ProgramProposal;
 use App\Models\ProgramSection;
 use App\Models\Project;
 use App\Models\ProjectClubSupporter;
@@ -17,7 +19,81 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
-Route::view('/', 'home')->name('home');
+Route::get('/', function () {
+    $homeProposalTitles = [
+        'Clubes' => 'Transparencia en las sanciones y reinversión en el juego limpio',
+        'Árbitros' => 'Programa de Mentoría Arbitral',
+        'Federación' => 'Permitir la incorporación de patrocinadores en la equipación oficial de la Federación',
+    ];
+
+    $makeProposalExcerpt = function (ProgramProposal $proposal): string {
+        $description = preg_replace(
+            '/<\/(?:p|div|li)>\s*<(?:p|div|li)[^>]*>/i',
+            ' ',
+            (string) $proposal->description
+        ) ?? (string) $proposal->description;
+        $description = strip_tags($description);
+        $description = html_entity_decode($description, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $description = preg_replace('/\s+/u', ' ', $description) ?? $description;
+        $description = trim($description);
+
+        $sentences = preg_split('/(?<=[.!?])\s+/u', $description, -1, PREG_SPLIT_NO_EMPTY) ?: [];
+        $excerpt = '';
+
+        foreach ($sentences as $sentence) {
+            $candidate = trim($excerpt.' '.$sentence);
+
+            if ($excerpt !== '' && mb_strlen($candidate) > 240) {
+                break;
+            }
+
+            $excerpt = $candidate;
+        }
+
+        return $excerpt !== '' ? $excerpt : $description;
+    };
+
+    $programSections = ProgramSection::query()
+        ->whereIn('name', array_keys($homeProposalTitles))
+        ->with(['mainProposals' => fn ($query) => $query
+            ->whereIn('title', array_values($homeProposalTitles))
+            ->orderBy('sort')])
+        ->get()
+        ->keyBy('name');
+
+    $homeProposals = collect(array_keys($homeProposalTitles))
+        ->map(function (string $sectionName) use ($programSections, $makeProposalExcerpt): ?array {
+            $section = $programSections->get($sectionName);
+
+            if ($section === null) {
+                return null;
+            }
+
+            $proposal = $section->mainProposals->first();
+
+            return $proposal === null
+                ? null
+                : [
+                    'section' => $section,
+                    'proposal' => $proposal,
+                    'excerpt' => $makeProposalExcerpt($proposal),
+                ];
+        })
+        ->filter()
+        ->values();
+
+    $latestPosts = BlogPost::query()
+        ->published()
+        ->orderByDesc('published_at')
+        ->orderByDesc('id')
+        ->limit(4)
+        ->get();
+
+    return view('home', [
+        'homeProposals' => $homeProposals,
+        'latestPosts' => $latestPosts,
+    ]);
+})->name('home');
 
 Route::get('/proyecto', function () {
     $hasSupporterTypeColumn = Schema::hasColumn('project_club_supporters', 'supporter_type');

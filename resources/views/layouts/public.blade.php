@@ -14,7 +14,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @stack('head')
     </head>
-    <body class="antialiased @yield('body_class')" data-nav-scrolled="false">
+    <body class="antialiased @yield('body_class')" data-nav-scrolled="{{ request()->routeIs('home') ? 'true' : 'false' }}">
         @php
             $isProyectoActive = request()->routeIs('proyecto');
             $isPrincipiosActive = request()->routeIs('principios');

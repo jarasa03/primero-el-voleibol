@@ -1,6 +1,13 @@
 const body = document.body;
+const isHomePage = body.classList.contains('page-home');
 
 const updateNavigationState = () => {
+    if (isHomePage) {
+        body.dataset.navScrolled = 'true';
+
+        return;
+    }
+
     body.dataset.navScrolled = window.scrollY > 8 ? 'true' : 'false';
 };
 
