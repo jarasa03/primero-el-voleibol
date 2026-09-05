@@ -24,7 +24,7 @@ it('renders real programme proposals and published blog posts', function (): voi
     ProgramProposal::factory()->create([
         'program_section_id' => $clubs->id,
         'title' => 'Transparencia en las sanciones y reinversión en el juego limpio',
-        'description' => '<p>Las sanciones deben tener consecuencias para todos.</p><p>Contar con reglas claras mejora la competición.</p>',
+        'description' => '<p>Las sanciones deben tener consecuencias para todos.</p><p>La competición.</p><p>Contar con reglas claras mejora el voleibol.</p>',
         'sort' => 1,
     ]);
     ProgramProposal::factory()->create([

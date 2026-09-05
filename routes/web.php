@@ -53,13 +53,15 @@ Route::get('/', function () {
         return $excerpt !== '' ? $excerpt : $description;
     };
 
-    $programSections = ProgramSection::query()
-        ->whereIn('name', array_keys($homeProposalTitles))
-        ->with(['mainProposals' => fn ($query) => $query
-            ->whereIn('title', array_values($homeProposalTitles))
-            ->orderBy('sort')])
-        ->get()
-        ->keyBy('name');
+    $programSections = Schema::hasTable('program_sections')
+        ? ProgramSection::query()
+            ->whereIn('name', array_keys($homeProposalTitles))
+            ->with(['mainProposals' => fn ($query) => $query
+                ->whereIn('title', array_values($homeProposalTitles))
+                ->orderBy('sort')])
+            ->get()
+            ->keyBy('name')
+        : collect();
 
     $homeProposals = collect(array_keys($homeProposalTitles))
         ->map(function (string $sectionName) use ($programSections, $makeProposalExcerpt): ?array {
@@ -82,12 +84,14 @@ Route::get('/', function () {
         ->filter()
         ->values();
 
-    $latestPosts = BlogPost::query()
-        ->published()
-        ->orderByDesc('published_at')
-        ->orderByDesc('id')
-        ->limit(4)
-        ->get();
+    $latestPosts = Schema::hasTable('blog_posts')
+        ? BlogPost::query()
+            ->published()
+            ->orderByDesc('published_at')
+            ->orderByDesc('id')
+            ->limit(4)
+            ->get()
+        : collect();
 
     return view('home', [
         'homeProposals' => $homeProposals,
