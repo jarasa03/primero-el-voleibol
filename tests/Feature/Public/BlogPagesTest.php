@@ -119,6 +119,25 @@ it('shows a published blog post', function (): void {
         ->assertDontSeeText('Autor');
 });
 
+it('renders blog featured images as relative public disk urls', function (): void {
+    config()->set('app.url', 'http://192.168.0.24:8080');
+
+    $blogPost = BlogPost::factory()->published(now()->subDay())->create([
+        'title' => 'Articulo con imagen publica',
+        'featured_image_path' => 'blog/featured/imagen.jpg',
+    ]);
+
+    $this->get(route('blog'))
+        ->assertSuccessful()
+        ->assertSee('/storage/blog/featured/imagen.jpg', false)
+        ->assertDontSee('192.168.0.24:8080', false);
+
+    $this->get(route('blog.show', $blogPost))
+        ->assertSuccessful()
+        ->assertSee('/storage/blog/featured/imagen.jpg', false)
+        ->assertDontSee('192.168.0.24:8080', false);
+});
+
 it('normalizes leading blank blocks in blog content', function (): void {
     $blogPost = BlogPost::factory()->published(now()->subDay())->create([
         'title' => 'Articulo con salto inicial',

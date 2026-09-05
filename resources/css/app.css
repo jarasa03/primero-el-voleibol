@@ -60,6 +60,10 @@
 }
 
 @layer components {
+    .site-container {
+        @apply mx-auto w-full max-w-[120rem] px-4 sm:px-6 lg:px-8;
+    }
+
     .blog-content {
         color: rgb(51 65 85 / 1);
     }

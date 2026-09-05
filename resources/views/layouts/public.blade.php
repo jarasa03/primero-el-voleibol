@@ -28,8 +28,8 @@
             <div class="pointer-events-none absolute inset-x-0 top-0 h-px bg-slate-200"></div>
 
             <header class="site-header-band fixed inset-x-0 top-0 z-50">
-                <div class="mx-auto flex h-full w-full max-w-[120rem] items-center py-3 sm:py-4">
-                    <div class="site-header-shell flex w-full items-center justify-between gap-4 px-4 py-0 sm:px-6 sm:gap-6 lg:px-8">
+                <div class="site-container flex h-full items-center py-3 sm:py-4">
+                    <div class="site-header-shell flex w-full items-center justify-between gap-4 py-0 sm:gap-6">
                         <a href="{{ url('/') }}" class="group inline-flex min-w-0 items-center gap-2 sm:gap-3">
                             <span class="site-header-logo grid size-11 aspect-square shrink-0 place-items-center rounded-2xl border border-slate-200 bg-white text-[0.78rem] font-bold leading-none tracking-[0.22em] transition-[background-color,border-color,color,box-shadow,transform] sm:size-12 sm:text-sm">
                                 PV
@@ -84,7 +84,7 @@
                 </div>
 
                 <div id="mobile-navigation" aria-hidden="true" class="site-mobile-nav relative z-50 border-t md:hidden">
-                    <div class="mx-auto w-full max-w-[120rem] px-4 py-4 sm:px-6 lg:px-8">
+                    <div class="site-container py-4">
                         <nav class="flex flex-col gap-2 text-sm font-medium">
                             <a @class([
                                 'site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out',
@@ -114,7 +114,9 @@
                 </div>
             </header>
 
-            <div class="relative mx-auto flex min-h-screen w-full flex-col px-4 pt-24 sm:px-6 sm:pt-28 lg:px-8 lg:pt-28">
+            @yield('full_width_content')
+
+            <div class="site-container relative flex min-h-screen flex-col @yield('main_wrapper_class', 'pt-24 sm:pt-28 lg:pt-28')">
                 <main class="flex-1">
                     <div @class(['mx-auto w-full', 'max-w-[120rem]' => $isWidePage, 'max-w-7xl' => ! $isWidePage])>
                         @yield('content')
