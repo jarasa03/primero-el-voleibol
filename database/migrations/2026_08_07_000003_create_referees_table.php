@@ -22,7 +22,10 @@ return new class extends Migration
             $table->unsignedInteger('sort')->default(0);
             $table->timestamps();
 
-            $table->index(['show_as_collaborator', 'show_as_proposed_for_assembly', 'sort']);
+            $table->index(
+                ['show_as_collaborator', 'show_as_proposed_for_assembly', 'sort'],
+                'referees_visibility_sort_index',
+            );
         });
     }
 
