@@ -35,7 +35,7 @@ class StoreParticipationIdeaRequest extends FormRequest
             ],
             'club_or_role' => ['required', 'string', 'max:140'],
             'topic' => ['required', 'string', 'in:clubes,arbitraje,formacion,competicion,comunicacion,otro'],
-            'idea' => ['required', 'string', 'min:40', 'max:3000'],
+            'idea' => ['required', 'string', 'min:10', 'max:3000'],
             'consent' => ['accepted'],
             'website' => ['nullable', 'string', 'max:0'],
         ];

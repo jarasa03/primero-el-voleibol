@@ -96,8 +96,26 @@ it('requires the visible fields for public submissions', function (): void {
 
     $response->assertRedirect(route('participa'));
     $response->assertSessionHasErrors(['name', 'email', 'club_or_role']);
+    expect(session('errors')->get('name'))->toContain('El campo nombre es obligatorio.');
 
     $this->assertDatabaseCount('participation_ideas', 0);
+});
+
+it('shows a Spanish message when the idea is too short', function (): void {
+    $response = $this->from(route('participa'))->post(route('participa.store'), [
+        'response_preference' => 'public',
+        'name' => 'Javier Pérez',
+        'email' => 'javier@example.com',
+        'club_or_role' => 'Entrenador',
+        'topic' => 'otro',
+        'idea' => 'Corta',
+        'consent' => '1',
+        'website' => '',
+    ]);
+
+    $response->assertRedirect(route('participa'));
+    $response->assertSessionHasErrors('idea');
+    expect(session('errors')->get('idea'))->toContain('La idea debe tener al menos 10 caracteres.');
 });
 
 it('rejects spam submissions caught by the honeypot', function (): void {
