@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProjectCollaboratorSubmissionRequest;
+use App\Mail\ProjectCollaboratorSubmissionReceived;
 use App\Models\ProjectCollaboratorSubmission;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Mail;
 
 class ProjectCollaboratorSubmissionController extends Controller
 {
@@ -12,7 +14,7 @@ class ProjectCollaboratorSubmissionController extends Controller
     {
         $photoPath = $request->file('photo')->store('project-collaborator-submissions');
 
-        ProjectCollaboratorSubmission::create([
+        $submission = ProjectCollaboratorSubmission::create([
             'collaborator_type' => $request->string('collaborator_type')->toString(),
             'full_name' => $request->string('full_name')->toString(),
             'club_locality' => $request->filled('club_locality')
@@ -81,6 +83,8 @@ class ProjectCollaboratorSubmissionController extends Controller
             'source' => 'proyecto-page',
             'consented_at' => now(),
         ]);
+
+        Mail::send(new ProjectCollaboratorSubmissionReceived($submission));
 
         return redirect()
             ->route('proyecto')

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreParticipationIdeaRequest;
+use App\Mail\ParticipationIdeaReceived;
 use App\Models\ParticipationIdea;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Mail;
 
 class ParticipationController extends Controller
 {
@@ -18,7 +20,7 @@ class ParticipationController extends Controller
     {
         $isPrivate = $request->input('response_preference') === 'private';
 
-        ParticipationIdea::create([
+        $idea = ParticipationIdea::create([
             'name' => $isPrivate ? null : $request->string('name')->toString(),
             'email' => $isPrivate ? null : $request->string('email')->toString(),
             'club_or_role' => $request->string('club_or_role')->toString() ?: null,
@@ -28,6 +30,8 @@ class ParticipationController extends Controller
             'is_anonymous' => $isPrivate,
             'consented_at' => now(),
         ]);
+
+        Mail::send(new ParticipationIdeaReceived($idea));
 
         return redirect()
             ->route('participa')

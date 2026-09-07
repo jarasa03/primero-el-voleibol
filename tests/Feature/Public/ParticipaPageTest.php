@@ -1,7 +1,9 @@
 <?php
 
+use App\Mail\ParticipationIdeaReceived;
 use App\Models\ParticipationIdea;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 
 uses(RefreshDatabase::class);
 
@@ -17,6 +19,8 @@ it('renders the participate page with the form', function (): void {
 });
 
 it('stores a participation idea with contact details', function (): void {
+    Mail::fake();
+
     $response = $this->post(route('participa.store'), [
         'response_preference' => 'public',
         'name' => 'Javier Pérez',
@@ -41,6 +45,17 @@ it('stores a participation idea with contact details', function (): void {
     ]);
 
     expect(ParticipationIdea::query()->count())->toBe(1);
+
+    Mail::assertSent(ParticipationIdeaReceived::class, function (ParticipationIdeaReceived $mail): bool {
+        $envelope = $mail->envelope();
+        $cc = collect($envelope->cc)->pluck('address')->sort()->values()->all();
+        $expectedCc = collect(config('public_forms.cc_emails'))->sort()->values()->all();
+
+        return $envelope->isFrom(config('mail.from.address'))
+            && $envelope->hasTo(config('public_forms.contact_email'))
+            && $cc === $expectedCc
+            && $envelope->hasReplyTo('javier@example.com');
+    });
 });
 
 it('stores a private participation idea without identity fields', function (): void {

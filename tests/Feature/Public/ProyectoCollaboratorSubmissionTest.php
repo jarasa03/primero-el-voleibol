@@ -1,8 +1,10 @@
 <?php
 
+use App\Mail\ProjectCollaboratorSubmissionReceived;
 use App\Models\ProjectCollaboratorSubmission;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 uses(RefreshDatabase::class);
@@ -34,6 +36,8 @@ it('renders collaborator submission triggers on the project page', function (): 
 });
 
 it('stores a collaborator submission with a private club upload', function (): void {
+    Mail::fake();
+
     Storage::fake('local');
     Storage::fake('public');
 
@@ -72,6 +76,17 @@ it('stores a collaborator submission with a private club upload', function (): v
 
     Storage::disk('local')->assertExists($submission->photo_path);
     Storage::disk('public')->assertMissing($submission->photo_path);
+
+    Mail::assertSent(ProjectCollaboratorSubmissionReceived::class, function (ProjectCollaboratorSubmissionReceived $mail): bool {
+        $envelope = $mail->envelope();
+        $cc = collect($envelope->cc)->pluck('address')->sort()->values()->all();
+        $expectedCc = collect(config('public_forms.cc_emails'))->sort()->values()->all();
+
+        return $envelope->isFrom(config('mail.from.address'))
+            && $envelope->hasTo(config('public_forms.contact_email'))
+            && $cc === $expectedCc
+            && $envelope->hasReplyTo('maria@example.com');
+    });
 });
 
 it('stores a collaborator submission with a private referee upload', function (): void {
