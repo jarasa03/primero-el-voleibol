@@ -116,6 +116,9 @@ return [
     'uuid' => 'El campo :attribute debe ser un UUID válido.',
 
     'custom' => [
+        'coach_contact_email' => [
+            'required_if' => 'El correo de contacto del entrenador es obligatorio para las colaboraciones de tipo entrenador.',
+        ],
         'idea' => [
             'min' => 'La idea debe tener al menos :min caracteres.',
         ],

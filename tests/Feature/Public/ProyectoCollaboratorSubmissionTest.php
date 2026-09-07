@@ -245,7 +245,7 @@ it('requires coach contact details for coach submissions', function (): void {
         'coach_contact_phone',
     ]);
     expect(session('errors')->get('coach_contact_email'))
-        ->toContain('El campo correo de contacto del entrenador es obligatorio.');
+        ->toContain('El correo de contacto del entrenador es obligatorio para las colaboraciones de tipo entrenador.');
 
     $this->assertDatabaseCount('project_collaborator_submissions', 0);
 });
