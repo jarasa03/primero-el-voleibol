@@ -150,8 +150,10 @@ it('includes all referee details and the uploaded photo in the email', function 
 
     $mail->assertSeeInHtml('Nueva colaboración recibida');
     $mail->assertSeeInHtml('Ana Pérez');
-    $mail->assertSeeInHtml('superliga_1');
-    $mail->assertSeeInHtml('vp_level_2');
+    $mail->assertSeeInHtml('Superliga 1');
+    $mail->assertSeeInHtml('VP Nivel 2');
+    $mail->assertDontSeeInHtml('superliga_1');
+    $mail->assertDontSeeInHtml('vp_level_2');
     $mail->assertSeeInHtml('ana@example.com');
     $mail->assertSeeInHtml('611111111');
     $mail->assertSeeInHtml('Fotografía:');

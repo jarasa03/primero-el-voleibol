@@ -30,9 +30,58 @@ class ProjectCollaboratorSubmissionReceived extends Mailable
         return new Content(
             markdown: 'emails.project-collaborator-submission-received',
             with: [
+                'labels' => $this->displayLabels(),
                 'photoPath' => $this->photoPath(),
             ],
         );
+    }
+
+    /**
+     * @return array<string, string|null>
+     */
+    private function displayLabels(): array
+    {
+        return [
+            'collaboratorType' => match ($this->submission->collaborator_type) {
+                'club' => 'Clubes colaboradores',
+                'referee' => 'Árbitros colaboradores',
+                'coach' => 'Entrenadores colaboradores',
+                'player' => 'Jugadores colaboradores',
+                default => $this->submission->collaborator_type,
+            },
+            'refereeVolleyballLevel' => $this->volleyballLevelLabel($this->submission->referee_volleyball_level),
+            'refereeBeachLevel' => $this->beachLevelLabel($this->submission->referee_beach_level),
+            'coachVolleyballLevel' => $this->volleyballLevelLabel($this->submission->coach_volleyball_level),
+            'coachBeachLevel' => $this->beachLevelLabel($this->submission->coach_beach_level),
+        ];
+    }
+
+    private function volleyballLevelLabel(?string $level): ?string
+    {
+        return match ($level) {
+            'anotador' => 'Anotador',
+            'jdm' => 'Árbitro municipal (JDM)',
+            'level_0' => 'Nivel 0',
+            'level_1' => 'Nivel 1',
+            'level_2' => 'Nivel 2',
+            'level_3' => 'Nivel 3',
+            'superliga_2' => 'Superliga 2',
+            'superliga_1' => 'Superliga 1',
+            'fivb_1' => 'FIVB 1',
+            'fivb_2' => 'FIVB 2',
+            'fivb_3' => 'FIVB 3',
+            default => $level,
+        };
+    }
+
+    private function beachLevelLabel(?string $level): ?string
+    {
+        return match ($level) {
+            'vp_level_1' => 'VP Nivel 1',
+            'vp_level_2' => 'VP Nivel 2',
+            'vp_level_3' => 'VP Nivel 3',
+            default => $level,
+        };
     }
 
     private function photoPath(): ?string
