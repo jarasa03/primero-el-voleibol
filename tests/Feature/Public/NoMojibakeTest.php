@@ -17,7 +17,6 @@ it('does not render mojibake on public pages', function (string $routeName): voi
 })->with([
     'home',
     'proyecto',
-    'principios',
     'programa',
     'blog',
     'participa',

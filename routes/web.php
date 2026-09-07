@@ -1141,17 +1141,6 @@ Route::get('/proyecto', function () {
     ]);
 })->name('proyecto');
 
-Route::get('/principios', function () {
-    return view('page', [
-        'title' => 'Principios',
-        'eyebrow' => 'Principios',
-        'description' => 'Una página interior para explicar los principios que guían el proyecto.',
-        'intro' => 'Aquí quedarán recogidos los principios que sostienen la forma de trabajar y proponer.',
-        'hero_image' => asset('images/programa-hero.webp'),
-        'show_hero' => true,
-    ]);
-})->name('principios');
-
 Route::get('/programa', function () {
     $attachBeachSubsections = function (array $sections): array {
         return collect($sections)

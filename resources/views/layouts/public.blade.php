@@ -17,7 +17,6 @@
     <body class="antialiased @yield('body_class')" data-nav-scrolled="{{ request()->routeIs('home') ? 'true' : 'false' }}">
         @php
             $isProyectoActive = request()->routeIs('proyecto');
-            $isPrincipiosActive = request()->routeIs('principios');
             $isProgramaActive = request()->routeIs('programa');
             $isBlogActive = request()->routeIs('blog*');
             $isWidePage = request()->routeIs('home') || request()->routeIs('programa') || request()->routeIs('blog*') || request()->routeIs('participa') || request()->routeIs('proyecto');
@@ -46,11 +45,6 @@
                                 'site-header-link--active text-amber-300' => $isProyectoActive,
                                 'md:hover:text-slate-950' => ! $isProyectoActive,
                             ]) style="{{ $isProyectoActive ? $activeNavLinkStyle : '' }}" href="{{ route('proyecto') }}">Proyecto</a>
-                            <a @class([
-                                'site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out',
-                                'site-header-link--active text-amber-300' => $isPrincipiosActive,
-                                'md:hover:text-slate-950' => ! $isPrincipiosActive,
-                            ]) style="{{ $isPrincipiosActive ? $activeNavLinkStyle : '' }}" href="{{ route('principios') }}">Principios</a>
                             <a @class([
                                 'site-header-link transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out',
                                 'site-header-link--active text-amber-300' => $isProgramaActive,
@@ -91,11 +85,6 @@
                                 'site-header-link--active text-amber-300' => $isProyectoActive,
                                 'md:hover:text-slate-950' => ! $isProyectoActive,
                             ]) style="{{ $isProyectoActive ? $activeNavLinkStyle : '' }}" href="{{ route('proyecto') }}">Proyecto</a>
-                            <a @class([
-                                'site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out',
-                                'site-header-link--active text-amber-300' => $isPrincipiosActive,
-                                'md:hover:text-slate-950' => ! $isPrincipiosActive,
-                            ]) style="{{ $isPrincipiosActive ? $activeNavLinkStyle : '' }}" href="{{ route('principios') }}">Principios</a>
                             <a @class([
                                 'site-header-link rounded-2xl px-4 py-3 transition-[color,background-color,border-color,box-shadow,opacity] duration-500 ease-in-out',
                                 'site-header-link--active text-amber-300' => $isProgramaActive,
@@ -161,7 +150,6 @@
                                             <p class="text-sm font-medium text-white">Explora</p>
                                             <ul class="mt-4 space-y-3 text-sm text-brand-100/80">
                                                 <li><a class="transition md:hover:text-amber-300" href="{{ route('proyecto') }}">Proyecto</a></li>
-                                                <li><a class="transition md:hover:text-amber-300" href="{{ route('principios') }}">Principios</a></li>
                                                 <li><a class="transition md:hover:text-amber-300" href="{{ route('programa') }}">Programa</a></li>
                                                 <li><a class="transition md:hover:text-amber-300" href="{{ route('blog') }}">Blog</a></li>
                                             </ul>
