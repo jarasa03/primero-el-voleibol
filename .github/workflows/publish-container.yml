@@ -58,15 +58,6 @@ jobs:
       - name: Install PHP dependencies
         run: composer install --no-interaction --no-progress --prefer-dist
 
-      - name: Generate temporary application key
-        run: php artisan key:generate --force
-
-      - name: Validate Composer configuration
-        run: composer validate --no-interaction
-
-      - name: Run Laravel tests
-        run: php artisan test
-
       - name: Setup modern Node.js
         uses: actions/setup-node@v4
         with:
@@ -79,6 +70,19 @@ jobs:
 
       - name: Build frontend assets
         run: npm run build
+
+      - name: Verify Vite manifest
+        shell: bash
+        run: test -f public/build/manifest.json
+
+      - name: Generate temporary application key
+        run: php artisan key:generate --force
+
+      - name: Validate Composer configuration
+        run: composer validate --no-interaction
+
+      - name: Run Laravel tests
+        run: php artisan test
 
       - name: Configure SSH
         uses: webfactory/ssh-agent@v0.9.1
