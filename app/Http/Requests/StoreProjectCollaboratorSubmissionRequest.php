@@ -49,7 +49,6 @@ class StoreProjectCollaboratorSubmissionRequest extends FormRequest
             'referee_license_confirmation' => ['accepted_if:collaborator_type,referee'],
             'coach_license_confirmation' => ['accepted_if:collaborator_type,coach'],
             'player_license_confirmation' => ['accepted_if:collaborator_type,player'],
-            'consent' => ['accepted'],
             'website' => ['nullable', 'string', 'max:0'],
         ];
     }

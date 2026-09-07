@@ -102,7 +102,6 @@ it('stores a collaborator submission with a private referee upload', function ()
         'referee_contact_phone' => '611111111',
         'photo' => UploadedFile::fake()->image('foto-arbitro.jpg'),
         'referee_license_confirmation' => '1',
-        'consent' => '1',
         'website' => '',
     ]);
 
