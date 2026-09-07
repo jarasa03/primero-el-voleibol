@@ -71,6 +71,23 @@ it('hides the leadership section when disabled', function (): void {
     expect($response->getContent())->not->toContain('Quién lidera el proyecto');
 });
 
+it('hides proposed sections when their visibility is disabled', function (): void {
+    Project::factory()->create([
+        'show_proposed_clubs_section' => false,
+        'show_proposed_referees_section' => false,
+        'show_proposed_coaches_section' => false,
+        'show_proposed_players_section' => false,
+    ]);
+
+    $response = $this->get(route('proyecto'));
+
+    $response->assertOk();
+    $response->assertDontSee('Clubes propuestos para la asamblea');
+    $response->assertDontSee('Árbitros propuestos para la asamblea');
+    $response->assertDontSee('Entrenadores propuestos para la asamblea');
+    $response->assertDontSee('Jugadores propuestos para la asamblea');
+});
+
 it('uses the latest project record for the public page', function (): void {
     Project::factory()->create([
         'show_leader_section' => true,

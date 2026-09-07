@@ -30,9 +30,11 @@
                 <div class="site-container flex h-full items-center py-3 sm:py-4">
                     <div class="site-header-shell flex w-full items-center justify-between gap-4 py-0 sm:gap-6">
                         <a href="{{ url('/') }}" class="group inline-flex min-w-0 items-center gap-2 sm:gap-3">
-                            <span class="site-header-logo grid size-11 aspect-square shrink-0 place-items-center rounded-2xl border border-slate-200 bg-white text-[0.78rem] font-bold leading-none tracking-[0.22em] transition-[background-color,border-color,color,box-shadow,transform] sm:size-12 sm:text-sm">
-                                PV
-                            </span>
+                            <img
+                                src="{{ asset('favicon.svg') }}"
+                                alt="Primero el Voleibol"
+                                class="site-header-logo size-11 aspect-square shrink-0 rounded-2xl border border-slate-200 bg-white object-contain transition-[background-color,border-color,color,box-shadow,transform] sm:size-12"
+                            >
                             <span class="flex min-w-0 flex-col leading-tight">
                                 <span class="site-header-brand truncate text-[0.72rem] font-semibold uppercase tracking-[0.18em] transition-colors duration-500 ease-in-out sm:text-sm sm:tracking-[0.35em]">Primero el Voleibol</span>
                                 <span class="site-header-subtitle hidden text-xs transition-colors duration-500 ease-in-out sm:block">Llevemos el voleibol madrileño donde merece estar.</span>
@@ -176,6 +178,12 @@
                                     </div>
                                     <p>{{ now()->year }} - Hecho para poner el voleibol en el centro</p>
                                 </div>
+                                <p class="mt-4 text-center text-xs text-brand-100/60">
+                                    Desarrollado con ♡ por
+                                    <a class="font-semibold text-brand-100/80 transition md:hover:text-amber-300" href="https://github.com/jarasa03" target="_blank" rel="noopener noreferrer">
+                                        Jarasa03
+                                    </a>
+                                </p>
                             </div>
                         </div>
                     </div>

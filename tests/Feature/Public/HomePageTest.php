@@ -53,6 +53,7 @@ it('renders real programme proposals and published blog posts', function (): voi
     $response->assertDontSee('competición.Contar');
     $response->assertDontSee('...');
     $response->assertSee('Una entrada publicada');
+    $response->assertSeeText('Nuevo!');
     $response->assertDontSee('Una entrada privada');
 });
 

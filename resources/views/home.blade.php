@@ -202,13 +202,19 @@
                 <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     @foreach ($latestPosts as $post)
                         <a href="{{ route('blog.show', $post) }}" class="group overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 transition md:hover:border-slate-300 md:hover:bg-white">
-                            <div class="aspect-[16/9] overflow-hidden bg-slate-200">
+                            <div class="relative aspect-[16/9] overflow-hidden bg-slate-200">
                                 @if (filled($post->featured_image_path))
                                     <img src="{{ $post->featuredImageUrl() }}" alt="{{ $post->title }}" class="size-full object-cover transition duration-700 group-hover:scale-105">
                                 @else
                                     <div class="flex size-full items-center justify-center px-4 text-center text-sm font-medium text-slate-500">
                                         Sin imagen destacada
                                     </div>
+                                @endif
+
+                                @if ($post->isNew())
+                                    <span class="absolute left-3 top-3 rounded-full bg-amber-400 px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-slate-950">
+                                        Nuevo!
+                                    </span>
                                 @endif
                             </div>
 

@@ -14,7 +14,11 @@ use App\Models\Project;
 use App\Models\Referee;
 use BackedEnum;
 use Filament\Actions\Action;
+use Filament\Forms\Components\Toggle;
+use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -26,6 +30,11 @@ use UnitEnum;
 class ProjectContentHub extends Page implements HasTable
 {
     use InteractsWithTable;
+
+    /**
+     * @var array<string, bool>
+     */
+    public ?array $data = [];
 
     protected static ?string $navigationLabel = 'Proyecto';
 
@@ -48,6 +57,56 @@ class ProjectContentHub extends Page implements HasTable
     public function getSubheading(): string
     {
         return 'Contenido editable de la página de proyecto.';
+    }
+
+    public function mount(): void
+    {
+        $project = Project::ensureSingleton();
+
+        $this->form->fill([
+            'show_proposed_clubs_section' => $project->show_proposed_clubs_section,
+            'show_proposed_referees_section' => $project->show_proposed_referees_section,
+            'show_proposed_coaches_section' => $project->show_proposed_coaches_section,
+            'show_proposed_players_section' => $project->show_proposed_players_section,
+        ]);
+    }
+
+    public function form(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                Section::make('Visibilidad de propuestas')
+                    ->description('Decide qué bloques de propuestas aparecen al final de la página pública de proyecto.')
+                    ->schema([
+                        Toggle::make('show_proposed_clubs_section')
+                            ->label('Mostrar clubes propuestos'),
+                        Toggle::make('show_proposed_referees_section')
+                            ->label('Mostrar árbitros propuestos'),
+                        Toggle::make('show_proposed_coaches_section')
+                            ->label('Mostrar entrenadores propuestos'),
+                        Toggle::make('show_proposed_players_section')
+                            ->label('Mostrar jugadores propuestos'),
+                    ])
+                    ->columns(2),
+            ])
+            ->statePath('data');
+    }
+
+    public function saveVisibility(): void
+    {
+        $data = $this->form->getState();
+
+        Project::ensureSingleton()->update([
+            'show_proposed_clubs_section' => (bool) ($data['show_proposed_clubs_section'] ?? false),
+            'show_proposed_referees_section' => (bool) ($data['show_proposed_referees_section'] ?? false),
+            'show_proposed_coaches_section' => (bool) ($data['show_proposed_coaches_section'] ?? false),
+            'show_proposed_players_section' => (bool) ($data['show_proposed_players_section'] ?? false),
+        ]);
+
+        Notification::make()
+            ->success()
+            ->title('Visibilidad actualizada')
+            ->send();
     }
 
     public function table(Table $table): Table

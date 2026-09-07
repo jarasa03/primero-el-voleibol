@@ -58,7 +58,7 @@
         </div>
     </section>
 
-    <section id="articulos" class="px-4 py-8 sm:px-6 lg:px-8 lg:py-14">
+    <section id="articulos" class="py-8 lg:py-14">
         <div class="mb-4 flex items-end justify-between gap-4 sm:mb-6">
             <div>
                 <p class="text-sm font-semibold uppercase tracking-[0.25em] text-accent-700">Artículos</p>

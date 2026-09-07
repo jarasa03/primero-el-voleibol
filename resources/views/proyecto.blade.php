@@ -19,7 +19,7 @@
     >
         <div class="absolute inset-0 bg-slate-950/60"></div>
 
-        <div class="relative z-10 mx-auto w-full max-w-[120rem] px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+        <div class="relative z-10 mx-auto w-full max-w-[120rem] px-4 pt-[4.5rem] pb-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
             <div class="grid gap-10 lg:grid-cols-[1.25fr_0.75fr] lg:items-center lg:gap-12">
                 <div class="flex w-full flex-col justify-center">
                     <p class="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300 sm:text-sm sm:tracking-[0.25em]">Proyecto</p>
@@ -78,14 +78,14 @@
     </section>
 
     @if (session('status'))
-        <div class="mx-auto w-full max-w-[120rem] px-4 pt-6 sm:px-6 lg:px-8">
+        <div class="mx-auto w-full max-w-[120rem] pt-6">
             <div class="rounded-[1.5rem] border border-emerald-200 bg-emerald-50 px-4 py-4 text-sm leading-6 text-emerald-900 shadow-sm sm:px-6">
                 {{ session('status') }}
             </div>
         </div>
     @endif
 
-    <div class="mx-auto w-full max-w-[120rem] px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto w-full max-w-[120rem]">
         @if ($projectLeader['show_leader_section'])
             <section id="contenido" class="py-10 lg:py-14">
                 <div class="grid gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
@@ -160,7 +160,7 @@
         <section class="py-10 lg:py-14">
             <div class="space-y-8 lg:space-y-10">
                 @foreach ($supportSections as $section)
-                    <div class="flex flex-col gap-4 px-1 sm:px-2 lg:flex-row lg:items-end lg:justify-between">
+                    <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
                         <div class="max-w-4xl">
                             <p class="text-xs font-semibold uppercase tracking-[0.28em] text-accent-700 sm:text-sm sm:tracking-[0.25em]">
                                 {{ $section['eyebrow'] }}
@@ -201,7 +201,7 @@
         </section>
     </div>
 
-    <div class="mx-auto w-full max-w-[120rem] px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto w-full max-w-[120rem]">
         <section class="py-10 lg:py-14">
             <div class="space-y-10 lg:space-y-12">
                 @foreach ($proposedSections as $section)

@@ -508,7 +508,6 @@
         display: flex;
         width: max-content;
         align-items: stretch;
-        gap: var(--marquee-gap, 1.25rem);
         will-change: transform;
         animation: marquee-scroll var(--marquee-duration, 42s) linear infinite;
     }
@@ -860,7 +859,7 @@
         }
 
         to {
-            transform: translate3d(calc(var(--marquee-start-offset, 0%) - 50% - (var(--marquee-gap, 1.25rem) / 2)), 0, 0);
+            transform: translate3d(calc(var(--marquee-start-offset, 0%) - 50%), 0, 0);
         }
     }
 
