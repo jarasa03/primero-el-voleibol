@@ -117,6 +117,7 @@ jobs:
           git pull --ff-only origin main
           php /home/primerv/composer.phar install --no-dev --optimize-autoloader --no-interaction
           php artisan migrate --force
+          php artisan livewire:publish --assets
           php artisan optimize:clear
           php artisan optimize
           rm -f public/storage
