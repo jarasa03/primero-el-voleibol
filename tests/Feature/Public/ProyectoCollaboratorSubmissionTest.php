@@ -129,6 +129,57 @@ it('stores a collaborator submission with a private referee upload', function ()
     Storage::disk('public')->assertMissing($submission->photo_path);
 });
 
+it('includes all referee details and the uploaded photo in the email', function (): void {
+    Storage::fake('local');
+
+    $photoPath = 'project-collaborator-submissions/foto-arbitro.jpg';
+    Storage::disk('local')->put($photoPath, 'fake-image-data');
+
+    $submission = ProjectCollaboratorSubmission::factory()->create([
+        'collaborator_type' => 'referee',
+        'full_name' => 'Ana Pérez',
+        'referee_volleyball_level' => 'superliga_1',
+        'referee_beach_level' => 'vp_level_2',
+        'referee_contact_email' => 'ana@example.com',
+        'referee_contact_phone' => '611111111',
+        'referee_license_confirmation' => true,
+        'photo_path' => $photoPath,
+    ]);
+
+    $mail = new ProjectCollaboratorSubmissionReceived($submission);
+
+    $mail->assertSeeInHtml('Nueva colaboración recibida');
+    $mail->assertSeeInHtml('Ana Pérez');
+    $mail->assertSeeInHtml('superliga_1');
+    $mail->assertSeeInHtml('vp_level_2');
+    $mail->assertSeeInHtml('ana@example.com');
+    $mail->assertSeeInHtml('611111111');
+    $mail->assertSeeInHtml('Fotografía:');
+    $mail->assertSeeInHtml('data:image/jpeg;base64,');
+    $mail->assertDontSeeInHtml('se ha guardado como pendiente');
+    $mail->assertDontSeeInHtml('Tiene equipo federado');
+    $mail->assertDontSeeInHtml('Licencia federativa en vigor');
+});
+
+it('marks a non-public coach submission as anonymous in the email', function (): void {
+    Storage::fake('local');
+
+    $photoPath = 'project-collaborator-submissions/foto-entrenador.jpg';
+    Storage::disk('local')->put($photoPath, 'fake-image-data');
+
+    $submission = ProjectCollaboratorSubmission::factory()->create([
+        'collaborator_type' => 'coach',
+        'coach_show_club_on_profile' => false,
+        'photo_path' => $photoPath,
+    ]);
+
+    $mail = new ProjectCollaboratorSubmissionReceived($submission);
+
+    $mail->assertSeeInHtml('Identidad pública:');
+    $mail->assertSeeInHtml('Anónima');
+    $mail->assertDontSeeInHtml('Mostrar el club en la ficha');
+});
+
 it('requires at least one referee level for referee submissions', function (): void {
     $response = $this->from(route('proyecto'))->post(route('proyecto.colaboradores.store'), [
         'collaborator_type' => 'referee',

@@ -9,6 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectCollaboratorSubmissionReceived extends Mailable
 {
@@ -28,7 +29,23 @@ class ProjectCollaboratorSubmissionReceived extends Mailable
     {
         return new Content(
             markdown: 'emails.project-collaborator-submission-received',
+            with: [
+                'photoPath' => $this->photoPath(),
+            ],
         );
+    }
+
+    private function photoPath(): ?string
+    {
+        if (! $this->submission->photo_path) {
+            return null;
+        }
+
+        $disk = Storage::disk('local');
+
+        return $disk->exists($this->submission->photo_path)
+            ? $disk->path($this->submission->photo_path)
+            : null;
     }
 
     private function replyToAddress(): ?string
