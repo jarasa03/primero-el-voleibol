@@ -82,6 +82,8 @@ class ProjectCollaboratorSubmissionController extends Controller
             'status' => 'pending',
             'source' => 'proyecto-page',
             'consented_at' => now(),
+            'adult_confirmed_at' => now(),
+            'publication_consented_at' => now(),
         ]);
 
         Mail::send(new ProjectCollaboratorSubmissionReceived($submission));

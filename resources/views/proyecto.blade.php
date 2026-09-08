@@ -175,7 +175,7 @@
 
                         <button
                             type="button"
-                            class="inline-flex items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white shadow-sm transition md:hover:bg-slate-800 md:hover:cursor-pointer"
+                            class="inline-flex cursor-pointer items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white shadow-sm transition md:hover:bg-slate-800"
                             data-collaborator-modal-open
                             data-collaborator-type="{{ $collaboratorTypeByTitle[$section['title']] ?? 'club' }}"
                             data-collaborator-section="{{ $section['title'] }}"
@@ -309,7 +309,7 @@
     >
         <button
             type="button"
-            class="absolute inset-0 bg-slate-950/80"
+            class="absolute inset-0 cursor-pointer bg-slate-950/80"
             aria-label="Cerrar formulario"
             data-collaborator-modal-close
         ></button>
@@ -354,7 +354,7 @@
                         id="collaborator-type"
                         name="collaborator_type"
                         required
-                        class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
+                        class="cursor-pointer rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
                         data-collaborator-type-input
                     >
                         <option value="club" @selected(old('collaborator_type', 'club') === 'club')>Clubes colaboradores</option>
@@ -479,7 +479,7 @@
                         name="photo"
                         accept="image/*"
                         required
-                        class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-950 outline-none transition file:mr-4 file:rounded-full file:border-0 file:bg-slate-950 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-slate-800 focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
+                        class="cursor-pointer rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-950 outline-none transition file:mr-4 file:cursor-pointer file:rounded-full file:border-0 file:bg-slate-950 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-slate-800 focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
                     >
                     <p class="text-sm leading-6 text-slate-600" data-collaborator-photo-help>
                         Sube el logo del club para que podamos preparar su ficha.
@@ -496,7 +496,7 @@
                     <select
                         id="collaborator-referee-volleyball-level"
                         name="referee_volleyball_level"
-                        class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
+                        class="cursor-pointer rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
                     >
                         <option value="" @selected(old('referee_volleyball_level') === null || old('referee_volleyball_level') === '')>Ninguno</option>
                         <option value="anotador" @selected(old('referee_volleyball_level') === 'anotador')>Anotador</option>
@@ -519,7 +519,7 @@
                     <select
                         id="collaborator-referee-beach-level"
                         name="referee_beach_level"
-                        class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
+                        class="cursor-pointer rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
                     >
                         <option value="" @selected(old('referee_beach_level') === null || old('referee_beach_level') === '')>Ninguno</option>
                         <option value="vp_level_1" @selected(old('referee_beach_level') === 'vp_level_1')>VP Nivel 1</option>
@@ -532,7 +532,7 @@
                 </div>
 
                 <p class="hidden text-sm text-slate-500" data-collaborator-referee-only>
-                    Debes completar al menos uno de los dos niveles.
+                    Debes completar al menos uno de los dos niveles. <span class="align-top text-rose-500">*</span>
                 </p>
 
                 <div class="grid gap-2 hidden" data-collaborator-referee-only>
@@ -575,24 +575,6 @@
                     @enderror
                 </div>
 
-                <label class="hidden flex items-start gap-3 rounded-[1.5rem] border border-slate-200 bg-slate-50 px-4 py-4" data-collaborator-referee-only>
-                    <input
-                        type="checkbox"
-                        name="referee_license_confirmation"
-                        value="1"
-                        required
-                        @checked(old('referee_license_confirmation'))
-                        class="mt-1 size-4 rounded border-slate-300 text-amber-500 focus:ring-amber-500"
-                        data-collaborator-referee-required
-                    >
-                    <span class="text-sm leading-6 text-slate-700">
-                        Asumo que al enviar esto soy un árbitro federado con licencia en vigor. <span class="align-top text-rose-500">*</span>
-                    </span>
-                </label>
-                @error('referee_license_confirmation')
-                    <span class="text-sm text-rose-600">{{ $message }}</span>
-                @enderror
-
                 <div class="grid gap-2 hidden" data-collaborator-coach-only>
                     <label for="collaborator-coach-volleyball-level" class="text-sm font-semibold text-slate-900">
                         Nivel de voleibol
@@ -600,7 +582,7 @@
                     <select
                         id="collaborator-coach-volleyball-level"
                         name="coach_volleyball_level"
-                        class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
+                        class="cursor-pointer rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
                     >
                         <option value="" @selected(old('coach_volleyball_level') === null || old('coach_volleyball_level') === '')>Ninguno</option>
                         <option value="level_0" @selected(old('coach_volleyball_level') === 'level_0')>Nivel 0</option>
@@ -623,7 +605,7 @@
                     <select
                         id="collaborator-coach-beach-level"
                         name="coach_beach_level"
-                        class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
+                        class="cursor-pointer rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
                     >
                         <option value="" @selected(old('coach_beach_level') === null || old('coach_beach_level') === '')>Ninguno</option>
                         <option value="vp_level_1" @selected(old('coach_beach_level') === 'vp_level_1')>VP Nivel 1</option>
@@ -636,7 +618,7 @@
                 </div>
 
                 <p class="hidden text-sm text-slate-500" data-collaborator-coach-only>
-                    Debes completar al menos uno de los dos niveles.
+                    Debes completar al menos uno de los dos niveles. <span class="align-top text-rose-500">*</span>
                 </p>
 
                 <div class="grid gap-2 hidden" data-collaborator-coach-only>
@@ -706,7 +688,7 @@
                         id="collaborator-coach-show-club"
                         name="coach_show_club_on_profile"
                         required
-                        class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
+                        class="cursor-pointer rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
                         data-collaborator-coach-required
                     >
                         <option value="" @selected(old('coach_show_club_on_profile') === null || old('coach_show_club_on_profile') === '')>Selecciona una opción</option>
@@ -717,24 +699,6 @@
                         <span class="text-sm text-rose-600">{{ $message }}</span>
                     @enderror
                 </div>
-
-                <label class="hidden flex items-start gap-3 rounded-[1.5rem] border border-slate-200 bg-slate-50 px-4 py-4" data-collaborator-coach-only>
-                    <input
-                        type="checkbox"
-                        name="coach_license_confirmation"
-                        value="1"
-                        required
-                        @checked(old('coach_license_confirmation'))
-                        class="mt-1 size-4 rounded border-slate-300 text-amber-500 focus:ring-amber-500"
-                        data-collaborator-coach-required
-                    >
-                    <span class="text-sm leading-6 text-slate-700">
-                        Asumo que al enviar esto soy un entrenador federado con licencia en vigor. <span class="align-top text-rose-500">*</span>
-                    </span>
-                </label>
-                @error('coach_license_confirmation')
-                    <span class="text-sm text-rose-600">{{ $message }}</span>
-                @enderror
 
                 <div class="grid gap-2 hidden" data-collaborator-player-only>
                     <label for="collaborator-player-division" class="text-sm font-semibold text-slate-900">
@@ -782,7 +746,7 @@
                         id="collaborator-player-show-team"
                         name="player_show_team_on_profile"
                         required
-                        class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
+                        class="cursor-pointer rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
                         data-collaborator-player-required
                     >
                         <option value="" @selected(old('player_show_team_on_profile') === null || old('player_show_team_on_profile') === '')>Selecciona una opción</option>
@@ -834,41 +798,80 @@
                     @enderror
                 </div>
 
-                <label class="hidden flex items-start gap-3 rounded-[1.5rem] border border-slate-200 bg-slate-50 px-4 py-4" data-collaborator-player-only>
+                <div class="grid gap-3" data-collaborator-functional-requirements>
+                    <label class="hidden flex cursor-pointer items-start gap-3 rounded-[1.5rem] border border-slate-200 bg-slate-50 px-4 py-4" data-collaborator-referee-only>
+                        <input type="checkbox" name="referee_license_confirmation" value="1" required @checked(old('referee_license_confirmation')) class="mt-1 size-4 cursor-pointer rounded border-slate-300 text-amber-500 focus:ring-amber-500" data-collaborator-referee-required>
+                        <span class="text-sm leading-6 text-slate-700">Asumo que al enviar esto soy un árbitro federado con licencia en vigor. <span class="align-top text-rose-500">*</span></span>
+                    </label>
+                    @error('referee_license_confirmation')
+                        <span class="text-sm text-rose-600">{{ $message }}</span>
+                    @enderror
+
+                    <label class="hidden flex cursor-pointer items-start gap-3 rounded-[1.5rem] border border-slate-200 bg-slate-50 px-4 py-4" data-collaborator-coach-only>
+                        <input type="checkbox" name="coach_license_confirmation" value="1" required @checked(old('coach_license_confirmation')) class="mt-1 size-4 cursor-pointer rounded border-slate-300 text-amber-500 focus:ring-amber-500" data-collaborator-coach-required>
+                        <span class="text-sm leading-6 text-slate-700">Asumo que al enviar esto soy un entrenador federado con licencia en vigor. <span class="align-top text-rose-500">*</span></span>
+                    </label>
+                    @error('coach_license_confirmation')
+                        <span class="text-sm text-rose-600">{{ $message }}</span>
+                    @enderror
+
+                    <label class="hidden flex cursor-pointer items-start gap-3 rounded-[1.5rem] border border-slate-200 bg-slate-50 px-4 py-4" data-collaborator-player-only>
+                        <input type="checkbox" name="player_license_confirmation" value="1" required @checked(old('player_license_confirmation')) class="mt-1 size-4 cursor-pointer rounded border-slate-300 text-amber-500 focus:ring-amber-500" data-collaborator-player-required>
+                        <span class="text-sm leading-6 text-slate-700">Asumo que al enviar esto soy un jugador federado con licencia en vigor. <span class="align-top text-rose-500">*</span></span>
+                    </label>
+                    @error('player_license_confirmation')
+                        <span class="text-sm text-rose-600">{{ $message }}</span>
+                    @enderror
+
+                    <label class="flex cursor-pointer items-start gap-3 rounded-[1.5rem] border border-slate-200 bg-slate-50 px-4 py-4" data-collaborator-club-only>
+                        <input type="checkbox" name="federated_team_confirmation" value="1" required @checked(old('federated_team_confirmation')) class="mt-1 size-4 cursor-pointer rounded border-slate-300 text-amber-500 focus:ring-amber-500" data-collaborator-club-required>
+                        <span class="text-sm leading-6 text-slate-700">Asumo que el club que estoy enviando tiene algún equipo federado. <span class="align-top text-rose-500">*</span></span>
+                    </label>
+                    @error('federated_team_confirmation')
+                        <span class="text-sm text-rose-600">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <label class="flex cursor-pointer items-start gap-3 rounded-[1.5rem] border border-slate-200 bg-slate-50 px-4 py-4 sm:px-6">
                     <input
                         type="checkbox"
-                        name="player_license_confirmation"
+                        name="consent"
                         value="1"
+                        class="mt-1 size-4 cursor-pointer rounded border-slate-300 text-amber-500 focus:ring-amber-500"
                         required
-                        @checked(old('player_license_confirmation'))
-                        class="mt-1 size-4 rounded border-slate-300 text-amber-500 focus:ring-amber-500"
-                        data-collaborator-player-required
                     >
-                    <span class="text-sm leading-6 text-slate-700">
-                        Asumo que al enviar esto soy un jugador federado con licencia en vigor. <span class="align-top text-rose-500">*</span>
+                    <span class="text-sm leading-6 text-slate-600">
+                        Confirmo que tengo 18 años o más y consiento el tratamiento de mis datos para gestionar mi solicitud de colaboración.
+                        <span class="align-top text-rose-500">*</span>
                     </span>
                 </label>
-                @error('player_license_confirmation')
+                @error('consent')
                     <span class="text-sm text-rose-600">{{ $message }}</span>
                 @enderror
 
-                <label class="flex items-start gap-3 rounded-[1.5rem] border border-slate-200 bg-slate-50 px-4 py-4" data-collaborator-club-only>
+                <label class="flex cursor-pointer items-start gap-3 rounded-[1.5rem] border border-slate-200 bg-slate-50 px-4 py-4 sm:px-6">
                     <input
                         type="checkbox"
-                        name="federated_team_confirmation"
+                        name="publication_consent"
                         value="1"
+                        class="mt-1 size-4 cursor-pointer rounded border-slate-300 text-amber-500 focus:ring-amber-500"
                         required
-                        @checked(old('federated_team_confirmation'))
-                        class="mt-1 size-4 rounded border-slate-300 text-amber-500 focus:ring-amber-500"
-                        data-collaborator-club-required
                     >
-                    <span class="text-sm leading-6 text-slate-700">
-                        Asumo que el club que estoy enviando tiene algún equipo federado. <span class="align-top text-rose-500">*</span>
+                    <span class="text-sm leading-6 text-slate-600">
+                        Autorizo expresamente que, si mi solicitud es aceptada, se publiquen en mi ficha el nombre,
+                        la imagen o logo y la información deportiva indicada, incluyendo el club o equipo cuando haya
+                        elegido mostrarlo. El envío no implica publicación automática. No se publicarán email, teléfono
+                        ni datos internos de contacto. <span class="align-top text-rose-500">*</span>
                     </span>
                 </label>
-                @error('federated_team_confirmation')
+                @error('publication_consent')
                     <span class="text-sm text-rose-600">{{ $message }}</span>
                 @enderror
+
+                <div class="text-xs leading-5 text-slate-500">
+                    <p>Responsable: Francisco Javier Arruabarrena Sabroso. Tus datos se utilizarán para gestionar esta solicitud.</p>
+                    <p class="mt-1">Más información en nuestra <a class="font-semibold text-accent-700 underline" href="{{ route('legal.politica-de-privacidad') }}">Política de Privacidad</a>.</p>
+                </div>
 
                 @if ($errors->any())
                     <div class="rounded-[1.5rem] border border-rose-200 bg-rose-50 px-4 py-4 text-sm leading-6 text-rose-900">
@@ -884,14 +887,14 @@
                 <div class="flex flex-wrap items-center justify-end gap-3 border-t border-slate-200 pt-5">
                     <button
                         type="button"
-                        class="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition md:hover:bg-slate-50"
+                        class="inline-flex cursor-pointer items-center justify-center rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition md:hover:bg-slate-50"
                         data-collaborator-modal-close
                     >
                         Cancelar
                     </button>
                     <button
                         type="submit"
-                        class="inline-flex items-center justify-center rounded-full bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-950 transition md:hover:bg-amber-300"
+                        class="inline-flex cursor-pointer items-center justify-center rounded-full bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-950 transition md:hover:bg-amber-300"
                     >
                         Enviar solicitud
                     </button>

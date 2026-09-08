@@ -14,6 +14,7 @@ class ProjectClubSupporter extends Model
     use HasFactory;
 
     protected ?string $previousImagePath = null;
+
     protected ?string $previousShieldPath = null;
 
     protected $fillable = [

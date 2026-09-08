@@ -162,36 +162,36 @@
 
                     <div class="grid gap-3 rounded-[1.5rem] border border-slate-200 bg-slate-50 px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
                         <p class="text-sm font-semibold leading-6 text-slate-900 sm:text-base">
-                            ¿Quieres reflejar la propuesta de forma privada?
+                            ¿Cómo quieres enviar tu propuesta?
                             <span class="align-top text-rose-500">*</span>
                         </p>
 
-                        <label class="flex items-start gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3">
+                        <label class="flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3">
                             <input
                                 type="radio"
                                 name="response_preference"
-                                value="public"
+                                value="identified"
                                 required
-                                @checked(old('response_preference', 'public') === 'public')
+                                @checked(old('response_preference', 'identified') === 'identified')
                                 data-response-preference
-                                class="mt-1 size-4 border-slate-300 text-amber-500 focus:ring-amber-500"
+                                class="mt-1 size-4 cursor-pointer border-slate-300 text-amber-500 focus:ring-amber-500"
                             >
                             <span class="text-sm leading-6 text-slate-700">
-                                No, quiero que aparezca con mi nombre y correo.
+                                Envío identificado: quiero facilitar mi nombre y correo para que podáis contactarme.
                             </span>
                         </label>
 
-                        <label class="flex items-start gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3">
+                        <label class="flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3">
                             <input
                                 type="radio"
                                 name="response_preference"
-                                value="private"
-                                @checked(old('response_preference') === 'private')
+                                value="anonymous"
+                                @checked(old('response_preference') === 'anonymous')
                                 data-response-preference
-                                class="mt-1 size-4 border-slate-300 text-amber-500 focus:ring-amber-500"
+                                class="mt-1 size-4 cursor-pointer border-slate-300 text-amber-500 focus:ring-amber-500"
                             >
                             <span class="text-sm leading-6 text-slate-700">
-                                Sí, quiero enviarla de forma privada. La idea llegará igual, pero no aparecerán mis datos.
+                                Envío anónimo: no facilitaré nombre ni correo a través de este formulario.
                             </span>
                         </label>
 
@@ -200,7 +200,7 @@
                         @enderror
                     </div>
 
-                    <div class="grid gap-4 sm:grid-cols-2 sm:gap-5" data-participation-identity-field @if(old('response_preference') === 'private') hidden @endif>
+                    <div class="grid gap-4 sm:grid-cols-2 sm:gap-5" data-participation-identity-field @if(old('response_preference') === 'anonymous') hidden @endif>
                         <label class="grid gap-2">
                             <span class="text-sm font-semibold text-slate-900">
                                 Nombre <span class="align-top text-rose-500">*</span>
@@ -264,7 +264,7 @@
                         </span>
                         <select
                             name="topic"
-                            class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
+                            class="cursor-pointer rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white focus:ring-4 focus:ring-brand-200/40"
                             required
                         >
                             <option value="">Selecciona una opción</option>
@@ -293,24 +293,28 @@
                         @enderror
                     </label>
 
-                    <label class="flex items-start gap-3 rounded-[1.5rem] border border-slate-200 bg-slate-50 px-4 py-4 sm:px-6 lg:px-8">
+                    <label class="flex cursor-pointer items-start gap-3 rounded-[1.5rem] border border-slate-200 bg-slate-50 px-4 py-4 sm:px-6 lg:px-8">
                         <input
                             type="checkbox"
                             name="consent"
                             value="1"
                             @checked(old('consent'))
-                            class="mt-1 size-4 rounded border-slate-300 text-amber-500 focus:ring-amber-500"
+                            class="mt-1 size-4 cursor-pointer rounded border-slate-300 text-amber-500 focus:ring-amber-500"
                             required
                         >
                         <span class="text-sm leading-6 text-slate-600">
+                            Confirmo que tengo 18 años o más y consiento el tratamiento de los datos facilitados para gestionar mi propuesta.
                             <span class="align-top text-rose-500">*</span>
-                            Acepto que uséis mis datos para revisar esta propuesta y, si hace falta, responderme sobre
-                            ella. No se publicará nada sin permiso.
                         </span>
                     </label>
                     @error('consent')
                         <span class="text-sm text-rose-600">{{ $message }}</span>
                     @enderror
+
+                    <div class="text-xs leading-5 text-slate-500">
+                        <p>Responsable: Francisco Javier Arruabarrena Sabroso. Tus datos se utilizarán para gestionar tu propuesta.</p>
+                        <p class="mt-1">Más información en nuestra <a class="font-semibold text-accent-700 underline" href="{{ route('legal.politica-de-privacidad') }}">Política de Privacidad</a>.</p>
+                    </div>
 
                     <div class="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center">
                         <button type="submit" class="inline-flex w-full cursor-pointer items-center justify-center whitespace-nowrap rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white shadow-sm transition duration-200 md:hover:-translate-y-0.5 md:hover:bg-slate-800 md:hover:shadow-lg sm:w-auto">

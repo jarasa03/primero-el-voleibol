@@ -36,7 +36,7 @@ class ProjectCollaboratorSubmissionFactory extends Factory
             'player_show_team_on_profile' => $this->faker->boolean(),
             'player_contact_email' => $this->faker->safeEmail(),
             'player_contact_phone' => $this->faker->numerify('6########'),
-            'photo_path' => 'project-collaborator-submissions/' . $this->faker->uuid() . '.jpg',
+            'photo_path' => 'project-collaborator-submissions/'.$this->faker->uuid().'.jpg',
             'federated_team_confirmation' => $this->faker->boolean(),
             'referee_license_confirmation' => $this->faker->boolean(),
             'coach_license_confirmation' => $this->faker->boolean(),

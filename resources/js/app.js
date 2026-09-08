@@ -1,8 +1,9 @@
 const body = document.body;
 const isHomePage = body.classList.contains('page-home');
+const isLegalPage = body.classList.contains('page-legal');
 
 const updateNavigationState = () => {
-    if (isHomePage) {
+    if (isHomePage || isLegalPage) {
         body.dataset.navScrolled = 'true';
 
         return;
@@ -319,7 +320,7 @@ const setupParticipationForm = () => {
 
     const syncEmailField = () => {
         const selectedPreference = preferenceInputs.find((input) => input instanceof HTMLInputElement && input.checked);
-        const isPrivate = selectedPreference instanceof HTMLInputElement ? selectedPreference.value === 'private' : false;
+        const isPrivate = selectedPreference instanceof HTMLInputElement ? selectedPreference.value === 'anonymous' : false;
 
         identityField.hidden = isPrivate;
         nameInput.disabled = isPrivate;

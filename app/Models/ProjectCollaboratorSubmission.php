@@ -39,6 +39,8 @@ class ProjectCollaboratorSubmission extends Model
         'status',
         'source',
         'consented_at',
+        'adult_confirmed_at',
+        'publication_consented_at',
     ];
 
     protected function casts(): array
@@ -51,6 +53,8 @@ class ProjectCollaboratorSubmission extends Model
             'player_show_team_on_profile' => 'boolean',
             'player_license_confirmation' => 'boolean',
             'consented_at' => 'datetime',
+            'adult_confirmed_at' => 'datetime',
+            'publication_consented_at' => 'datetime',
         ];
     }
 }

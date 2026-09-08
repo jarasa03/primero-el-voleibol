@@ -39,5 +39,3 @@ enum ProjectSupporterType: string
         };
     }
 }
-
-

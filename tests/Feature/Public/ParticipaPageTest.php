@@ -13,7 +13,17 @@ it('renders the participate page with the form', function (): void {
     $response->assertSuccessful();
     $response->assertSeeHtml('<title>Participa | Primero el Voleibol</title>');
     $response->assertSeeHtml('<link rel="canonical" href="http://primero-el-voleibol.test/participa">');
-    $response->assertSee('¿Quieres reflejar la propuesta de forma privada?');
+    $response->assertSee('¿Cómo quieres enviar tu propuesta?');
+    $response->assertSee('Envío identificado');
+    $response->assertSee('Envío anónimo');
+    $response->assertSee('Confirmo que tengo 18 años o más y consiento');
+    $response->assertSee('Responsable: Francisco Javier Arruabarrena Sabroso. Tus datos se utilizarán para gestionar tu propuesta.');
+    $response->assertSeeHtml('Más información en nuestra <a class="font-semibold text-accent-700 underline" href="'.route('legal.politica-de-privacidad').'">Política de Privacidad</a>.');
+    expect(substr_count($response->getContent(), 'name="consent"'))->toBe(1);
+    $response->assertSeeHtml('class="flex cursor-pointer items-start gap-3 rounded-[1.5rem]');
+    $response->assertSeeHtml('class="mt-1 size-4 cursor-pointer rounded border-slate-300 text-amber-500 focus:ring-amber-500"');
+    $response->assertSeeHtml('<span class="align-top text-rose-500">*</span>');
+    $response->assertDontSeeHtml('name="consent" value="1" checked');
     $response->assertSee('Enviar idea');
     $response->assertSee('Tu idea');
 });
@@ -22,7 +32,7 @@ it('stores a participation idea with contact details', function (): void {
     Mail::fake();
 
     $response = $this->post(route('participa.store'), [
-        'response_preference' => 'public',
+        'response_preference' => 'identified',
         'name' => 'Javier Pérez',
         'email' => 'javier@example.com',
         'club_or_role' => 'Entrenador',
@@ -44,6 +54,8 @@ it('stores a participation idea with contact details', function (): void {
         'source' => 'participa-page',
     ]);
 
+    expect(ParticipationIdea::query()->first()?->adult_confirmed_at)->not->toBeNull();
+
     expect(ParticipationIdea::query()->count())->toBe(1);
 
     Mail::assertSent(ParticipationIdeaReceived::class, function (ParticipationIdeaReceived $mail): bool {
@@ -60,7 +72,7 @@ it('stores a participation idea with contact details', function (): void {
 
 it('stores a private participation idea without identity fields', function (): void {
     $response = $this->post(route('participa.store'), [
-        'response_preference' => 'private',
+        'response_preference' => 'anonymous',
         'name' => '',
         'email' => '',
         'club_or_role' => 'Jugador',
@@ -80,11 +92,13 @@ it('stores a private participation idea without identity fields', function (): v
         'topic' => 'otro',
         'source' => 'participa-page',
     ]);
+
+    expect(ParticipationIdea::query()->first()?->adult_confirmed_at)->not->toBeNull();
 });
 
 it('requires the visible fields for public submissions', function (): void {
     $response = $this->from(route('participa'))->post(route('participa.store'), [
-        'response_preference' => 'public',
+        'response_preference' => 'identified',
         'name' => '',
         'email' => '',
         'club_or_role' => '',
@@ -103,7 +117,7 @@ it('requires the visible fields for public submissions', function (): void {
 
 it('shows a Spanish message when the idea is too short', function (): void {
     $response = $this->from(route('participa'))->post(route('participa.store'), [
-        'response_preference' => 'public',
+        'response_preference' => 'identified',
         'name' => 'Javier Pérez',
         'email' => 'javier@example.com',
         'club_or_role' => 'Entrenador',
@@ -120,7 +134,7 @@ it('shows a Spanish message when the idea is too short', function (): void {
 
 it('rejects spam submissions caught by the honeypot', function (): void {
     $response = $this->from(route('participa'))->post(route('participa.store'), [
-        'response_preference' => 'public',
+        'response_preference' => 'identified',
         'name' => 'Spam Bot',
         'email' => 'spam@example.com',
         'club_or_role' => 'Entrenador',
@@ -133,5 +147,19 @@ it('rejects spam submissions caught by the honeypot', function (): void {
     $response->assertRedirect(route('participa'));
     $response->assertSessionHasErrors('website');
 
+    $this->assertDatabaseCount('participation_ideas', 0);
+});
+
+it('requires the combined consent and adult confirmation', function (): void {
+    $response = $this->from(route('participa'))->post(route('participa.store'), [
+        'response_preference' => 'anonymous',
+        'club_or_role' => 'Jugador',
+        'topic' => 'otro',
+        'idea' => 'Una propuesta suficientemente larga para superar la validación mínima.',
+        'website' => '',
+    ]);
+
+    $response->assertRedirect(route('participa'));
+    $response->assertSessionHasErrors('consent');
     $this->assertDatabaseCount('participation_ideas', 0);
 });

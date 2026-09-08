@@ -10,7 +10,7 @@
             <div class="pointer-events-none absolute inset-0">
                 <div
                     class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-25 mix-blend-soft-light"
-                    style="background-image: url('https://source.unsplash.com/featured/1600x900/?volleyball%2Ccourt%2Csport');"
+                    style="background-image: url('{{ asset('images/home-hero.webp') }}');"
                 ></div>
                 <div class="absolute inset-0 bg-[linear-gradient(118deg,rgba(15,23,42,0.97)_8%,rgba(15,23,42,0.84)_42%,rgba(15,23,42,0.58)_100%)]"></div>
                 <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(251,191,36,0.20),transparent_42%)]"></div>

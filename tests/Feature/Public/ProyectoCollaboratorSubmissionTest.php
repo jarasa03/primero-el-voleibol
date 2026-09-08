@@ -33,6 +33,18 @@ it('renders collaborator submission triggers on the project page', function (): 
     $response->assertSee('Asumo que al enviar esto soy un árbitro federado con licencia en vigor');
     $response->assertSee('Asumo que al enviar esto soy un entrenador federado con licencia en vigor');
     $response->assertSee('Asumo que al enviar esto soy un jugador federado con licencia en vigor');
+    $response->assertSee('consiento el tratamiento de mis datos');
+    $response->assertSee('Autorizo expresamente que');
+    $response->assertSee('Confirmo que tengo 18 años o más y consiento');
+    $response->assertSee('Responsable: Francisco Javier Arruabarrena Sabroso. Tus datos se utilizarán para gestionar esta solicitud.');
+    $response->assertSeeHtml('Más información en nuestra <a class="font-semibold text-accent-700 underline" href="'.route('legal.politica-de-privacidad').'">Política de Privacidad</a>.');
+    expect(substr_count($response->getContent(), 'name="consent"'))->toBe(1);
+    expect(substr_count($response->getContent(), 'name="publication_consent"'))->toBe(1);
+    $response->assertSeeHtml('class="flex cursor-pointer items-start gap-3 rounded-[1.5rem]');
+    $response->assertSeeHtml('class="mt-1 size-4 cursor-pointer rounded border-slate-300 text-amber-500 focus:ring-amber-500"');
+    expect(substr_count($response->getContent(), 'class="align-top text-rose-500">*</span>'))->toBeGreaterThanOrEqual(2);
+    $response->assertDontSeeHtml('name="consent" value="1" checked');
+    $response->assertDontSeeHtml('name="publication_consent" value="1" checked');
 });
 
 it('stores a collaborator submission with a private club upload', function (): void {
@@ -51,6 +63,7 @@ it('stores a collaborator submission with a private club upload', function (): v
         'photo' => UploadedFile::fake()->image('foto-colaborador.jpg'),
         'federated_team_confirmation' => '1',
         'consent' => '1',
+        'publication_consent' => '1',
         'website' => '',
     ]);
 
@@ -73,6 +86,8 @@ it('stores a collaborator submission with a private club upload', function (): v
     ]);
 
     expect($submission?->consented_at)->not->toBeNull();
+    expect($submission?->adult_confirmed_at)->not->toBeNull();
+    expect($submission?->publication_consented_at)->not->toBeNull();
 
     Storage::disk('local')->assertExists($submission->photo_path);
     Storage::disk('public')->assertMissing($submission->photo_path);
@@ -102,6 +117,8 @@ it('stores a collaborator submission with a private referee upload', function ()
         'referee_contact_phone' => '611111111',
         'photo' => UploadedFile::fake()->image('foto-arbitro.jpg'),
         'referee_license_confirmation' => '1',
+        'consent' => '1',
+        'publication_consent' => '1',
         'website' => '',
     ]);
 
@@ -193,6 +210,7 @@ it('requires at least one referee level for referee submissions', function (): v
         'photo' => UploadedFile::fake()->image('foto-arbitro.jpg'),
         'referee_license_confirmation' => '1',
         'consent' => '1',
+        'publication_consent' => '1',
         'website' => '',
     ]);
 
@@ -221,6 +239,7 @@ it('stores a collaborator submission with a private coach upload', function (): 
         'photo' => UploadedFile::fake()->image('foto-entrenador.jpg'),
         'coach_license_confirmation' => '1',
         'consent' => '1',
+        'publication_consent' => '1',
         'website' => '',
     ]);
 
@@ -263,6 +282,7 @@ it('requires at least one coach level for coach submissions', function (): void 
         'photo' => UploadedFile::fake()->image('foto-entrenador.jpg'),
         'coach_license_confirmation' => '1',
         'consent' => '1',
+        'publication_consent' => '1',
         'website' => '',
     ]);
 
@@ -288,6 +308,7 @@ it('requires coach contact details for coach submissions', function (): void {
         'photo' => UploadedFile::fake()->image('foto-entrenador.jpg'),
         'coach_license_confirmation' => '1',
         'consent' => '1',
+        'publication_consent' => '1',
         'website' => '',
     ]);
 
@@ -317,6 +338,7 @@ it('stores a collaborator submission with a private player upload', function ():
         'photo' => UploadedFile::fake()->image('foto-jugador.jpg'),
         'player_license_confirmation' => '1',
         'consent' => '1',
+        'publication_consent' => '1',
         'website' => '',
     ]);
 
@@ -357,6 +379,7 @@ it('requires player details for player submissions', function (): void {
         'photo' => UploadedFile::fake()->image('foto-jugador.jpg'),
         'player_license_confirmation' => '',
         'consent' => '1',
+        'publication_consent' => '1',
         'website' => '',
     ]);
 
@@ -370,5 +393,25 @@ it('requires player details for player submissions', function (): void {
         'player_license_confirmation',
     ]);
 
+    $this->assertDatabaseCount('project_collaborator_submissions', 0);
+});
+
+it('requires treatment and publication consent', function (): void {
+    Storage::fake('local');
+
+    $response = $this->from(route('proyecto'))->post(route('proyecto.colaboradores.store'), [
+        'collaborator_type' => 'club',
+        'full_name' => 'Club de prueba',
+        'club_locality' => 'Madrid',
+        'club_contact_name' => 'Persona de prueba',
+        'club_contact_email' => 'club@example.com',
+        'club_contact_phone' => '600000000',
+        'photo' => UploadedFile::fake()->image('logo.jpg'),
+        'federated_team_confirmation' => '1',
+        'website' => '',
+    ]);
+
+    $response->assertRedirect(route('proyecto'));
+    $response->assertSessionHasErrors(['consent', 'publication_consent']);
     $this->assertDatabaseCount('project_collaborator_submissions', 0);
 });

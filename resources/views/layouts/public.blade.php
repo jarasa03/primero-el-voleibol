@@ -14,12 +14,14 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @stack('head')
     </head>
-    <body class="antialiased @yield('body_class')" data-nav-scrolled="{{ request()->routeIs('home') ? 'true' : 'false' }}">
+    <body class="antialiased @yield('body_class')" data-nav-scrolled="{{ request()->routeIs('home') || request()->routeIs('legal.*') ? 'true' : 'false' }}">
         @php
             $isProyectoActive = request()->routeIs('proyecto');
             $isProgramaActive = request()->routeIs('programa');
             $isBlogActive = request()->routeIs('blog*');
+            $isLegalPage = request()->routeIs('legal.*');
             $isWidePage = request()->routeIs('home') || request()->routeIs('programa') || request()->routeIs('blog*') || request()->routeIs('participa') || request()->routeIs('proyecto');
+            $mainWrapperClass = $isLegalPage ? '' : 'pt-24 sm:pt-28 lg:pt-28';
             $activeNavLinkStyle = 'color: rgb(252 211 77) !important;';
         @endphp
 
@@ -107,11 +109,15 @@
 
             @yield('full_width_content')
 
-            <div class="site-container relative flex min-h-screen flex-col @yield('main_wrapper_class', 'pt-24 sm:pt-28 lg:pt-28')">
+            <div class="{{ $isLegalPage ? 'relative flex min-h-screen flex-col' : 'site-container relative flex min-h-screen flex-col' }} @yield('main_wrapper_class', $mainWrapperClass)">
                 <main class="flex-1">
-                    <div @class(['mx-auto w-full', 'max-w-[120rem]' => $isWidePage, 'max-w-7xl' => ! $isWidePage])>
+                    @if ($isLegalPage)
                         @yield('content')
-                    </div>
+                    @else
+                        <div @class(['mx-auto w-full', 'max-w-[120rem]' => $isWidePage, 'max-w-7xl' => ! $isWidePage])>
+                            @yield('content')
+                        </div>
+                    @endif
                 </main>
             </div>
 

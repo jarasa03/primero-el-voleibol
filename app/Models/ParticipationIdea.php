@@ -18,6 +18,7 @@ class ParticipationIdea extends Model
         'source',
         'is_anonymous',
         'consented_at',
+        'adult_confirmed_at',
     ];
 
     protected function casts(): array
@@ -25,6 +26,7 @@ class ParticipationIdea extends Model
         return [
             'is_anonymous' => 'boolean',
             'consented_at' => 'datetime',
+            'adult_confirmed_at' => 'datetime',
         ];
     }
 }

@@ -249,6 +249,18 @@ Never expose personal data in public pages, logs, seeders or tests.
 
 Do not commit real user data.
 
+### Permanent privacy and legal review
+
+Before considering any legally relevant feature complete, review whether the change affects the Privacy Policy, Cookie Policy, Legal Notice, form consent texts, first-layer privacy information, personal data collected, purposes, legal basis, recipients or providers, international transfers, retention periods, publication of images or profiles, analytics, pixels, maps, embedded videos or other third parties, newsletter or commercial communications, new cookies or local storage, new forms, user authentication or registration, processing of minors' data, or automated processing or decision-making.
+
+- If a feature introduces a new processing activity, update the Privacy Policy.
+- If a feature introduces non-technical cookies, tracking, embeds, or third parties that generate cookies, update the Cookie Policy and review whether prior consent is required.
+- If a feature changes the site's identity, contact details, ownership, terms of use, or legal information, update the Legal Notice.
+- If a form changes, also review its consent, basic privacy information, required fields, purpose, storage, emails, and publication of data.
+- Never consider a legally relevant feature complete until the relevant legal pages have been reviewed and updated where necessary.
+- Do not invent obligations or providers; update the legal pages only according to the project's real behaviour and configuration.
+- If there is legal uncertainty, leave an explicit note for human legal review instead of making an assumption.
+
 ## Design principles
 
 - Mobile-first.
