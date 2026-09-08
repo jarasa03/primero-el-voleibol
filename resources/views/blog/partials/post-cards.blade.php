@@ -6,7 +6,7 @@
                 <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0)_50%,rgba(15,23,42,0.55)_100%)]"></div>
                 @if ($post->isNew())
                     <span class="absolute left-3 top-3 rounded-full bg-amber-400 px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-slate-950 sm:left-4 sm:top-4 sm:px-3 sm:py-1.5 sm:text-xs">
-                        Nuevo!
+                        ¡Nuevo!
                     </span>
                 @endif
             </div>

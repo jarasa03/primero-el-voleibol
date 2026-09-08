@@ -17,34 +17,12 @@ class ProgramContentSeeder extends Seeder
             [
                 'name' => 'Clubes',
                 'sort' => 1,
-                'proposals' => [
-                    [
-                        'title' => 'Lorem ipsum dolor sit amet',
-                        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.',
-                        'sort' => 1,
-                    ],
-                    [
-                        'title' => 'Sed do eiusmod tempor',
-                        'description' => 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.',
-                        'sort' => 2,
-                    ],
-                ],
+                'proposals' => [],
             ],
             [
                 'name' => 'Federación',
                 'sort' => 2,
-                'proposals' => [
-                    [
-                        'title' => 'Lorem ipsum dolor sit amet',
-                        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.',
-                        'sort' => 1,
-                    ],
-                    [
-                        'title' => 'Sed do eiusmod tempor',
-                        'description' => 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.',
-                        'sort' => 2,
-                    ],
-                ],
+                'proposals' => [],
             ],
             [
                 'name' => 'Árbitros',
@@ -65,34 +43,12 @@ class ProgramContentSeeder extends Seeder
             [
                 'name' => 'Entrenadores',
                 'sort' => 4,
-                'proposals' => [
-                    [
-                        'title' => 'Lorem ipsum dolor sit amet',
-                        'description' => 'Morbi leo risus, porta ac consectetur ac, vestibulum at eros.',
-                        'sort' => 1,
-                    ],
-                    [
-                        'title' => 'Consectetur adipiscing elit',
-                        'description' => 'Aenean lacinia bibendum nulla sed consectetur. Cras mattis consectetur purus sit amet fermentum.',
-                        'sort' => 2,
-                    ],
-                ],
+                'proposals' => [],
             ],
             [
-                'name' => 'Voley playa',
+                'name' => 'Vóley playa',
                 'sort' => 5,
-                'proposals' => [
-                    [
-                        'title' => 'Lorem ipsum dolor sit amet',
-                        'description' => 'Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.',
-                        'sort' => 1,
-                    ],
-                    [
-                        'title' => 'Ut labore et dolore magna aliqua',
-                        'description' => 'Donec sed odio dui. Nulla vitae elit libero, a pharetra augue.',
-                        'sort' => 2,
-                    ],
-                ],
+                'proposals' => [],
             ],
         ];
 

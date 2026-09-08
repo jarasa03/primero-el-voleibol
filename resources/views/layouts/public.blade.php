@@ -1,14 +1,37 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
+        @php
+            $metaTitle = trim($__env->yieldContent('title')) ?: config('app.name');
+            $metaDescription = trim($__env->yieldContent('meta_description')) ?: 'Primero el Voleibol es un proyecto cívico y deportivo en Madrid para poner el voleibol en el centro de la ciudad.';
+            $socialImage = trim($__env->yieldContent('og_image'));
+            $socialType = trim($__env->yieldContent('og_type')) ?: 'website';
+        @endphp
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="@yield('meta_description', 'Primero el Voleibol es un proyecto civico y deportivo en Madrid para poner el voleibol en el centro de la ciudad.')">
+        <meta name="description" content="{{ $metaDescription }}">
+        <link rel="canonical" href="@yield('canonical', url()->current())">
+
+        <meta property="og:title" content="{{ $metaTitle }}">
+        <meta property="og:description" content="{{ $metaDescription }}">
+        <meta property="og:url" content="@yield('canonical', url()->current())">
+        <meta property="og:type" content="{{ $socialType }}">
+        <meta property="og:site_name" content="Primero el Voleibol">
+        @if ($socialImage !== '')
+            <meta property="og:image" content="{{ $socialImage }}">
+        @endif
+
+        <meta name="twitter:card" content="{{ $socialImage !== '' ? 'summary_large_image' : 'summary' }}">
+        <meta name="twitter:title" content="{{ $metaTitle }}">
+        <meta name="twitter:description" content="{{ $metaDescription }}">
+        @if ($socialImage !== '')
+            <meta name="twitter:image" content="{{ $socialImage }}">
+        @endif
 
         <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
         <link rel="alternate icon" href="{{ asset('favicon.ico') }}">
 
-        <title>@yield('title', config('app.name'))</title>
+        <title>{{ $metaTitle }}</title>
 
         @fonts
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -34,7 +57,8 @@
                         <a href="{{ url('/') }}" class="group inline-flex min-w-0 items-center gap-2 sm:gap-3">
                             <img
                                 src="{{ asset('favicon.svg') }}"
-                                alt="Primero el Voleibol"
+                                alt=""
+                                aria-hidden="true"
                                 class="site-header-logo size-11 aspect-square shrink-0 rounded-2xl border border-slate-200 bg-white object-contain transition-[background-color,border-color,color,box-shadow,transform] sm:size-12"
                             >
                             <span class="flex min-w-0 flex-col leading-tight">
@@ -133,16 +157,16 @@
                                     </div>
 
                                     <h2 class="mt-5 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-                                        Sigamos poniendo el voleibol en el centro.
+                                        Sigamos mejorando el voleibol madrileño.
                                     </h2>
 
                                     <p class="mt-4 max-w-xl text-base leading-7 text-brand-100/80 sm:text-lg">
-                                        Queremos escuchar a la pista, ordenar ideas y convertirlas en propuestas &uacute;tiles para el voleibol madrile&ntilde;o.
+                                        Queremos escuchar a quienes viven el voleibol madrile&ntilde;o, ordenar ideas y convertirlas en propuestas &uacute;tiles.
                                     </p>
 
                                     <div class="mt-7 flex flex-wrap gap-3">
                                         <a href="{{ route('participa') }}" class="inline-flex items-center justify-center rounded-full bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-950 transition md:hover:bg-amber-300">
-                                            Escr&#237;benos
+                                            Aporta una idea
                                         </a>
                                         <a href="{{ route('blog') }}" class="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition md:hover:bg-white/10">
                                             Ver blog
@@ -167,7 +191,7 @@
                                             <p class="text-sm font-medium text-white">Hablemos</p>
                                             <ul class="mt-4 space-y-3 text-sm text-brand-100/80 sm:inline-block">
                                                 <li><a class="transition md:hover:text-amber-300" href="{{ route('participa') }}">Escríbenos</a></li>
-                                                <li><a class="transition md:hover:text-amber-300" href="mailto:info@primeroelvoleibol.es">info@primeroelvoleibol.es</a></li>
+                                                <li><a class="transition md:hover:text-amber-300" href="mailto:contacto@primeroelvoleibol.es">contacto@primeroelvoleibol.es</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -182,7 +206,7 @@
                                         <a class="transition md:hover:text-amber-300" href="{{ route('legal.politica-de-privacidad') }}">Pol&iacute;tica de privacidad</a>
                                         <a class="transition md:hover:text-amber-300" href="{{ route('legal.politica-de-cookies') }}">Pol&iacute;tica de cookies</a>
                                     </div>
-                                    <p>{{ now()->year }} - Hecho para poner el voleibol en el centro</p>
+                                    <p>{{ now()->year }} &middot; Primero el Voleibol</p>
                                 </div>
                                 <p class="mt-4 text-center text-xs text-brand-100/60">
                                     Desarrollado con ♡ por

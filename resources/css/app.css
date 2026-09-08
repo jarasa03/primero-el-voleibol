@@ -43,6 +43,11 @@
     --color-surface-950: #131513;
 }
 
+:where(a, button, input, select, textarea, summary):focus-visible {
+    outline: 3px solid var(--color-accent-600);
+    outline-offset: 3px;
+}
+
 @layer base {
     html {
         scroll-behavior: smooth;
@@ -54,8 +59,13 @@
     }
 
     ::selection {
-        background: rgb(251 191 36 / 0.35);
-        color: #ffffff;
+        background-color: var(--color-accent-400);
+        color: var(--color-brand-950);
+    }
+
+    ::-moz-selection {
+        background-color: var(--color-accent-400);
+        color: var(--color-brand-950);
     }
 }
 

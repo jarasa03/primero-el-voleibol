@@ -1,7 +1,8 @@
 @extends('layouts.public')
 
-@section('title', 'Blog')
+@section('title', 'Blog | Primero el Voleibol')
 @section('meta_description', 'Artículos, novedades y publicaciones de Primero el Voleibol.')
+@section('og_image', asset('images/blog-hero.webp'))
 @section('body_class', 'page-interior page-blog')
 
 @section('content')
@@ -17,12 +18,11 @@
                 <div @class(['flex h-full flex-col justify-center', 'max-w-4xl' => $featuredPost, 'max-w-5xl' => ! $featuredPost])>
                     <p class="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300 sm:text-sm sm:tracking-[0.25em]">Blog</p>
                     <h1 class="mt-2 max-w-3xl text-3xl font-semibold tracking-tight text-white sm:mt-3 sm:text-5xl lg:text-5xl">
-                        Noticias, ideas y artículos.
+                        Ideas, análisis y actualidad.
                     </h1>
 
                     <p class="mt-4 max-w-3xl text-base leading-7 text-brand-200 sm:mt-5 sm:text-xl sm:leading-8">
-                        Aquí publicamos nuestras últimas novedades, reflexiones y propuestas para seguir dando
-                        forma al proyecto. Baja para ver las entradas más recientes a medida que las publiquemos.
+                        Publicamos reflexiones, novedades y contenidos sobre el voleibol madrileño, el proyecto y las propuestas que queremos poner sobre la mesa.
                     </p>
                 </div>
 
@@ -37,7 +37,7 @@
                                     <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0)_25%,rgba(15,23,42,0.72)_100%)]"></div>
                                     @if ($featuredPost->isNew())
                                         <span class="absolute left-4 top-4 rounded-full bg-amber-400 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-slate-950">
-                                            Nuevo!
+                                            ¡Nuevo!
                                         </span>
                                     @endif
                                 </div>

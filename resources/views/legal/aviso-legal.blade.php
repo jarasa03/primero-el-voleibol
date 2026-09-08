@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Aviso legal')
+@section('title', 'Aviso legal | Primero el Voleibol')
 @section('meta_description', 'Aviso legal de Primero el Voleibol.')
 @section('body_class', 'page-legal')
 

@@ -30,7 +30,7 @@ it('loads blog posts nine at a time and fetches more through ajax', function ():
 
             return $posts->count() === 9 && $posts->hasMorePages();
         })
-        ->assertSeeText('seguir dando forma al proyecto.')
+        ->assertSeeText('Publicamos reflexiones, novedades y contenidos sobre el voleibol madrileño, el proyecto y las propuestas que queremos poner sobre la mesa.')
         ->assertSeeText('Articulo 1')
         ->assertSeeText('Articulo 9')
         ->assertDontSeeText('Articulo 10')
@@ -86,7 +86,7 @@ it('renders the blog index with published entries, featured content and new badg
         ->assertSeeText('Nuevo articulo')
         ->assertSeeText('Articulo antiguo')
         ->assertSeeText('Nuevo!')
-        ->assertSeeText('seguir dando forma al proyecto.')
+        ->assertSeeText('Publicamos reflexiones, novedades y contenidos sobre el voleibol madrileño, el proyecto y las propuestas que queremos poner sobre la mesa.')
         ->assertDontSeeText('Borrador oculto')
         ->assertDontSeeText('Programado oculto');
 

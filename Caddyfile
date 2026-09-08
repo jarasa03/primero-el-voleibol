@@ -1,3 +1,7 @@
+# Esta configuración pertenece al empaquetado de FrankenPHP para contenedor.
+# No corresponde al servidor de producción actual en OVHcloud, que se gestiona
+# mediante GitHub Actions y cuya protección frontal se mantiene en .htaccess.
+
 {
     auto_https off
     admin off

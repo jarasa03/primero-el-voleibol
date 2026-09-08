@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
-@section('title', 'Politica de privacidad')
-@section('meta_description', 'Politica de privacidad de Primero el Voleibol.')
+@section('title', 'Política de privacidad | Primero el Voleibol')
+@section('meta_description', 'Política de privacidad de Primero el Voleibol.')
 @section('body_class', 'page-legal')
 
 @section('content')

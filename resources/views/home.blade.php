@@ -1,7 +1,8 @@
 @extends('layouts.public')
 
-@section('title', 'Primero el Voleibol')
+@section('title', 'Primero el Voleibol | Proyecto para mejorar el voleibol madrileño')
 @section('meta_description', 'Primero el Voleibol es un proyecto abierto para mejorar el voleibol madrileño con propuestas concretas, debate y participación.')
+@section('og_image', asset('images/home-hero.webp'))
 @section('body_class', 'page-home')
 
 @section('content')
@@ -26,7 +27,7 @@
 
                     <h1 class="mt-6 max-w-3xl text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl">
                         Primero el voleibol.
-                        <span class="block text-brand-100">Un proyecto para mejorarlo.</span>
+                        <span class="block text-brand-100">Un proyecto para mejorar el voleibol madrileño.</span>
                     </h1>
 
                     <p class="mt-6 max-w-3xl text-lg leading-8 text-brand-200 sm:text-xl">
@@ -43,7 +44,7 @@
                     </div>
 
                     <p class="mt-8 max-w-3xl border-l-4 border-amber-400 pl-4 text-xl font-medium leading-9 text-white">
-                        Queremos que el voleibol madrileño tenga una organización a la altura de quienes lo sostienen cada semana.
+                        Queremos que quienes sostienen el voleibol madrileño también tengan voz en cómo se organiza.
                     </p>
                 </div>
 
@@ -52,21 +53,21 @@
                         <p class="text-sm font-semibold uppercase tracking-[0.25em] text-amber-300">Cómo trabajamos</p>
                         <div class="mt-5 grid gap-3">
                             <div class="rounded-2xl border border-white/10 bg-slate-900/40 p-4">
-                                <p class="text-base font-semibold text-white">Conocer la realidad</p>
+                                <p class="text-base font-semibold text-white">Escuchar a quienes lo viven</p>
                                 <p class="mt-2 text-sm leading-6 text-brand-100/80">
-                                    Partir de lo que viven clubes, jugadores, entrenadores, árbitros y familias.
+                                    Partir de la experiencia de clubes, jugadores, entrenadores, árbitros y familias.
                                 </p>
                             </div>
                             <div class="rounded-2xl border border-white/10 bg-slate-900/30 p-4">
-                                <p class="text-base font-semibold text-white">Proponer con criterio</p>
+                                <p class="text-base font-semibold text-white">Convertir problemas en propuestas</p>
                                 <p class="mt-2 text-sm leading-6 text-brand-100/80">
-                                    Convertir problemas y experiencias en medidas concretas, viables y útiles.
+                                    Trabajar sobre problemas concretos y plantear medidas realistas y aplicables.
                                 </p>
                             </div>
                             <div class="rounded-2xl border border-white/10 bg-slate-900/20 p-4">
-                                <p class="text-base font-semibold text-white">Sumar voces</p>
+                                <p class="text-base font-semibold text-white">Construir entre todos</p>
                                 <p class="mt-2 text-sm leading-6 text-brand-100/80">
-                                    Mantener un proyecto abierto al debate y a las aportaciones de toda la comunidad.
+                                    Mantener el proyecto abierto a nuevas ideas, experiencias y aportaciones.
                                 </p>
                             </div>
                         </div>
@@ -91,9 +92,9 @@
                     <span class="size-3 rounded-full bg-amber-400"></span>
                     <p class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">Realidad</p>
                 </div>
-                <h3 class="mt-5 text-xl font-semibold text-slate-950">El voleibol se construye desde abajo</h3>
+                <h3 class="mt-5 text-xl font-semibold text-slate-950">Partimos de quienes viven el voleibol cada semana</h3>
                 <p class="mt-3 text-[1rem] leading-7 text-slate-600">
-                    Clubes, jugadores, entrenadores, árbitros y familias conocen de primera mano qué funciona y qué se puede mejorar.
+                    Clubes, jugadores, entrenadores, árbitros y familias conocen de primera mano qué funciona y qué necesita mejorar.
                 </p>
             </article>
 
@@ -102,9 +103,9 @@
                     <span class="size-3 rounded-full bg-slate-700"></span>
                     <p class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">Principios</p>
                 </div>
-                <h3 class="mt-5 text-xl font-semibold text-slate-950">Claridad, transparencia y trabajo</h3>
+                <h3 class="mt-5 text-xl font-semibold text-slate-950">Propuestas claras, abiertas y aplicables</h3>
                 <p class="mt-3 text-[1rem] leading-7 text-slate-600">
-                    Defendemos un debate claro y una forma de trabajar abierta, responsable y pegada a la práctica del voleibol madrileño.
+                    Queremos trabajar con transparencia, responsabilidad y soluciones conectadas con la realidad del voleibol madrileño.
                 </p>
             </article>
 
@@ -113,9 +114,9 @@
                     <span class="size-3 rounded-full bg-amber-400"></span>
                     <p class="text-sm font-semibold uppercase tracking-[0.22em] text-brand-100/80">Participación</p>
                 </div>
-                <h3 class="mt-5 text-xl font-semibold text-white">Las ideas tienen que circular</h3>
+                <h3 class="mt-5 text-xl font-semibold text-white">Este proyecto también se construye con tus ideas</h3>
                 <p class="mt-3 text-[1rem] leading-7 text-brand-200">
-                    Primero el Voleibol no quiere hablar solo. Queremos recibir experiencias, ideas y propuestas de quienes forman parte de este deporte.
+                    Queremos recibir experiencias, problemas y propuestas de quienes forman parte del voleibol madrileño.
                 </p>
             </article>
         </div>
@@ -130,12 +131,12 @@
                         Propuestas para problemas concretos
                     </h2>
                     <p class="mt-4 max-w-2xl text-lg leading-8 text-slate-700">
-                        Ya hay medidas trabajadas sobre la mesa. Estas son una muestra de los cambios que proponemos para que el voleibol madrileño funcione mejor.
+                        Ya estamos trabajando en medidas concretas para mejorar distintos ámbitos del voleibol madrileño. Aquí puedes consultar las propuestas que vamos publicando.
                     </p>
             </div>
 
             <div class="mt-8 grid gap-6 lg:grid-cols-3">
-                @forelse ($homeProposals as $proposal)
+                @foreach ($homeProposals as $proposal)
                     <article @class([
                         'rounded-[1.75rem] p-6 shadow-sm',
                         'border border-slate-200 bg-slate-50' => $loop->first,
@@ -148,26 +149,24 @@
                                 'text-sm font-semibold uppercase tracking-[0.22em]',
                                 'text-slate-500' => $loop->iteration !== 2,
                                 'text-brand-100/80' => $loop->iteration === 2,
-                            ])>{{ $proposal['section']->name }}</p>
+                            ])>{{ $proposal['category'] }}</p>
                         </div>
                         <h3 @class([
                             'mt-5 text-xl font-semibold tracking-tight',
                             'text-slate-950' => $loop->iteration !== 2,
                             'text-white' => $loop->iteration === 2,
                         ])>
-                            {{ $proposal['proposal']->title }}
+                            {{ $proposal['title'] }}
                         </h3>
                         <p @class([
                             'mt-3 text-[1rem] leading-7',
                             'text-slate-600' => $loop->iteration !== 2,
                             'text-brand-200' => $loop->iteration === 2,
                         ])>
-                            {{ $proposal['excerpt'] }}
+                            {{ $proposal['description'] }}
                         </p>
                     </article>
-                @empty
-                    <p class="text-slate-600">Estamos preparando nuevas propuestas para publicar.</p>
-                @endforelse
+                @endforeach
             </div>
 
             <div class="mt-8 flex justify-end">
@@ -179,13 +178,12 @@
                     <div>
                         <p class="text-sm font-semibold uppercase tracking-[0.22em] text-accent-700">Aporta más</p>
                         <p class="mt-2 max-w-2xl text-base leading-7 text-slate-700">
-                            Si ves otra medida que debería entrar en el programa, nos encantaría leerla. Queremos
-                            que este espacio crezca con ideas útiles y bien pensadas.
+                            ¿Hay algún problema que todavía no estemos abordando? Cuéntanoslo. Queremos seguir ampliando el programa con propuestas útiles, realistas y bien planteadas.
                         </p>
                     </div>
 
                     <a href="{{ route('participa') }}" class="inline-flex items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition md:hover:bg-slate-800">
-                        Escríbenos
+                        Aporta una idea
                     </a>
             </div>
         </div>
@@ -213,7 +211,7 @@
 
                                 @if ($post->isNew())
                                     <span class="absolute left-3 top-3 rounded-full bg-amber-400 px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-slate-950">
-                                        Nuevo!
+                                        ¡Nuevo!
                                     </span>
                                 @endif
                             </div>
@@ -238,16 +236,16 @@
                 <div class="max-w-2xl">
                     <p class="text-sm font-semibold uppercase tracking-[0.25em] text-amber-300">Participa</p>
                     <h2 class="mt-3 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-                        El proyecto también se construye con lo que tú ves cada semana.
+                        Si algo del voleibol madrileño puede mejorar, queremos saberlo.
                     </h2>
                     <p class="mt-4 max-w-2xl text-lg leading-8 text-brand-200">
-                        Si formas parte del voleibol madrileño y hay algo que debería cambiar, queremos escucharlo.
+                        Cuéntanos qué funciona, qué no y qué cambiarías. Tus experiencias e ideas nos ayudan a seguir construyendo propuestas.
                     </p>
                 </div>
 
                 <div class="lg:justify-self-end">
                     <a href="{{ route('participa') }}" class="inline-flex w-full items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition md:hover:bg-white/10 sm:w-auto">
-                        Participa o aporta una idea
+                        Aporta una idea
                     </a>
                 </div>
             </div>

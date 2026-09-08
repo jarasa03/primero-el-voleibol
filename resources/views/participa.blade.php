@@ -2,20 +2,8 @@
 
 @section('title', 'Participa | Primero el Voleibol')
 @section('meta_description', 'Cuéntanos tus ideas para mejorar el voleibol madrileño y ayúdanos a construir un proyecto más útil, claro y abierto.')
+@section('og_image', asset('images/participa-hero.webp'))
 @section('body_class', 'page-interior page-participa')
-
-@push('head')
-    <link rel="canonical" href="{{ route('participa') }}">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Participa | Primero el Voleibol">
-    <meta property="og:description" content="Cuéntanos tus ideas para mejorar el voleibol madrileño y ayúdanos a construir un proyecto más útil, claro y abierto.">
-    <meta property="og:url" content="{{ route('participa') }}">
-    <meta property="og:image" content="{{ asset('images/participa-hero.webp') }}">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Participa | Primero el Voleibol">
-    <meta name="twitter:description" content="Cuéntanos tus ideas para mejorar el voleibol madrileño y ayúdanos a construir un proyecto más útil, claro y abierto.">
-    <meta name="twitter:image" content="{{ asset('images/participa-hero.webp') }}">
-@endpush
 
 @section('content')
     @php
@@ -44,8 +32,7 @@
                 </h1>
 
                 <p class="mt-4 max-w-3xl text-sm leading-6 text-brand-200 sm:mt-5 sm:text-xl sm:leading-8">
-                    Si tienes una idea, una mejora o una experiencia que pueda ayudar a ordenar mejor el voleibol,
-                    este es el sitio. Nos interesa la voz de la pista, pero también la de quienes la rodean.
+                    Si tienes una idea, una experiencia, una duda o algo que crees que debería mejorar, este es el lugar para contárnoslo.
                 </p>
             </div>
         </div>
@@ -59,11 +46,10 @@
                 <div class="rounded-[2rem] border border-slate-200 bg-slate-50 px-4 py-5 shadow-sm sm:px-6 lg:px-8 lg:py-8">
                     <p class="text-xs font-semibold uppercase tracking-[0.28em] text-accent-700 sm:text-sm sm:tracking-[0.25em]">Qué puedes enviarnos</p>
                     <h3 class="mt-3 text-2xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
-                        Un canal abierto para ideas que suman
+                        Un canal abierto para ideas y experiencias
                     </h3>
                     <p class="mt-3 text-base leading-7 text-slate-700 sm:mt-4 sm:text-lg sm:leading-8">
-                        Si ves algo mejorable, queremos escucharte. Nos interesan tanto las mejoras concretas como las
-                        propuestas de fondo para el voleibol madrileño.
+                        Queremos escuchar propuestas, problemas concretos y experiencias de quienes forman parte del voleibol madrileño.
                     </p>
 
                     <div class="mt-5 space-y-2.5 text-sm leading-6 text-slate-600 sm:mt-6 sm:space-y-3">
@@ -108,21 +94,21 @@
                             <span class="size-3 rounded-full bg-amber-400"></span>
                             <p class="text-sm font-semibold uppercase tracking-[0.22em] text-brand-100/80">Trabajo serio</p>
                         </div>
-                        <h3 class="mt-5 text-xl font-semibold tracking-tight text-white">Tu idea no cae en saco roto</h3>
+                        <h3 class="mt-5 text-xl font-semibold tracking-tight text-white">Cada aportación se revisa</h3>
                         <p class="mt-3 text-[1rem] leading-7 text-brand-200">
-                            Leemos, ordenamos y filtramos cada mensaje para darles seguimiento.
+                            Leemos y ordenamos cada mensaje para valorar cómo puede ayudarnos a mejorar propuestas o abrir nuevas líneas de trabajo.
                         </p>
                     </article>
                 </div>
             </div>
 
             <section id="formulario" class="rounded-[2rem] border border-slate-200 bg-white px-4 py-5 shadow-sm sm:px-6 lg:px-8 lg:py-8" aria-labelledby="participa-formulario-heading">
-                <h2 id="participa-formulario-heading" class="sr-only">Cuéntanos tu idea</h2>
+                <h2 id="participa-formulario-heading" class="sr-only">Formulario de participación</h2>
 
                 <div class="max-w-2xl">
                     <p class="text-xs font-semibold uppercase tracking-[0.28em] text-accent-700 sm:text-sm sm:tracking-[0.25em]">Formulario</p>
                     <h3 class="mt-3 text-2xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
-                        Cuéntanos tu idea
+                        Cuéntanos qué quieres aportar
                     </h3>
                     <p class="mt-3 text-sm leading-6 text-slate-600 sm:mt-4 sm:text-base sm:leading-7">
                         Responde con la mayor claridad posible. Si tu propuesta tiene detalle, mejor: nos ayuda a
@@ -160,11 +146,11 @@
                         <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" value="{{ old('website') }}">
                     </div>
 
-                    <div class="grid gap-3 rounded-[1.5rem] border border-slate-200 bg-slate-50 px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
-                        <p class="text-sm font-semibold leading-6 text-slate-900 sm:text-base">
+                    <fieldset class="relative grid gap-3 rounded-[1.5rem] border border-slate-200 bg-slate-50 px-4 pb-4 pt-16 sm:px-6 sm:pb-5 sm:pt-16 lg:px-8">
+                        <legend class="absolute left-4 right-4 top-4 text-sm font-semibold leading-6 text-slate-900 sm:left-6 sm:right-6 sm:top-5 sm:text-base lg:left-8 lg:right-8">
                             ¿Cómo quieres enviar tu propuesta?
                             <span class="align-top text-rose-500">*</span>
-                        </p>
+                        </legend>
 
                         <label class="flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3">
                             <input
@@ -198,7 +184,7 @@
                         @error('response_preference')
                             <span class="text-sm text-rose-600">{{ $message }}</span>
                         @enderror
-                    </div>
+                    </fieldset>
 
                     <div class="grid gap-4 sm:grid-cols-2 sm:gap-5" data-participation-identity-field @if(old('response_preference') === 'anonymous') hidden @endif>
                         <label class="grid gap-2">

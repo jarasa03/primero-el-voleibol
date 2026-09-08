@@ -1,7 +1,8 @@
 ﻿@extends('layouts.public')
 
-@section('title', 'Proyecto')
+@section('title', 'Proyecto | Primero el Voleibol')
 @section('meta_description', 'Conoce quién lidera Primero el Voleibol, los clubes y árbitros que apoyan la iniciativa, y la propuesta arbitral para la Asamblea de Madrid.')
+@section('og_image', asset('images/proyecto-hero.webp'))
 @section('body_class', 'page-interior page-proyecto')
 
 @section('content')
@@ -24,13 +25,11 @@
                 <div class="flex w-full flex-col justify-center">
                     <p class="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300 sm:text-sm sm:tracking-[0.25em]">Proyecto</p>
                     <h1 class="mt-2 w-full max-w-none text-4xl font-semibold tracking-tight text-white sm:mt-3 sm:text-5xl lg:text-5xl">
-                        Un proyecto que se ve, se entiende y se reconoce
+                        Conoce a quienes apoyan el proyecto
                     </h1>
 
                     <p class="mt-5 w-full max-w-none text-lg leading-8 text-brand-200 sm:text-xl">
-                        Una presentación pensada para explicar el proyecto con claridad: una persona al frente,
-                        apoyos reales de clubes, árbitros, entrenadores y jugadores, y una propuesta pensada para
-                        dar un paso adelante en la Asamblea de Madrid.
+                        Clubes, árbitros, entrenadores y jugadores que comparten la voluntad de mejorar el voleibol madrileño.
                     </p>
 
                     <div class="mt-7 flex flex-wrap gap-3">
@@ -180,7 +179,7 @@
                             data-collaborator-type="{{ $collaboratorTypeByTitle[$section['title']] ?? 'club' }}"
                             data-collaborator-section="{{ $section['title'] }}"
                         >
-                            Quiero salir aquí
+                            Solicitar colaboración
                         </button>
                     </div>
 
@@ -306,6 +305,7 @@
         aria-modal="true"
         aria-labelledby="collaborator-modal-title"
         aria-hidden="true"
+        tabindex="-1"
     >
         <button
             type="button"
@@ -321,7 +321,7 @@
                         Colaboradores
                     </p>
                     <h2 id="collaborator-modal-title" class="mt-2 text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
-                        Quiero salir aquí
+                        Solicitar colaboración
                     </h2>
                     <p class="mt-2 text-sm leading-6 text-slate-600 sm:text-base" data-collaborator-modal-section-label>
                         Cuéntanos en qué bloque encajas y mándanos tu foto y tu nombre completo.
@@ -514,7 +514,7 @@
 
                 <div class="grid gap-2 hidden" data-collaborator-referee-only>
                     <label for="collaborator-referee-beach-level" class="text-sm font-semibold text-slate-900">
-                        Nivel de voleyplaya
+                        Nivel de vóley playa
                     </label>
                     <select
                         id="collaborator-referee-beach-level"
@@ -537,7 +537,7 @@
 
                 <div class="grid gap-2 hidden" data-collaborator-referee-only>
                     <label for="collaborator-referee-email" class="text-sm font-semibold text-slate-900">
-                        Email de contacto <span class="align-top text-rose-500">*</span>
+                        Correo electrónico de contacto <span class="align-top text-rose-500">*</span>
                     </label>
                     <input
                         id="collaborator-referee-email"
@@ -600,7 +600,7 @@
 
                 <div class="grid gap-2 hidden" data-collaborator-coach-only>
                     <label for="collaborator-coach-beach-level" class="text-sm font-semibold text-slate-900">
-                        Nivel de voleyplaya
+                        Nivel de vóley playa
                     </label>
                     <select
                         id="collaborator-coach-beach-level"
@@ -740,7 +740,7 @@
 
                 <div class="grid gap-2 hidden" data-collaborator-player-only>
                     <label for="collaborator-player-show-team" class="text-sm font-semibold text-slate-900">
-                        ¿Quieres que se muestre el equipo en su tarjeta? <span class="align-top text-rose-500">*</span>
+                        ¿Quieres que se muestre el equipo en su ficha? <span class="align-top text-rose-500">*</span>
                     </label>
                     <select
                         id="collaborator-player-show-team"

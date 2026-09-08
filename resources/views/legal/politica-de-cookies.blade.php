@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
-@section('title', 'Politica de cookies')
-@section('meta_description', 'Politica de cookies de Primero el Voleibol.')
+@section('title', 'Política de cookies | Primero el Voleibol')
+@section('meta_description', 'Política de cookies de Primero el Voleibol.')
 @section('body_class', 'page-legal')
 
 @section('content')

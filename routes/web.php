@@ -1,7 +1,5 @@
 <?php
 
-use App\Enums\ProjectProposedPersonType;
-use App\Enums\ProjectSupporterType;
 use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\ParticipationController;
 use App\Http\Controllers\ProjectCollaboratorSubmissionController;
@@ -9,80 +7,31 @@ use App\Models\BlogPost;
 use App\Models\Club;
 use App\Models\Coach;
 use App\Models\Player;
-use App\Models\ProgramProposal;
 use App\Models\ProgramSection;
 use App\Models\Project;
-use App\Models\ProjectClubSupporter;
-use App\Models\ProjectProposedPerson;
 use App\Models\Referee;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 Route::get('/', function () {
-    $homeProposalTitles = [
-        'Clubes' => 'Transparencia en las sanciones y reinversión en el juego limpio',
-        'Árbitros' => 'Programa de Mentoría Arbitral',
-        'Federación' => 'Permitir la incorporación de patrocinadores en la equipación oficial de la Federación',
+    $homeProposals = [
+        [
+            'category' => 'Clubes',
+            'title' => 'Transparencia en las sanciones y reinversión en el juego limpio',
+            'description' => 'Impulsaremos un modelo de sanciones transparente, coherente y útil para el voleibol madrileño. Las normas deben aplicarse por igual para todos, las sanciones deben cumplirse y su gestión debe ser completamente transparente.',
+        ],
+        [
+            'category' => 'Árbitros',
+            'title' => 'Programa de Mentoría Arbitral',
+            'description' => 'Implantaremos un modelo de mentoría estructurado en el que cada árbitro acompañe y forme a los niveles inferiores.',
+        ],
+        [
+            'category' => 'Federación',
+            'title' => 'Permitir la incorporación de patrocinadores en la equipación oficial de la Federación',
+            'description' => 'La Federación de Madrid debe impulsar la incorporación de patrocinadores comerciales en la equipación oficial de aquellos colectivos cuya uniformidad depende directamente de la propia Federación, tanto en voleibol como en vóley playa.',
+        ],
     ];
-
-    $makeProposalExcerpt = function (ProgramProposal $proposal): string {
-        $description = preg_replace(
-            '/<\/(?:p|div|li)>\s*<(?:p|div|li)[^>]*>/i',
-            ' ',
-            (string) $proposal->description
-        ) ?? (string) $proposal->description;
-        $description = strip_tags($description);
-        $description = html_entity_decode($description, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-        $description = preg_replace('/\s+/u', ' ', $description) ?? $description;
-        $description = trim($description);
-
-        $sentences = preg_split('/(?<=[.!?])\s+/u', $description, -1, PREG_SPLIT_NO_EMPTY) ?: [];
-        $excerpt = '';
-
-        foreach ($sentences as $sentence) {
-            $candidate = trim($excerpt.' '.$sentence);
-
-            if ($excerpt !== '' && mb_strlen($candidate) > 240) {
-                break;
-            }
-
-            $excerpt = $candidate;
-        }
-
-        return $excerpt !== '' ? $excerpt : $description;
-    };
-
-    $programSections = Schema::hasTable('program_sections')
-        ? ProgramSection::query()
-            ->whereIn('name', array_keys($homeProposalTitles))
-            ->with(['mainProposals' => fn ($query) => $query
-                ->whereIn('title', array_values($homeProposalTitles))
-                ->orderBy('sort')])
-            ->get()
-            ->keyBy('name')
-        : collect();
-
-    $homeProposals = collect(array_keys($homeProposalTitles))
-        ->map(function (string $sectionName) use ($programSections, $makeProposalExcerpt): ?array {
-            $section = $programSections->get($sectionName);
-
-            if ($section === null) {
-                return null;
-            }
-
-            $proposal = $section->mainProposals->first();
-
-            return $proposal === null
-                ? null
-                : [
-                    'section' => $section,
-                    'proposal' => $proposal,
-                    'excerpt' => $makeProposalExcerpt($proposal),
-                ];
-        })
-        ->filter()
-        ->values();
 
     $latestPosts = Schema::hasTable('blog_posts')
         ? BlogPost::query()
@@ -158,30 +107,11 @@ Route::get('/proyecto', function () {
         $projectLeader['photos'] = [];
     }
 
-    $projectSupporters = [
-        [
-            'name' => 'Contenido en construcción',
-            'role' => 'Liderazgo',
-            'description' => 'Mostraremos aquí la persona que impulsa el proyecto cuando esté publicada en la base de datos.',
-            'initials' => 'PV',
-        ],
-        [
-            'name' => 'Clubes en construcción',
-            'role' => 'Clubes',
-            'description' => 'Los clubes colaboradores reales aparecerán aquí cuando haya registros disponibles.',
-            'initials' => 'CL',
-        ],
-        [
-            'name' => 'Árbitros en construcción',
-            'role' => 'Árbitros',
-            'description' => 'Aquí aparecerán los árbitros colaboradores cuando se publiquen sus datos.',
-            'initials' => 'AR',
-        ],
-    ];
+    $projectSupporters = [];
 
     $buildCatalogSupporters = function ($catalogItems, string $label, string $badgeClass, array $fallback, ?Closure $shieldResolver = null) use ($makeInitials): array {
         if ($catalogItems->isEmpty()) {
-            return $fallback;
+            return [];
         }
 
         return $catalogItems->map(function ($catalogItem) use ($label, $badgeClass, $makeInitials, $shieldResolver): array {
@@ -227,7 +157,7 @@ Route::get('/proyecto', function () {
         [
             'eyebrow' => 'Apoyos',
             'title' => 'Clubes colaboradores',
-            'description' => 'Clubes que respaldan la iniciativa y se muestran con un carrusel continuo de logos.',
+            'description' => 'Clubes que aportan experiencia de gestión, competición y trabajo diario en el voleibol madrileño.',
             'items' => $buildCatalogSupporters(
                 $clubCatalogSupporters,
                 'Club colaborador',
@@ -251,7 +181,7 @@ Route::get('/proyecto', function () {
         [
             'eyebrow' => 'Apoyos',
             'title' => 'Árbitros colaboradores',
-            'description' => 'Árbitros que suman criterio y experiencia con el mismo formato visual que los clubes.',
+            'description' => 'Árbitros con experiencia en competición y una visión directa de lo que ocurre dentro y fuera de la pista.',
             'items' => $buildCatalogSupporters(
                 $refereeCatalogSupporters,
                 'Árbitro colaborador',
@@ -277,7 +207,7 @@ Route::get('/proyecto', function () {
         [
             'eyebrow' => 'Apoyos',
             'title' => 'Entrenadores colaboradores',
-            'description' => 'Entrenadores que aportan experiencia técnica y acompañan el proyecto.',
+            'description' => 'Entrenadores que aportan conocimiento técnico, experiencia de equipo y contacto directo con jugadores y competición.',
             'items' => $buildCatalogSupporters(
                 $coachCatalogSupporters,
                 'Entrenador colaborador',
@@ -306,7 +236,7 @@ Route::get('/proyecto', function () {
         [
             'eyebrow' => 'Apoyos',
             'title' => 'Jugadores colaboradores',
-            'description' => 'Jugadores que refuerzan la iniciativa desde la pista y la comunidad.',
+            'description' => 'Jugadores que aportan la perspectiva de quienes viven la competición desde dentro.',
             'items' => $buildCatalogSupporters(
                 $playerCatalogSupporters,
                 'Jugador colaborador',
@@ -405,740 +335,6 @@ Route::get('/proyecto', function () {
         'supportSections' => $supportSections,
         'proposedSections' => $proposedSections,
     ]);
-
-    $makeInitials = function (string $value): string {
-        return Str::of($value)
-            ->trim()
-            ->explode(' ')
-            ->filter()
-            ->map(fn (string $part): string => Str::upper(Str::substr($part, 0, 1)))
-            ->take(2)
-            ->implode('');
-    };
-
-    $showLeaderSection = $project instanceof Project
-        ? $project->show_leader_section
-        : true;
-
-    $projectLeader = $project instanceof Project
-        ? [
-            'name' => $project->leader_name,
-            'role' => $project->leader_title,
-            'description' => $project->leader_description,
-            'show_leader_section' => $project->show_leader_section,
-            'show_proposed_referees_section' => $project->show_proposed_referees_section,
-            'show_proposed_coaches_section' => $project->show_proposed_coaches_section,
-            'show_proposed_players_section' => $project->show_proposed_players_section,
-            'initials' => $makeInitials($project->leader_name),
-            'photos' => $project->images->isNotEmpty()
-                ? $project->images->map(function ($image): array {
-                    return [
-                        'image' => asset('storage/'.$image->image_path),
-                        'name' => 'Francisco Sabroso',
-                        'alt' => $image->alt_text ?: 'Fotograf?a de Francisco Sabroso',
-                    ];
-                })->all()
-                : [
-                    [
-                        'image' => asset('images/programa-hero.webp'),
-                        'name' => 'Francisco Sabroso',
-                        'alt' => 'Fotograf?a de Francisco Sabroso',
-                    ],
-                    [
-                        'image' => asset('images/programa-hero.webp'),
-                        'name' => 'Francisco Sabroso',
-                        'alt' => 'Fotograf?a de Francisco Sabroso',
-                    ],
-                    [
-                        'image' => asset('images/programa-hero.webp'),
-                        'name' => 'Francisco Sabroso',
-                        'alt' => 'Fotograf?a de Francisco Sabroso',
-                    ],
-                ],
-        ]
-        : [
-            'name' => 'Francisco Sabroso',
-            'role' => 'ÃƒÂ¡rbitro internacional, exÃƒÂ¡rbitro de Superliga 1 y entrenador FIVB 2',
-            'description' => 'Francisco Sabroso es una persona con mucha experiencia en el voleibol. Ha sido ÃƒÂ¡rbitro internacional, ha pitado un total de 638 partidos de Superliga 1 y es entrenador FIVB 2. AdemÃƒÂ¡s, ha estado designando durante muchos aÃƒÂ±os a ÃƒÂ¡rbitros madrileÃƒÂ±os de toda la comunidad, lo que le da un conocimiento directo del cuerpo arbitral y de los problemas de cada club, porque habla con ellos todos los fines de semana y conoce desde dentro los retos de organizaciÃƒÂ³n.',
-            'show_leader_section' => true,
-            'show_proposed_referees_section' => true,
-            'show_proposed_coaches_section' => true,
-            'show_proposed_players_section' => true,
-            'initials' => 'FS',
-            'photos' => [
-                [
-                    'image' => asset('images/programa-hero.webp'),
-                    'name' => 'Francisco Sabroso',
-                    'alt' => 'Fotograf?a de Francisco Sabroso',
-                ],
-                [
-                    'image' => asset('images/programa-hero.webp'),
-                    'name' => 'Francisco Sabroso',
-                    'alt' => 'Fotograf?a de Francisco Sabroso',
-                ],
-                [
-                    'image' => asset('images/programa-hero.webp'),
-                    'name' => 'Francisco Sabroso',
-                    'alt' => 'Fotograf?a de Francisco Sabroso',
-                ],
-            ],
-        ];
-
-    if (! $showLeaderSection) {
-        $projectLeader['photos'] = [];
-    }
-
-    $projectSupporters = [
-        [
-            'name' => 'Clubes que lo respaldan',
-            'role' => 'Base del movimiento',
-            'description' => 'La red de clubes da legitimidad, territorio y continuidad al proyecto desde la pista.',
-            'initials' => 'CL',
-        ],
-        [
-            'name' => 'ÃƒÂrbitros que acompaÃƒÂ±an',
-            'role' => 'Criterio y experiencia',
-            'description' => 'Su mirada ayuda a ordenar el debate y a llevar propuestas realistas y bien medidas.',
-            'initials' => 'AR',
-        ],
-        [
-            'name' => 'Comunidad que suma',
-            'role' => 'Apoyo transversal',
-            'description' => 'TÃƒÂ©cnicos, familias y personas vinculadas al voleibol que quieren empujar en la misma direcciÃƒÂ³n.',
-            'initials' => 'CO',
-        ],
-    ];
-
-    $clubSupporters = [
-        [
-            'name' => 'Club Voleibol Centro',
-            'label' => 'Apoyo de la zona central',
-            'initials' => 'CV',
-            'badgeClass' => 'from-brand-950 via-brand-800 to-slate-950',
-        ],
-        [
-            'name' => 'Club del Norte',
-            'label' => 'Compromiso con la base',
-            'initials' => 'CN',
-            'badgeClass' => 'from-slate-950 via-brand-900 to-brand-700',
-        ],
-        [
-            'name' => 'Club de la Sierra',
-            'label' => 'Crecimiento territorial',
-            'initials' => 'CS',
-            'badgeClass' => 'from-brand-800 via-brand-600 to-accent-700',
-        ],
-        [
-            'name' => 'Club del Este',
-            'label' => 'Trabajo de cantera',
-            'initials' => 'CE',
-            'badgeClass' => 'from-slate-900 via-slate-700 to-brand-900',
-        ],
-        [
-            'name' => 'Club del Sur',
-            'label' => 'Pista y comunidad',
-            'initials' => 'CS',
-            'badgeClass' => 'from-accent-800 via-accent-600 to-brand-900',
-        ],
-        [
-            'name' => 'Club Universidad',
-            'label' => 'FormaciÃƒÂ³n y visiÃƒÂ³n',
-            'initials' => 'CU',
-            'badgeClass' => 'from-brand-950 via-slate-900 to-brand-800',
-        ],
-        [
-            'name' => 'Club Valle',
-            'label' => 'Apoyo estable',
-            'initials' => 'CV',
-            'badgeClass' => 'from-brand-700 via-brand-500 to-accent-500',
-        ],
-        [
-            'name' => 'Club Horizonte',
-            'label' => 'Impulso compartido',
-            'initials' => 'CH',
-            'badgeClass' => 'from-slate-950 via-brand-950 to-slate-800',
-        ],
-    ];
-
-    $clubSupportersFallback = $clubSupporters;
-
-    $clubSupporters = $project instanceof Project && $project->clubSupporters->isNotEmpty()
-        ? $project->clubSupporters->map(function (ProjectClubSupporter $clubSupporter) use ($makeInitials): array {
-            return [
-                'name' => $clubSupporter->name,
-                'description' => $clubSupporter->description,
-                'label' => 'Club colaborador',
-                'image' => ! empty($clubSupporter->image_path) ? asset('storage/'.$clubSupporter->image_path) : null,
-                'initials' => $makeInitials($clubSupporter->name),
-                'badgeClass' => 'from-brand-950 via-brand-800 to-slate-950',
-            ];
-        })->all()
-        : $clubSupportersFallback;
-
-    $clubSupportersFromCatalog = Club::query()
-        ->where('show_as_collaborator', true)
-        ->orderBy('sort')
-        ->orderBy('id')
-        ->get();
-
-    $clubSupporters = $clubSupportersFromCatalog->isNotEmpty()
-        ? $clubSupportersFromCatalog->map(function (Club $club) use ($makeInitials): array {
-            return [
-                'name' => $club->name,
-                'description' => $club->description,
-                'label' => 'Club colaborador',
-                'image' => ! empty($club->logo_path) ? asset('storage/'.$club->logo_path) : null,
-                'initials' => $makeInitials($club->name),
-                'badgeClass' => 'from-brand-950 via-brand-800 to-slate-950',
-            ];
-        })->all()
-        : $clubSupportersFallback;
-
-    $refereeSupporters = [
-        [
-            'name' => 'ÃƒÂrbitro colaborador 01',
-            'label' => 'ÃƒÂrbitro colaborador',
-            'description' => 'ÃƒÂ¡rbitro autonÃƒÂ³mico',
-            'initials' => 'A1',
-            'badgeClass' => 'from-brand-950 via-brand-800 to-slate-900',
-        ],
-        [
-            'name' => 'ÃƒÂrbitra colaboradora 02',
-            'label' => 'ÃƒÂrbitra colaboradora',
-            'description' => 'Juez ÃƒÂ¡rbitra con experiencia en cantera',
-            'initials' => 'A2',
-            'badgeClass' => 'from-slate-950 via-brand-900 to-brand-700',
-        ],
-        [
-            'name' => 'ÃƒÂrbitro colaborador 03',
-            'label' => 'ÃƒÂrbitro colaborador',
-            'description' => 'Especialista en competiciÃƒÂ³n territorial',
-            'initials' => 'A3',
-            'badgeClass' => 'from-accent-900 via-accent-700 to-brand-950',
-        ],
-        [
-            'name' => 'ÃƒÂrbitro colaborador 04',
-            'label' => 'ÃƒÂrbitro colaborador',
-            'description' => 'Referencia tÃƒÂ©cnica y formativa',
-            'initials' => 'A4',
-            'badgeClass' => 'from-brand-800 via-slate-900 to-brand-950',
-        ],
-        [
-            'name' => 'ÃƒÂrbitra colaboradora 05',
-            'label' => 'ÃƒÂrbitra colaboradora',
-            'description' => 'CompeticiÃƒÂ³n y acompaÃƒÂ±amiento',
-            'initials' => 'A5',
-            'badgeClass' => 'from-slate-900 via-brand-800 to-accent-800',
-        ],
-    ];
-
-    $coachSupportersFallback = [
-        [
-            'name' => 'Entrenador colaborador 01',
-            'label' => 'Trabajo de base',
-            'description' => 'AcompaÃƒÂ±a la iniciativa desde la formaciÃƒÂ³n y la direcciÃƒÂ³n de equipos.',
-            'initials' => 'E1',
-            'badgeClass' => 'from-brand-950 via-brand-800 to-slate-950',
-        ],
-        [
-            'name' => 'Entrenadora colaboradora 02',
-            'label' => 'Experiencia de banquillo',
-            'description' => 'Aporta visi?n t?ctica y conocimiento real de la competici?n.',
-            'initials' => 'E2',
-            'badgeClass' => 'from-slate-950 via-brand-900 to-brand-700',
-        ],
-        [
-            'name' => 'Entrenador colaborador 03',
-            'label' => 'Acompa?amiento t?cnico',
-            'description' => 'Suma criterio en la construcci?n de propuestas s?lidas.',
-            'initials' => 'E3',
-            'badgeClass' => 'from-accent-900 via-accent-700 to-brand-950',
-        ],
-    ];
-
-    $playerSupportersFallback = [
-        [
-            'name' => 'Jugador colaborador 01',
-            'label' => 'Voz de pista',
-            'description' => 'Representa la experiencia de quienes viven la competici?n desde dentro.',
-            'initials' => 'J1',
-            'badgeClass' => 'from-brand-800 via-slate-900 to-brand-950',
-        ],
-        [
-            'name' => 'Jugadora colaboradora 02',
-            'label' => 'Compromiso con el juego',
-            'description' => 'Aporta una mirada cercana a la realidad diaria del voleibol.',
-            'initials' => 'J2',
-            'badgeClass' => 'from-slate-900 via-brand-800 to-accent-800',
-        ],
-        [
-            'name' => 'Jugador colaborador 03',
-            'label' => 'Cantera y presente',
-            'description' => 'Refuerza la conexi?n entre la base y el futuro del proyecto.',
-            'initials' => 'J3',
-            'badgeClass' => 'from-brand-950 via-slate-900 to-brand-800',
-        ],
-    ];
-
-    $projectSupporters = [
-        [
-            'name' => 'Contenido en construcción',
-            'role' => 'Liderazgo',
-            'description' => 'Mostraremos aquí la persona que impulsa el proyecto cuando esté publicada en la base de datos.',
-            'initials' => 'PV',
-        ],
-        [
-            'name' => 'Apoyos por confirmar',
-            'role' => 'Clubes',
-            'description' => 'Este bloque se completará con clubes reales en cuanto haya registros disponibles.',
-            'initials' => 'CL',
-        ],
-        [
-            'name' => 'Apoyo arbitral',
-            'role' => 'Árbitros',
-            'description' => 'Aquí aparecerán los árbitros colaboradores cuando se publiquen sus datos.',
-            'initials' => 'AR',
-        ],
-    ];
-
-    $clubSupportersFallback = [
-        [
-            'name' => 'Clubes en construcción',
-            'description' => 'Los clubes colaboradores reales aparecerán aquí cuando estén disponibles.',
-            'label' => 'Club colaborador',
-            'initials' => 'CL',
-            'badgeClass' => 'from-brand-950 via-brand-800 to-slate-950',
-        ],
-    ];
-
-    $refereeSupporters = [
-        [
-            'name' => 'Árbitros en construcción',
-            'label' => 'Árbitro colaborador',
-            'description' => 'Aquí mostraremos los árbitros colaboradores cuando haya registros reales.',
-            'initials' => 'AR',
-            'badgeClass' => 'from-brand-950 via-brand-800 to-slate-900',
-        ],
-    ];
-
-    $coachSupportersFallback = [
-        [
-            'name' => 'Entrenadores en construcción',
-            'label' => 'Entrenador colaborador',
-            'description' => 'Esta franja se completará con entrenadores reales en cuanto se publiquen.',
-            'initials' => 'EN',
-            'badgeClass' => 'from-slate-950 via-brand-900 to-brand-700',
-        ],
-    ];
-
-    $playerSupportersFallback = [
-        [
-            'name' => 'Jugadores en construcción',
-            'label' => 'Jugador colaborador',
-            'description' => 'Aquí aparecerán los jugadores colaboradores cuando haya datos reales.',
-            'initials' => 'JG',
-            'badgeClass' => 'from-brand-950 via-slate-900 to-brand-800',
-        ],
-    ];
-
-    $mapLogoSupporters = function (ProjectSupporterType $type, array $fallback, string $label, string $badgeClass) use ($project, $makeInitials, $hasSupporterTypeColumn): array {
-        if (! $project instanceof Project || $project->supporters->isEmpty()) {
-            return $fallback;
-        }
-
-        if (! $hasSupporterTypeColumn && $type !== ProjectSupporterType::Club) {
-            return $fallback;
-        }
-
-        $supporters = $project->supporters->filter(function (ProjectClubSupporter $supporter) use ($type, $hasSupporterTypeColumn): bool {
-            if (! $hasSupporterTypeColumn) {
-                return $type === ProjectSupporterType::Club;
-            }
-
-            $supporterType = $supporter->supporter_type instanceof ProjectSupporterType
-                ? $supporter->supporter_type
-                : ProjectSupporterType::tryFrom((string) $supporter->supporter_type);
-
-            return $supporterType === $type;
-        });
-
-        if ($supporters->isEmpty()) {
-            return $fallback;
-        }
-
-        return $supporters->map(function (ProjectClubSupporter $supporter) use ($label, $badgeClass, $makeInitials): array {
-            return [
-                'name' => $supporter->name,
-                'description' => $supporter->description,
-                'label' => $label,
-                'image' => ! empty($supporter->image_path) ? asset('storage/'.$supporter->image_path) : null,
-                'shield' => $supporter->club instanceof Club && ! empty($supporter->club->logo_path)
-                    ? asset('storage/'.$supporter->club->logo_path)
-                    : (! empty($supporter->shield_path) ? asset('storage/'.$supporter->shield_path) : null),
-                'initials' => $makeInitials($supporter->name),
-                'badgeClass' => $badgeClass,
-            ];
-        })->all();
-    };
-
-    $mapCardSupporters = function (ProjectSupporterType $type, array $fallback, string $label, string $backgroundClass) use ($project, $makeInitials, $hasSupporterTypeColumn): array {
-        if (! $project instanceof Project || $project->supporters->isEmpty() || ! $hasSupporterTypeColumn) {
-            return $fallback;
-        }
-
-        $supporters = $project->supporters->filter(function (ProjectClubSupporter $supporter) use ($type): bool {
-            $supporterType = $supporter->supporter_type instanceof ProjectSupporterType
-                ? $supporter->supporter_type
-                : ProjectSupporterType::tryFrom((string) $supporter->supporter_type);
-
-            return $supporterType === $type;
-        });
-
-        if ($supporters->isEmpty()) {
-            return $fallback;
-        }
-
-        return $supporters->map(function (ProjectClubSupporter $supporter) use ($label, $backgroundClass, $makeInitials): array {
-            return [
-                'name' => $supporter->name,
-                'title' => $supporter->description,
-                'description' => null,
-                'label' => $label,
-                'image' => ! empty($supporter->image_path) ? asset('storage/'.$supporter->image_path) : null,
-                'initials' => $makeInitials($supporter->name),
-                'backgroundClass' => $backgroundClass,
-            ];
-        })->all();
-    };
-
-    if ($clubSupportersFromCatalog->isEmpty()) {
-        $clubSupporters = $mapLogoSupporters(
-            ProjectSupporterType::Club,
-            $clubSupportersFallback,
-            'Club colaborador',
-            'from-brand-950 via-brand-800 to-slate-950',
-        );
-    }
-
-    $refereeSupporters = $mapLogoSupporters(
-        ProjectSupporterType::Referee,
-        $refereeSupporters,
-        'Árbitro colaborador',
-        'from-brand-950 via-brand-800 to-slate-900',
-    );
-
-    $coachSupporters = $mapLogoSupporters(
-        ProjectSupporterType::Coach,
-        $coachSupportersFallback,
-        'Entrenador colaborador',
-        'from-slate-950 via-brand-900 to-brand-700',
-    );
-
-    $playerSupporters = $mapLogoSupporters(
-        ProjectSupporterType::Player,
-        $playerSupportersFallback,
-        'Jugador colaborador',
-        'from-accent-900 via-accent-700 to-brand-950',
-    );
-
-    $supportSections = [
-        [
-            'eyebrow' => 'Apoyos',
-            'title' => 'Clubes colaboradores',
-            'description' => 'Clubes que respaldan la iniciativa y se muestran con un carrusel continuo de logos.',
-            'items' => $clubSupporters,
-            'mode' => 'logos',
-            'direction' => 'right',
-            'speed' => 50,
-            'gap' => 1.1,
-            'fadeColor' => '#f8fafc',
-        ],
-        [
-            'eyebrow' => 'Apoyos',
-            'title' => 'Árbitros colaboradores',
-            'description' => 'Árbitros que suman criterio y experiencia con el mismo formato visual que los clubes.',
-            'items' => $refereeSupporters,
-            'mode' => 'logos',
-            'direction' => 'left',
-            'speed' => 50,
-            'gap' => 1.1,
-            'fadeColor' => '#f8fafc',
-            'imageFit' => 'cover',
-            'autofillMultiplier' => 2.4,
-        ],
-        [
-            'eyebrow' => 'Apoyos',
-            'title' => 'Entrenadores colaboradores',
-            'description' => 'Entrenadores que aportan experiencia t?cnica y acompa?an el proyecto.',
-            'items' => $coachSupporters,
-            'mode' => 'logos',
-            'direction' => 'right',
-            'speed' => 50,
-            'gap' => 1.1,
-            'fadeColor' => '#f8fafc',
-            'imageFit' => 'cover',
-            'autofillMultiplier' => 2.4,
-        ],
-        [
-            'eyebrow' => 'Apoyos',
-            'title' => 'Jugadores colaboradores',
-            'description' => 'Jugadores que refuerzan la iniciativa desde la pista y la comunidad.',
-            'items' => $playerSupporters,
-            'mode' => 'logos',
-            'direction' => 'left',
-            'speed' => 50,
-            'gap' => 1.1,
-            'fadeColor' => '#f8fafc',
-            'imageFit' => 'cover',
-        ],
-    ];
-
-    $makePlaceholderProposedPerson = function (): array {
-        return [
-            'name' => 'Aún por definir',
-            'title' => 'Pendiente de completar',
-            'description' => 'Esta tarjeta se completará más adelante.',
-            'initials' => 'AD',
-        ];
-    };
-
-    $clubsSectionVisible = $project instanceof Project ? $project->show_proposed_clubs_section : true;
-    $refereesSectionVisible = $project instanceof Project ? $project->show_proposed_referees_section : true;
-    $coachesSectionVisible = $project instanceof Project ? $project->show_proposed_coaches_section : true;
-    $playersSectionVisible = $project instanceof Project ? $project->show_proposed_players_section : true;
-
-    $mapProposedPeople = function (ProjectProposedPersonType $type, int $minimum) use ($project, $makePlaceholderProposedPerson): array {
-        $proposedPeople = $project->proposedPeople->filter(function (ProjectProposedPerson $proposedPerson) use ($type): bool {
-            $proposedType = $proposedPerson->proposed_type instanceof ProjectProposedPersonType
-                ? $proposedPerson->proposed_type
-                : ProjectProposedPersonType::tryFrom((string) $proposedPerson->proposed_type);
-
-            return $proposedType === $type;
-        });
-
-        $items = $proposedPeople->map(function (ProjectProposedPerson $proposedPerson) use ($type, $makePlaceholderProposedPerson): array {
-            $placeholder = $makePlaceholderProposedPerson();
-            $hasClubBadge = in_array($type, [ProjectProposedPersonType::Coach, ProjectProposedPersonType::Player], true)
-                && $proposedPerson->club instanceof Club
-                && filled($proposedPerson->club->logo_path);
-
-            return [
-                'name' => filled($proposedPerson->name) ? $proposedPerson->name : $placeholder['name'],
-                'title' => filled($proposedPerson->title) ? $proposedPerson->title : $placeholder['title'],
-                'description' => filled($proposedPerson->description) ? $proposedPerson->description : $placeholder['description'],
-                'image' => filled($proposedPerson->logo_path) ? asset('storage/'.$proposedPerson->logo_path) : null,
-                'shield' => $hasClubBadge ? asset('storage/'.$proposedPerson->club->logo_path) : null,
-                'initials' => filled($proposedPerson->initials) ? $proposedPerson->initials : $placeholder['initials'],
-            ];
-        })->values();
-
-        while ($items->count() < max(0, $minimum)) {
-            $items->push($makePlaceholderProposedPerson());
-        }
-
-        return $items->all();
-    };
-
-    $proposedSections = [
-        [
-            'title' => 'Clubes propuestos para la asamblea',
-            'items' => $clubsSectionVisible ? $mapProposedPeople(ProjectProposedPersonType::Club, $project->proposed_clubs_minimum_count) : [],
-            'visible' => $clubsSectionVisible,
-        ],
-        [
-            'title' => 'Árbitros propuestos para la asamblea',
-            'items' => $refereesSectionVisible ? $mapProposedPeople(ProjectProposedPersonType::Referee, $project->proposed_referees_minimum_count) : [],
-            'visible' => $refereesSectionVisible,
-        ],
-        [
-            'title' => 'Entrenadores propuestos para la asamblea',
-            'items' => $coachesSectionVisible ? $mapProposedPeople(ProjectProposedPersonType::Coach, $project->proposed_coaches_minimum_count) : [],
-            'visible' => $coachesSectionVisible,
-        ],
-        [
-            'title' => 'Jugadores propuestos para la asamblea',
-            'items' => $playersSectionVisible ? $mapProposedPeople(ProjectProposedPersonType::Player, $project->proposed_players_minimum_count) : [],
-            'visible' => $playersSectionVisible,
-        ],
-    ];
-
-    $clubCatalogSupporters = Club::query()
-        ->where('show_as_collaborator', true)
-        ->orderBy('sort')
-        ->orderBy('id')
-        ->get();
-
-    $refereeCatalogSupporters = Referee::query()
-        ->where('show_as_collaborator', true)
-        ->orderBy('sort')
-        ->orderBy('id')
-        ->get();
-
-    $coachCatalogSupporters = Coach::query()
-        ->where('show_as_collaborator', true)
-        ->orderBy('sort')
-        ->orderBy('id')
-        ->get();
-
-    $playerCatalogSupporters = Player::query()
-        ->where('show_as_collaborator', true)
-        ->orderBy('sort')
-        ->orderBy('id')
-        ->get();
-
-    $catalogSupporterItem = function ($catalogItem, string $label, string $badgeClass) use ($makeInitials): array {
-        return [
-            'name' => $catalogItem->name,
-            'label' => $label,
-            'description' => $catalogItem->description,
-            'image' => ! empty($catalogItem->logo_path) ? asset('storage/'.$catalogItem->logo_path) : null,
-            'shield' => null,
-            'initials' => $makeInitials($catalogItem->name),
-            'badgeClass' => $badgeClass,
-        ];
-    };
-
-    $catalogProposalItem = function ($catalogItem) use ($makeInitials): array {
-        return [
-            'name' => $catalogItem->name,
-            'title' => filled($catalogItem->description) ? $catalogItem->description : 'Pendiente de completar',
-            'description' => null,
-            'image' => ! empty($catalogItem->logo_path) ? asset('storage/'.$catalogItem->logo_path) : null,
-            'initials' => $makeInitials($catalogItem->name),
-        ];
-    };
-
-    $makeFixedProposalItems = function ($catalogItems, int $minimum) use ($catalogProposalItem): array {
-        $items = $catalogItems
-            ->filter(fn ($catalogItem): bool => (bool) $catalogItem->show_as_proposed_for_assembly)
-            ->sortBy('sort')
-            ->sortBy('id')
-            ->take($minimum)
-            ->map($catalogProposalItem)
-            ->values();
-
-        while ($items->count() < $minimum) {
-            $items->push([
-                'name' => 'Aún por definir',
-                'title' => 'Pendiente de completar',
-                'description' => null,
-                'initials' => 'AD',
-            ]);
-        }
-
-        return $items->all();
-    };
-
-    $projectSupporters = [
-        [
-            'name' => 'Contenido en construcción',
-            'role' => 'Liderazgo',
-            'description' => 'Mostraremos aquí la persona que impulsa el proyecto cuando esté publicada en la base de datos.',
-            'initials' => 'PV',
-        ],
-        [
-            'name' => 'Apoyos por confirmar',
-            'role' => 'Clubes',
-            'description' => 'Este bloque se completará con clubes reales en cuanto haya registros disponibles.',
-            'initials' => 'CL',
-        ],
-        [
-            'name' => 'Apoyo arbitral',
-            'role' => 'Árbitros',
-            'description' => 'Aquí aparecerán los árbitros colaboradores cuando se publiquen sus datos.',
-            'initials' => 'AR',
-        ],
-    ];
-
-    $supportSections = [
-        [
-            'eyebrow' => 'Apoyos',
-            'title' => 'Clubes colaboradores',
-            'description' => 'Clubes que respaldan la iniciativa y se muestran con un carrusel continuo de logos.',
-            'items' => $clubCatalogSupporters->isNotEmpty()
-                ? $clubCatalogSupporters->map(fn ($catalogItem): array => $catalogSupporterItem($catalogItem, 'Club colaborador', 'from-brand-950 via-brand-800 to-slate-950'))->all()
-                : [],
-            'mode' => 'logos',
-            'direction' => 'right',
-            'speed' => 50,
-            'gap' => 1.1,
-            'fadeColor' => '#f8fafc',
-        ],
-        [
-            'eyebrow' => 'Apoyos',
-            'title' => 'Árbitros colaboradores',
-            'description' => 'Árbitros que suman criterio y experiencia con el mismo formato visual que los clubes.',
-            'items' => $refereeCatalogSupporters->isNotEmpty()
-                ? $refereeCatalogSupporters->map(fn ($catalogItem): array => $catalogSupporterItem($catalogItem, 'Árbitro colaborador', 'from-brand-950 via-brand-800 to-slate-900'))->all()
-                : [],
-            'mode' => 'logos',
-            'direction' => 'left',
-            'speed' => 50,
-            'gap' => 1.1,
-            'fadeColor' => '#f8fafc',
-            'imageFit' => 'cover',
-            'autofillMultiplier' => 2.4,
-        ],
-        [
-            'eyebrow' => 'Apoyos',
-            'title' => 'Entrenadores colaboradores',
-            'description' => 'Entrenadores que aportan experiencia técnica y acompañan el proyecto.',
-            'items' => $coachCatalogSupporters->isNotEmpty()
-                ? $coachCatalogSupporters->map(fn ($catalogItem): array => $catalogSupporterItem($catalogItem, 'Entrenador colaborador', 'from-slate-950 via-brand-900 to-brand-700'))->all()
-                : [],
-            'mode' => 'logos',
-            'direction' => 'right',
-            'speed' => 50,
-            'gap' => 1.1,
-            'fadeColor' => '#f8fafc',
-            'imageFit' => 'cover',
-            'autofillMultiplier' => 2.4,
-        ],
-        [
-            'eyebrow' => 'Apoyos',
-            'title' => 'Jugadores colaboradores',
-            'description' => 'Jugadores que refuerzan la iniciativa desde la pista y la comunidad.',
-            'items' => $playerCatalogSupporters->isNotEmpty()
-                ? $playerCatalogSupporters->map(fn ($catalogItem): array => $catalogSupporterItem($catalogItem, 'Jugador colaborador', 'from-accent-900 via-accent-700 to-brand-950'))->all()
-                : [],
-            'mode' => 'logos',
-            'direction' => 'left',
-            'speed' => 50,
-            'gap' => 1.1,
-            'fadeColor' => '#f8fafc',
-            'imageFit' => 'cover',
-        ],
-    ];
-
-    $proposedSections = [
-        [
-            'title' => 'Clubes propuestos para la asamblea',
-            'items' => $makeFixedProposalItems($clubCatalogSupporters, 31),
-            'visible' => true,
-        ],
-        [
-            'title' => 'Árbitros propuestos para la asamblea',
-            'items' => $makeFixedProposalItems($refereeCatalogSupporters, 3),
-            'visible' => true,
-        ],
-        [
-            'title' => 'Entrenadores propuestos para la asamblea',
-            'items' => $makeFixedProposalItems($coachCatalogSupporters, 8),
-            'visible' => true,
-        ],
-        [
-            'title' => 'Jugadores propuestos para la asamblea',
-            'items' => $makeFixedProposalItems($playerCatalogSupporters, 15),
-            'visible' => true,
-        ],
-    ];
-
-    return view('proyecto', [
-        'projectLeader' => $projectLeader,
-        'projectSupporters' => $projectSupporters,
-        'supportSections' => $supportSections,
-        'proposedSections' => $proposedSections,
-    ]);
 })->name('proyecto');
 
 Route::get('/programa', function () {
@@ -1151,7 +347,7 @@ Route::get('/programa', function () {
                     $section['subsections'] = [
                         [
                             'anchor' => sprintf('%s-voley-playa', $section['anchor']),
-                            'title' => 'Voley playa',
+                            'title' => 'Vóley playa',
                             'description' => null,
                             'items' => $section['beach_proposals'] ?? [],
                         ],
@@ -1202,12 +398,12 @@ Route::get('/programa', function () {
             [
                 'anchor' => 'clubes',
                 'title' => 'Clubes',
-                'description' => 'Contenido en construccion. Esta seccion se completara con propuestas reales cuando haya datos publicados.',
+                'description' => 'Aún no hay propuestas publicadas en esta sección.',
                 'items' => [
                     [
-                        'title' => 'Contenido en construccion',
+                        'title' => 'Sin propuestas publicadas',
                         'summary' => 'Estamos preparando esta parte del programa.',
-                        'details' => 'Aqui publicaremos las propuestas definitivas cuando esten disponibles en la base de datos.',
+                        'details' => 'Publicaremos aquí las propuestas cuando estén revisadas y disponibles.',
                     ],
                 ],
                 'beach_volleyball_enabled' => false,
@@ -1215,13 +411,13 @@ Route::get('/programa', function () {
             ],
             [
                 'anchor' => 'federacion',
-                'title' => 'Federacion',
-                'description' => 'Contenido en construccion. Esta seccion se completara con propuestas reales cuando haya datos publicados.',
+                'title' => 'Federación',
+                'description' => 'Aún no hay propuestas publicadas en esta sección.',
                 'items' => [
                     [
-                        'title' => 'Contenido en construccion',
+                        'title' => 'Sin propuestas publicadas',
                         'summary' => 'Estamos preparando esta parte del programa.',
-                        'details' => 'Aqui publicaremos las propuestas definitivas cuando esten disponibles en la base de datos.',
+                        'details' => 'Publicaremos aquí las propuestas cuando estén revisadas y disponibles.',
                     ],
                 ],
                 'beach_volleyball_enabled' => false,
@@ -1229,13 +425,13 @@ Route::get('/programa', function () {
             ],
             [
                 'anchor' => 'arbitros',
-                'title' => 'Arbitros',
-                'description' => 'Contenido en construccion. Esta seccion se completara con propuestas reales cuando haya datos publicados.',
+                'title' => 'Árbitros',
+                'description' => 'Aún no hay propuestas publicadas en esta sección.',
                 'items' => [
                     [
-                        'title' => 'Contenido en construccion',
+                        'title' => 'Sin propuestas publicadas',
                         'summary' => 'Estamos preparando esta parte del programa.',
-                        'details' => 'Aqui publicaremos las propuestas definitivas cuando esten disponibles en la base de datos.',
+                        'details' => 'Publicaremos aquí las propuestas cuando estén revisadas y disponibles.',
                     ],
                 ],
                 'beach_volleyball_enabled' => false,
@@ -1244,12 +440,12 @@ Route::get('/programa', function () {
             [
                 'anchor' => 'entrenadores',
                 'title' => 'Entrenadores',
-                'description' => 'Contenido en construccion. Esta seccion se completara con propuestas reales cuando haya datos publicados.',
+                'description' => 'Aún no hay propuestas publicadas en esta sección.',
                 'items' => [
                     [
-                        'title' => 'Contenido en construccion',
+                        'title' => 'Sin propuestas publicadas',
                         'summary' => 'Estamos preparando esta parte del programa.',
-                        'details' => 'Aqui publicaremos las propuestas definitivas cuando esten disponibles en la base de datos.',
+                        'details' => 'Publicaremos aquí las propuestas cuando estén revisadas y disponibles.',
                     ],
                 ],
                 'beach_volleyball_enabled' => false,
@@ -1257,13 +453,13 @@ Route::get('/programa', function () {
             ],
             [
                 'anchor' => 'voley-playa',
-                'title' => 'Voley playa',
-                'description' => 'Contenido en construccion. Esta seccion se completara con propuestas reales cuando haya datos publicados.',
+                'title' => 'Vóley playa',
+                'description' => 'Aún no hay propuestas publicadas en esta sección.',
                 'items' => [
                     [
-                        'title' => 'Contenido en construccion',
+                        'title' => 'Sin propuestas publicadas',
                         'summary' => 'Estamos preparando esta parte del programa.',
-                        'details' => 'Aqui publicaremos las propuestas definitivas cuando esten disponibles en la base de datos.',
+                        'details' => 'Publicaremos aquí las propuestas cuando estén revisadas y disponibles.',
                     ],
                 ],
                 'beach_volleyball_enabled' => false,
@@ -1280,6 +476,35 @@ Route::get('/programa', function () {
 })->name('programa');
 
 Route::get('/blog', [BlogPostController::class, 'index'])->name('blog');
+
+Route::get('/sitemap.xml', function () {
+    $staticUrls = collect([
+        route('home'),
+        route('proyecto'),
+        route('programa'),
+        route('blog'),
+        route('participa'),
+    ])->map(fn (string $url): array => [
+        'loc' => $url,
+        'lastmod' => null,
+    ]);
+
+    $articleUrls = BlogPost::query()
+        ->published()
+        ->whereNotNull('published_at')
+        ->orderByDesc('published_at')
+        ->orderByDesc('id')
+        ->get(['slug', 'updated_at'])
+        ->map(fn (BlogPost $blogPost): array => [
+            'loc' => route('blog.show', $blogPost),
+            'lastmod' => $blogPost->updated_at?->toAtomString(),
+        ]);
+
+    return response()
+        ->view('sitemap', ['urls' => $staticUrls->concat($articleUrls)])
+        ->header('Content-Type', 'application/xml; charset=UTF-8');
+})->name('sitemap');
+
 Route::get('/blog/{blogPost:slug}', [BlogPostController::class, 'show'])->name('blog.show');
 
 Route::get('/participa', [ParticipationController::class, 'show'])->name('participa');

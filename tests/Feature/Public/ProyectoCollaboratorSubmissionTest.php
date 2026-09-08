@@ -13,20 +13,20 @@ it('renders collaborator submission triggers on the project page', function (): 
     $response = $this->get(route('proyecto'));
 
     $response->assertOk();
-    $response->assertSee('Quiero salir aquí');
+    $response->assertSee('Solicitar colaboración');
     $response->assertSee('Apoyos del proyecto');
     $response->assertSee('Dónde quieres salir');
     $response->assertSee('Nombre del club');
     $response->assertSee('Nivel de voleibol');
-    $response->assertSee('Nivel de voleyplaya');
+    $response->assertSee('Nivel de vóley playa');
     $response->assertSee('Nivel de voleibol');
-    $response->assertSee('Nivel de voleyplaya');
+    $response->assertSee('Nivel de vóley playa');
     $response->assertSee('División en la que juegas');
     $response->assertSee('Equipo en el que juegas');
-    $response->assertSee('Email de contacto');
+    $response->assertSee('Correo electrónico de contacto');
     $response->assertSee('Número de teléfono de contacto');
     $response->assertSee('Nombre de la persona de contacto');
-    $response->assertSee('Email de contacto');
+    $response->assertSee('Correo electrónico de contacto');
     $response->assertSee('Número de teléfono de contacto');
     $response->assertSee('Foto');
     $response->assertSee('Asumo que el club que estoy enviando tiene algún equipo federado');

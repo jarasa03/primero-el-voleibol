@@ -1,7 +1,8 @@
 @extends('layouts.public')
 
-@section('title', 'Programa')
+@section('title', 'Programa | Primero el Voleibol')
 @section('meta_description', 'Programa con medidas concretas para poner orden, formación y feedback en el voleibol madrileño.')
+@section('og_image', asset('images/programa-hero.webp'))
 @section('body_class', 'page-interior page-programa')
 
 @section('content')
@@ -22,9 +23,7 @@
                     </h1>
 
                     <p class="mt-5 w-full max-w-none text-lg leading-8 text-brand-200 sm:text-xl">
-                        Este espacio recoge propuestas que queremos poner sobre la mesa. Arrancamos con varias ideas
-                        claras: sanciones con consecuencias reales, formación anual para árbitros y feedback continuo
-                        entre distintos niveles de arbitraje.
+                        Este espacio recoge las propuestas que queremos poner sobre la mesa para mejorar distintos ámbitos del voleibol madrileño. Medidas concretas, realistas y pensadas para responder a problemas que afectan a clubes, árbitros, entrenadores, jugadores y a la propia organización de la competición.
                     </p>
 
                     <div class="mt-7 flex flex-wrap gap-3">
@@ -39,21 +38,21 @@
                         <p class="text-sm font-semibold uppercase tracking-[0.25em] text-amber-300">Enfoque</p>
                         <div class="mt-5 space-y-4">
                             <div class="rounded-2xl border border-white/10 bg-slate-900/40 p-4">
-                                <p class="text-base font-semibold text-white">Orden</p>
+                                <p class="text-base font-semibold text-white">Problemas concretos</p>
                                 <p class="mt-2 text-sm leading-6 text-brand-100/80">
-                                    Hacer que las tarjetas tengan consecuencias reales y claras.
+                                    Partir de situaciones reales que necesitan una respuesta.
                                 </p>
                             </div>
                             <div class="rounded-2xl border border-white/10 bg-slate-900/30 p-4">
-                                <p class="text-base font-semibold text-white">Formación</p>
+                                <p class="text-base font-semibold text-white">Medidas aplicables</p>
                                 <p class="mt-2 text-sm leading-6 text-brand-100/80">
-                                    Alinear criterios y preparar mejor la temporada desde el inicio.
+                                    Proponer cambios claros, viables y con una utilidad práctica.
                                 </p>
                             </div>
                             <div class="rounded-2xl border border-white/10 bg-slate-900/20 p-4">
-                                <p class="text-base font-semibold text-white">Mejora continua</p>
+                                <p class="text-base font-semibold text-white">Mejora del conjunto</p>
                                 <p class="mt-2 text-sm leading-6 text-brand-100/80">
-                                    Crear una cultura de feedback constante entre niveles de arbitraje.
+                                    Trabajar sobre distintos ámbitos para hacer avanzar el voleibol madrileño.
                                 </p>
                             </div>
                         </div>
@@ -76,7 +75,7 @@
                     </div>
 
                     <div class="mt-4 grid gap-2.5">
-                        @foreach ($programSection['items'] as $itemIndex => $item)
+                        @forelse ($programSection['items'] as $itemIndex => $item)
                             <details data-program-accordion class="group rounded-[1.5rem] border border-slate-200 bg-white px-5 py-3.5 shadow-sm sm:px-6">
                                 <summary class="flex cursor-pointer list-none items-center justify-between gap-4">
                                     <div class="flex min-w-0 items-center gap-4">
@@ -99,7 +98,11 @@
                                     </div>
                                 </div>
                             </details>
-                        @endforeach
+                        @empty
+                            <p class="rounded-[1.5rem] border border-dashed border-slate-300 bg-white/70 px-5 py-4 text-sm leading-6 text-slate-600 sm:px-6">
+                                Aún no hay propuestas publicadas en esta sección.
+                            </p>
+                        @endforelse
                     </div>
 
                     @foreach ($programSection['subsections'] ?? [] as $subsection)
@@ -111,7 +114,7 @@
                             </div>
 
                             <div class="mt-3 grid gap-2">
-                                @foreach ($subsection['items'] as $item)
+                                @forelse ($subsection['items'] as $item)
                                     <details data-program-accordion class="group rounded-[1.25rem] border border-slate-200 bg-slate-50/80 px-4 py-3 shadow-sm sm:px-5">
                                         <summary class="flex cursor-pointer list-none items-center justify-between gap-4">
                                             <div class="flex min-w-0 items-center gap-3">
@@ -134,7 +137,11 @@
                                             </div>
                                         </div>
                                     </details>
-                                @endforeach
+                                @empty
+                                    <p class="rounded-[1.25rem] border border-dashed border-slate-300 bg-slate-50/80 px-4 py-3 text-sm leading-6 text-slate-600 sm:px-5">
+                                        Aún no hay propuestas publicadas en esta sección.
+                                    </p>
+                                @endforelse
                             </div>
                         </div>
                     @endforeach
@@ -152,12 +159,12 @@
                         Seguiremos ampliando el programa
                     </h2>
                     <p class="mt-4 max-w-2xl text-lg leading-8 text-slate-700">
-                        Queremos que este apartado crezca con más propuestas, más detalle y más debate compartido.
+                        Iremos incorporando nuevas medidas y desarrollando con más detalle las propuestas ya publicadas.
                     </p>
                 </div>
 
                 <a href="{{ route('participa') }}" class="inline-flex items-center justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition md:hover:bg-slate-800">
-                    Escríbenos
+                    Aporta una idea
                 </a>
             </div>
         </div>

@@ -1,7 +1,9 @@
 @extends('layouts.public')
 
-@section('title', $blogPost->title)
+@section('title', $blogPost->title.' | Primero el Voleibol')
 @section('meta_description', $blogPost->excerpt(160))
+@section('og_type', 'article')
+@section('og_image', $blogPost->featuredImageUrl())
 @section('body_class', 'page-interior page-blog')
 @section('main_wrapper_class', 'pt-0')
 
@@ -26,7 +28,7 @@
                     </a>
                     @if ($blogPost->isNew())
                         <span class="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white sm:px-6 sm:py-3">
-                            Nuevo!
+                            ¡Nuevo!
                         </span>
                     @endif
                 </div>

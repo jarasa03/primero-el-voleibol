@@ -140,5 +140,5 @@ it('renders beach volleyball subsections only when enabled', function (): void {
     $response->assertSee('Propuesta secundaria');
     $response->assertDontSee('Apartado de playa oculto');
     expect(substr_count($response->getContent(), 'data-program-subsection'))->toBe(1);
-    expect(preg_match('/data-program-section.*?Arbitros.*?data-program-subsection.*?Voley playa/s', $response->getContent()))->toBe(1);
+    expect(preg_match('/data-program-section.*?Arbitros.*?data-program-subsection.*?Vóley playa/s', $response->getContent()))->toBe(1);
 });

@@ -25,7 +25,7 @@ it('renders the participate page with the form', function (): void {
     $response->assertSeeHtml('<span class="align-top text-rose-500">*</span>');
     $response->assertDontSeeHtml('name="consent" value="1" checked');
     $response->assertSee('Enviar idea');
-    $response->assertSee('Tu idea');
+    $response->assertSee('Cuéntanos qué quieres aportar');
 });
 
 it('stores a participation idea with contact details', function (): void {

@@ -27,6 +27,7 @@ const closeMobileNav = (mobileNav, mobileNavToggle) => {
 
     if (mobileNav instanceof HTMLElement) {
         mobileNav.setAttribute('aria-hidden', 'true');
+        mobileNav.inert = true;
     }
 };
 
@@ -40,6 +41,7 @@ const openMobileNav = (mobileNav, mobileNavToggle) => {
 
     if (mobileNav instanceof HTMLElement) {
         mobileNav.setAttribute('aria-hidden', 'false');
+        mobileNav.inert = false;
     }
 };
 
@@ -345,6 +347,42 @@ const setupParticipationForm = () => {
     syncEmailField();
 };
 
+const setupFormErrorSemantics = () => {
+    document.querySelectorAll('form').forEach((form) => {
+        form.querySelectorAll('.text-rose-600').forEach((errorMessage, errorIndex) => {
+            if (!(errorMessage instanceof HTMLElement)) {
+                return;
+            }
+
+            const label = errorMessage.closest('label')
+                ?? (errorMessage.previousElementSibling instanceof HTMLLabelElement ? errorMessage.previousElementSibling : null);
+            const fieldset = errorMessage.closest('fieldset');
+            const fieldWrapper = errorMessage.closest('.grid.gap-2');
+            const fields = fieldset
+                ? Array.from(fieldset.querySelectorAll('input, select, textarea'))
+                : label
+                    ? Array.from(label.querySelectorAll('input, select, textarea'))
+                    : fieldWrapper
+                        ? Array.from(fieldWrapper.querySelectorAll('input, select, textarea'))
+                        : [];
+
+            if (fields.length === 0) {
+                return;
+            }
+
+            const firstField = fields[0];
+            const errorId = `${firstField.id || firstField.getAttribute('name') || `field-${errorIndex}`}-error`;
+            errorMessage.id = errorId;
+
+            fields.forEach((field) => {
+                field.setAttribute('aria-invalid', 'true');
+                const describedBy = field.getAttribute('aria-describedby');
+                field.setAttribute('aria-describedby', [describedBy, errorId].filter(Boolean).join(' '));
+            });
+        });
+    });
+};
+
 const setupLeaderPhotoCarousels = () => {
     document.querySelectorAll('[data-leader-carousel]').forEach((carousel) => {
         if (!(carousel instanceof HTMLElement)) {
@@ -536,14 +574,14 @@ const setupProjectCollaboratorModal = () => {
             namePlaceholder: 'Tu nombre y apellidos',
             photoLabel: 'Foto',
             photoHelp: 'Sube una foto clara para que podamos preparar tu ficha.',
-            intro: 'Cuéntame tu nombre completo y los niveles de voleibol o voleyplaya que tengas, además de los datos de contacto para poder revisar la colaboración.',
+            intro: 'Cuéntame tu nombre completo y los niveles de voleibol o vóley playa que tengas, además de los datos de contacto para poder revisar la colaboración.',
             showClubFields: false,
             showRefereeFields: true,
             showCoachFields: false,
             showPlayerFields: false,
             refereeLevelLabel: 'Nivel arbitral',
             refereeLevelPlaceholder: 'Nivel arbitral o categoría',
-            refereeContactEmailLabel: 'Email de contacto',
+            refereeContactEmailLabel: 'Correo electrónico de contacto',
             refereeContactEmailPlaceholder: 'correo@ejemplo.com',
             refereeContactPhoneLabel: 'Número de teléfono de contacto',
             refereeContactPhonePlaceholder: '600 000 000',
@@ -555,7 +593,7 @@ const setupProjectCollaboratorModal = () => {
             namePlaceholder: 'Tu nombre y apellidos',
             photoLabel: 'Foto',
             photoHelp: 'Sube una foto clara para que podamos preparar tu ficha.',
-            intro: 'Cuéntame tu nombre completo y si entrenas voleibol, voleyplaya o ambos, además del club principal y la forma en la que quieres aparecer en la ficha.',
+            intro: 'Cuéntame tu nombre completo y si entrenas voleibol, vóley playa o ambos, además del club principal y la forma en la que quieres aparecer en la ficha.',
             showClubFields: false,
             showRefereeFields: false,
             showCoachFields: true,
@@ -567,7 +605,7 @@ const setupProjectCollaboratorModal = () => {
             namePlaceholder: 'Tu nombre y apellidos',
             photoLabel: 'Foto',
             photoHelp: 'Sube una foto clara para que podamos preparar tu ficha.',
-            intro: 'Cuéntame tu nombre completo, tu división, el equipo en el que juegas y cómo quieres aparecer en la tarjeta.',
+            intro: 'Cuéntame tu nombre completo, tu división, el equipo en el que juegas y cómo quieres aparecer en la ficha.',
             showClubFields: false,
             showRefereeFields: false,
             showCoachFields: false,
@@ -575,6 +613,38 @@ const setupProjectCollaboratorModal = () => {
         },
     };
     let isOpen = false;
+    let lastFocusedElement = null;
+    const inertBackgroundStates = new Map();
+
+    const getFocusableElements = () => Array.from(modal.querySelectorAll(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    )).filter((element) => element instanceof HTMLElement && element.getClientRects().length > 0);
+
+    const setBackgroundInert = (isInert) => {
+        if (isInert) {
+            const elements = [
+                document.querySelector('header'),
+                document.querySelector('footer'),
+                document.querySelector('[data-scroll-to-top]'),
+                ...Array.from(modal.parentElement?.children ?? []).filter((element) => element !== modal),
+            ].filter((element) => element instanceof HTMLElement);
+
+            elements.forEach((element) => {
+                if (! inertBackgroundStates.has(element)) {
+                    inertBackgroundStates.set(element, element.inert);
+                }
+
+                element.inert = true;
+            });
+
+            return;
+        }
+
+        inertBackgroundStates.forEach((wasInert, element) => {
+            element.inert = wasInert;
+        });
+        inertBackgroundStates.clear();
+    };
 
     const applyType = (type) => {
         const normalizedType = Object.prototype.hasOwnProperty.call(typeLabels, type) ? type : defaultType;
@@ -646,11 +716,14 @@ const setupProjectCollaboratorModal = () => {
     };
 
     const openModal = (type = defaultType) => {
+        lastFocusedElement = document.activeElement instanceof HTMLElement ? document.activeElement : null;
         applyType(type);
         modal.hidden = false;
+        modal.inert = false;
         modal.classList.remove('hidden');
         modal.classList.add('flex');
         modal.setAttribute('aria-hidden', 'false');
+        setBackgroundInert(true);
         document.body.classList.add('overflow-hidden');
         isOpen = true;
 
@@ -670,8 +743,16 @@ const setupProjectCollaboratorModal = () => {
         modal.classList.remove('flex');
         modal.setAttribute('aria-hidden', 'true');
         modal.hidden = true;
+        modal.inert = true;
+        setBackgroundInert(false);
         document.body.classList.remove('overflow-hidden');
         isOpen = false;
+
+        if (lastFocusedElement instanceof HTMLElement && lastFocusedElement.isConnected) {
+            lastFocusedElement.focus({ preventScroll: true });
+        }
+
+        lastFocusedElement = null;
     };
 
     openButtons.forEach((button) => {
@@ -705,8 +786,37 @@ const setupProjectCollaboratorModal = () => {
     });
 
     window.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && ! modal.hidden) {
+        if (modal.hidden) {
+            return;
+        }
+
+        if (event.key === 'Escape') {
+            event.preventDefault();
             closeModal();
+            return;
+        }
+
+        if (event.key !== 'Tab') {
+            return;
+        }
+
+        const focusableElements = getFocusableElements();
+
+        if (focusableElements.length === 0) {
+            event.preventDefault();
+            modal.focus();
+            return;
+        }
+
+        const firstFocusableElement = focusableElements[0];
+        const lastFocusableElement = focusableElements[focusableElements.length - 1];
+
+        if (event.shiftKey && document.activeElement === firstFocusableElement) {
+            event.preventDefault();
+            lastFocusableElement.focus();
+        } else if (! event.shiftKey && document.activeElement === lastFocusableElement) {
+            event.preventDefault();
+            firstFocusableElement.focus();
         }
     });
 
@@ -842,6 +952,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setupBlogInfiniteScroll();
     setupParticipationForm();
+    setupFormErrorSemantics();
     setupLeaderPhotoCarousels();
     setupProjectCollaboratorModal();
     setupScrollToTopButton();

@@ -49,7 +49,7 @@ it('renders real programme proposals and published blog posts', function (): voi
     $response->assertSee('Transparencia en las sanciones y reinversión en el juego limpio');
     $response->assertSee('Permitir la incorporación de patrocinadores en la equipación oficial de la Federación');
     $response->assertSee('Programa de Mentoría Arbitral');
-    $response->assertSee('competición. Contar');
+    $response->assertSee('Las normas deben aplicarse por igual para todos, las sanciones deben cumplirse');
     $response->assertDontSee('competición.Contar');
     $response->assertDontSee('...');
     $response->assertSee('Una entrada publicada');
