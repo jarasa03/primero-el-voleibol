@@ -14,7 +14,9 @@ it('uses the legal navigation state and responsible details', function (): void 
     foreach (['/aviso-legal', '/politica-de-privacidad', '/politica-de-cookies'] as $uri) {
         $response = $this->get($uri);
 
-        $response->assertSeeHtml('<body class="antialiased page-legal" data-nav-scrolled="true">');
+        $response
+            ->assertSeeHtml('page-legal')
+            ->assertSeeHtml('data-nav-scrolled="true"');
     }
 
     $this->get('/aviso-legal')

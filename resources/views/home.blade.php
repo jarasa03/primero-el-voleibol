@@ -31,7 +31,7 @@
                     </h1>
 
                     <p class="mt-6 max-w-3xl text-lg leading-8 text-brand-200 sm:text-xl">
-                        Un proyecto abierto para escuchar a quienes viven el voleibol madrileño, poner sobre la mesa problemas concretos y trabajar soluciones que puedan mejorar la competición, la formación y la vida de clubes y colectivos.
+                        Una iniciativa para escuchar a quienes viven el voleibol madrileño, poner sobre la mesa problemas concretos y trabajar soluciones que puedan mejorar la competición, la formación y la vida de clubes y colectivos.
                     </p>
 
                     <div class="mt-8 flex flex-wrap gap-4">
@@ -82,7 +82,7 @@
         <div class="mb-6 flex items-end justify-between gap-4">
             <div>
                 <p class="text-sm font-semibold uppercase tracking-[0.25em] text-accent-700">Proyecto</p>
-                <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">Un proyecto que empieza por escuchar</h2>
+                <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">Un propósito que empieza por escuchar</h2>
             </div>
         </div>
 

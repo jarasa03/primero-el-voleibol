@@ -37,18 +37,21 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @stack('head')
     </head>
-    <body class="antialiased @yield('body_class')" data-nav-scrolled="{{ request()->routeIs('home') || request()->routeIs('legal.*') ? 'true' : 'false' }}">
+    @php
+        $isErrorPage = trim($__env->yieldContent('error_page')) !== '';
+    @endphp
+    <body class="antialiased @yield('body_class') {{ $isErrorPage ? 'min-h-dvh overflow-x-hidden lg:overflow-hidden' : '' }}" data-nav-scrolled="{{ request()->routeIs('home') || request()->routeIs('legal.*') || $isErrorPage ? 'true' : 'false' }}">
         @php
             $isProyectoActive = request()->routeIs('proyecto');
             $isProgramaActive = request()->routeIs('programa');
             $isBlogActive = request()->routeIs('blog*');
             $isLegalPage = request()->routeIs('legal.*');
             $isWidePage = request()->routeIs('home') || request()->routeIs('programa') || request()->routeIs('blog*') || request()->routeIs('participa') || request()->routeIs('proyecto');
-            $mainWrapperClass = $isLegalPage ? '' : 'pt-24 sm:pt-28 lg:pt-28';
+            $mainWrapperClass = $isErrorPage ? 'min-h-0 flex-1 pt-20 sm:pt-24 lg:pt-24' : ($isLegalPage ? '' : 'pt-24 sm:pt-28 lg:pt-28');
             $activeNavLinkStyle = 'color: rgb(252 211 77) !important;';
         @endphp
 
-        <div class="relative min-h-screen overflow-x-hidden bg-slate-50 text-slate-950">
+        <div class="relative {{ $isErrorPage ? 'flex min-h-dvh flex-1 flex-col overflow-hidden bg-brand-950 lg:bg-slate-50' : 'min-h-screen overflow-x-hidden bg-slate-50' }} text-slate-950">
             <div class="pointer-events-none absolute inset-x-0 top-0 h-px bg-slate-200"></div>
 
             <header class="site-header-band fixed inset-x-0 top-0 z-50">
@@ -133,19 +136,19 @@
 
             @yield('full_width_content')
 
-            <div class="{{ $isLegalPage ? 'relative flex min-h-screen flex-col' : 'site-container relative flex min-h-screen flex-col' }} @yield('main_wrapper_class', $mainWrapperClass)">
-                <main class="flex-1">
+            <div class="{{ $isErrorPage ? 'site-container relative flex min-h-0 flex-1 flex-col' : ($isLegalPage ? 'relative flex min-h-screen flex-col' : 'site-container relative flex min-h-screen flex-col') }} @yield('main_wrapper_class', $mainWrapperClass)">
+                <main class="flex-1 {{ $isErrorPage ? 'flex min-h-0 flex-col justify-center' : '' }}">
                     @if ($isLegalPage)
                         @yield('content')
                     @else
-                        <div @class(['mx-auto w-full', 'max-w-[120rem]' => $isWidePage, 'max-w-7xl' => ! $isWidePage])>
+                        <div @class(['mx-auto w-full', 'flex min-h-0 flex-1 flex-col justify-center' => $isErrorPage, 'max-w-[120rem]' => $isWidePage, 'max-w-7xl' => ! $isWidePage])>
                             @yield('content')
                         </div>
                     @endif
                 </main>
             </div>
 
-            <footer class="mt-6 overflow-hidden bg-slate-950 text-white shadow-[0_-20px_60px_rgba(15,23,42,0.12)] sm:mt-8">
+            <footer class="{{ $isErrorPage ? 'mt-0 lg:mt-8' : 'mt-6 sm:mt-8' }} overflow-hidden bg-slate-950 text-white shadow-[0_-20px_60px_rgba(15,23,42,0.12)]">
                 <div class="relative">
                     <div class="mx-auto w-full max-w-[120rem] px-4 sm:px-6 lg:px-8">
                         <div class="relative overflow-hidden rounded-[2.5rem]">

@@ -13,7 +13,9 @@ it('renders the home page', function (): void {
 
     $response->assertOk();
     $response->assertSee('Primero el voleibol');
-    $response->assertSeeHtml('<body class="antialiased page-home" data-nav-scrolled="true">');
+    $response
+        ->assertSee('page-home', false)
+        ->assertSee('data-nav-scrolled="true"', false);
 });
 
 it('renders real programme proposals and published blog posts', function (): void {
