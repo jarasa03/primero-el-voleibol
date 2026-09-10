@@ -16,9 +16,10 @@ it('renders the participate page with the form', function (): void {
     $response->assertSee('¿Cómo quieres enviar tu propuesta?');
     $response->assertSee('Envío identificado');
     $response->assertSee('Envío anónimo');
-    $response->assertSee('Confirmo que tengo 18 años o más y consiento');
-    $response->assertSee('Responsable: Francisco Javier Arruabarrena Sabroso. Tus datos se utilizarán para gestionar tu propuesta.');
-    $response->assertSeeHtml('Más información en nuestra <a class="font-semibold text-accent-700 underline" href="'.route('legal.politica-de-privacidad').'">Política de Privacidad</a>.');
+    $response->assertSee('He leído y acepto la Política de Privacidad y consiento');
+    $response->assertDontSee('18 años');
+    $response->assertSee('Responsable: Francisco Javier Arruabarrena Sabroso. Tus datos se utilizarán únicamente para gestionar tu propuesta.');
+    expect(substr_count($response->getContent(), 'href="'.route('legal.politica-de-privacidad').'"'))->toBe(1);
     expect(substr_count($response->getContent(), 'name="consent"'))->toBe(1);
     $response->assertSeeHtml('class="flex cursor-pointer items-start gap-3 rounded-[1.5rem]');
     $response->assertSeeHtml('class="mt-1 size-4 cursor-pointer rounded border-slate-300 text-amber-500 focus:ring-amber-500"');
@@ -53,8 +54,6 @@ it('stores a participation idea with contact details', function (): void {
         'idea' => 'Necesitamos una formación anual más clara para unificar criterios entre todas las categorías.',
         'source' => 'participa-page',
     ]);
-
-    expect(ParticipationIdea::query()->first()?->adult_confirmed_at)->not->toBeNull();
 
     expect(ParticipationIdea::query()->count())->toBe(1);
 
@@ -92,8 +91,6 @@ it('stores a private participation idea without identity fields', function (): v
         'topic' => 'otro',
         'source' => 'participa-page',
     ]);
-
-    expect(ParticipationIdea::query()->first()?->adult_confirmed_at)->not->toBeNull();
 });
 
 it('requires the visible fields for public submissions', function (): void {
@@ -150,7 +147,7 @@ it('rejects spam submissions caught by the honeypot', function (): void {
     $this->assertDatabaseCount('participation_ideas', 0);
 });
 
-it('requires the combined consent and adult confirmation', function (): void {
+it('requires the privacy consent', function (): void {
     $response = $this->from(route('participa'))->post(route('participa.store'), [
         'response_preference' => 'anonymous',
         'club_or_role' => 'Jugador',

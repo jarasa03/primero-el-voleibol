@@ -289,7 +289,7 @@
                             required
                         >
                         <span class="text-sm leading-6 text-slate-600">
-                            Confirmo que tengo 18 años o más y consiento el tratamiento de los datos facilitados para gestionar mi propuesta.
+                            He leído y acepto la <a class="font-semibold text-accent-700 underline" href="{{ route('legal.politica-de-privacidad') }}">Política de Privacidad</a> y consiento el tratamiento de los datos facilitados para gestionar mi propuesta.
                             <span class="align-top text-rose-500">*</span>
                         </span>
                     </label>
@@ -298,8 +298,7 @@
                     @enderror
 
                     <div class="text-xs leading-5 text-slate-500">
-                        <p>Responsable: Francisco Javier Arruabarrena Sabroso. Tus datos se utilizarán para gestionar tu propuesta.</p>
-                        <p class="mt-1">Más información en nuestra <a class="font-semibold text-accent-700 underline" href="{{ route('legal.politica-de-privacidad') }}">Política de Privacidad</a>.</p>
+                        <p>Responsable: Francisco Javier Arruabarrena Sabroso. Tus datos se utilizarán únicamente para gestionar tu propuesta.</p>
                     </div>
 
                     <div class="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center">

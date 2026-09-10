@@ -29,7 +29,6 @@ class ParticipationController extends Controller
             'source' => 'participa-page',
             'is_anonymous' => $isAnonymous,
             'consented_at' => now(),
-            'adult_confirmed_at' => now(),
         ]);
 
         Mail::send(new ParticipationIdeaReceived($idea));

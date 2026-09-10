@@ -45,10 +45,19 @@ it('renders the project page with the catalog carousels', function (): void {
     $response = $this->get(route('proyecto'));
 
     $response->assertOk();
-    $response->assertSee('Clubes colaboradores');
-    $response->assertSee('Árbitros colaboradores');
-    $response->assertSee('Entrenadores colaboradores');
-    $response->assertSee('Jugadores colaboradores');
+    preg_match_all('/<h2[^>]*>\s*(.*?)\s*<\/h2>/s', $response->getContent(), $headingMatches);
+    $renderedHeadings = collect($headingMatches[1])
+        ->map(fn (string $heading): string => trim(strip_tags($heading)))
+        ->all();
+
+    expect($renderedHeadings)->toContain('Árbitros que suman');
+    expect($renderedHeadings)->toContain('Entrenadores que suman');
+    expect($renderedHeadings)->toContain('Jugadores que suman');
+    expect($renderedHeadings)->toContain('Clubes que suman');
+    expect($renderedHeadings)->not->toContain('Árbitros colaboradores');
+    expect($renderedHeadings)->not->toContain('Entrenadores colaboradores');
+    expect($renderedHeadings)->not->toContain('Jugadores colaboradores');
+    expect($renderedHeadings)->not->toContain('Clubes colaboradores');
     $response->assertSee('Clubes propuestos para la asamblea');
     $response->assertSee('Árbitros propuestos para la asamblea');
     $response->assertSee('Entrenadores propuestos para la asamblea');

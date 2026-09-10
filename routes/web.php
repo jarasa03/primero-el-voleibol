@@ -156,7 +156,7 @@ Route::get('/proyecto', function () {
     $supportSections = [
         [
             'eyebrow' => 'Apoyos',
-            'title' => 'Clubes colaboradores',
+            'title' => 'Clubes que suman',
             'description' => 'Clubes que aportan experiencia de gestión, competición y trabajo diario en el voleibol madrileño.',
             'items' => $buildCatalogSupporters(
                 $clubCatalogSupporters,
@@ -180,7 +180,7 @@ Route::get('/proyecto', function () {
         ],
         [
             'eyebrow' => 'Apoyos',
-            'title' => 'Árbitros colaboradores',
+            'title' => 'Árbitros que suman',
             'description' => 'Árbitros con experiencia en competición y una visión directa de lo que ocurre dentro y fuera de la pista.',
             'items' => $buildCatalogSupporters(
                 $refereeCatalogSupporters,
@@ -206,7 +206,7 @@ Route::get('/proyecto', function () {
         ],
         [
             'eyebrow' => 'Apoyos',
-            'title' => 'Entrenadores colaboradores',
+            'title' => 'Entrenadores que suman',
             'description' => 'Entrenadores que aportan conocimiento técnico, experiencia de equipo y contacto directo con jugadores y competición.',
             'items' => $buildCatalogSupporters(
                 $coachCatalogSupporters,
@@ -235,7 +235,7 @@ Route::get('/proyecto', function () {
         ],
         [
             'eyebrow' => 'Apoyos',
-            'title' => 'Jugadores colaboradores',
+            'title' => 'Jugadores que suman',
             'description' => 'Jugadores que aportan la perspectiva de quienes viven la competición desde dentro.',
             'items' => $buildCatalogSupporters(
                 $playerCatalogSupporters,

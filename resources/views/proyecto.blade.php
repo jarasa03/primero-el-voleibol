@@ -8,10 +8,10 @@
 @section('content')
     @php($heroImage = asset('images/proyecto-hero.webp'))
     @php($collaboratorTypeByTitle = [
-        'Clubes colaboradores' => 'club',
-        'Árbitros colaboradores' => 'referee',
-        'Entrenadores colaboradores' => 'coach',
-        'Jugadores colaboradores' => 'player',
+        'Clubes que suman' => 'club',
+        'Árbitros que suman' => 'referee',
+        'Entrenadores que suman' => 'coach',
+        'Jugadores que suman' => 'player',
     ])
 
     <section
