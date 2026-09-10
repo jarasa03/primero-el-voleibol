@@ -16,7 +16,9 @@ it('renders the participate page with the form', function (): void {
     $response->assertSee('¿Cómo quieres enviar tu propuesta?');
     $response->assertSee('Envío identificado');
     $response->assertSee('Envío anónimo');
-    $response->assertSee('He leído y acepto la Política de Privacidad y consiento');
+    $response->assertSee('He leído y acepto la');
+    $response->assertSee('Política de Privacidad');
+    $response->assertSee('y consiento el tratamiento de los datos facilitados para gestionar mi propuesta.');
     $response->assertDontSee('18 años');
     $response->assertSee('Responsable: Francisco Javier Arruabarrena Sabroso. Tus datos se utilizarán únicamente para gestionar tu propuesta.');
     expect(substr_count($response->getContent(), 'href="'.route('legal.politica-de-privacidad').'"'))->toBe(1);

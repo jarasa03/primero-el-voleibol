@@ -45,6 +45,7 @@
             $isProyectoActive = request()->routeIs('proyecto');
             $isProgramaActive = request()->routeIs('programa');
             $isBlogActive = request()->routeIs('blog*');
+            $isParticipaPage = request()->routeIs('participa');
             $isLegalPage = request()->routeIs('legal.*');
             $isWidePage = request()->routeIs('home') || request()->routeIs('programa') || request()->routeIs('blog*') || request()->routeIs('participa') || request()->routeIs('proyecto');
             $mainWrapperClass = $isErrorPage ? 'min-h-0 flex-1 pt-20 sm:pt-24 lg:pt-24' : ($isLegalPage ? '' : 'pt-24 sm:pt-28 lg:pt-28');
@@ -206,7 +207,9 @@
                                     <p>Primero el Voleibol - Madrid</p>
                                     <div class="flex flex-wrap gap-x-5 gap-y-2">
                                         <a class="transition md:hover:text-amber-300" href="{{ route('legal.aviso-legal') }}">Aviso legal</a>
-                                        <a class="transition md:hover:text-amber-300" href="{{ route('legal.politica-de-privacidad') }}">Pol&iacute;tica de privacidad</a>
+                                        @unless ($isParticipaPage)
+                                            <a class="transition md:hover:text-amber-300" href="{{ route('legal.politica-de-privacidad') }}">Pol&iacute;tica de privacidad</a>
+                                        @endunless
                                         <a class="transition md:hover:text-amber-300" href="{{ route('legal.politica-de-cookies') }}">Pol&iacute;tica de cookies</a>
                                     </div>
                                     <p>{{ now()->year }} &middot; Primero el Voleibol</p>
