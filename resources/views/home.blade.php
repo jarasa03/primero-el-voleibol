@@ -224,13 +224,13 @@
 
     <section id="sumate" class="py-5 sm:py-6 lg:py-7">
         <div data-home-participa class="rounded-[2.25rem] bg-slate-950 px-4 py-6 text-white shadow-[0_22px_60px_rgba(15,23,42,0.22)] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
-            <div class="grid gap-5 sm:gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-                <div class="max-w-2xl">
+            <div class="grid gap-5 sm:gap-8 lg:grid-cols-[minmax(0,1.8fr)_minmax(0,1fr)] lg:items-center">
+                <div>
                     <p data-home-participa-kicker class="text-sm font-semibold uppercase tracking-[0.25em] text-amber-300">Participa</p>
                     <h2 data-home-participa-title class="mt-3 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
                         Si algo del voleibol madrileño puede mejorar, queremos saberlo.
                     </h2>
-                    <p data-home-participa-description class="mt-3 max-w-2xl text-base leading-7 text-brand-200 sm:mt-4 sm:text-lg sm:leading-8">
+                    <p data-home-participa-description class="mt-3 text-base leading-7 text-brand-200 sm:mt-4 sm:text-lg sm:leading-8">
                         Cuéntanos qué funciona, qué no y qué cambiarías. Tus experiencias e ideas nos ayudan a seguir construyendo propuestas.
                     </p>
                 </div>
