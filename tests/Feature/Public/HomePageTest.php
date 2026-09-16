@@ -18,6 +18,7 @@ it('renders the home page', function (): void {
         ->assertSee('data-nav-scrolled="true"', false)
         ->assertSee('images/hero-home.jpg', false)
         ->assertSee('alt="Jugadoras de voleibol celebrando junto a la red"', false)
+        ->assertDontSee('data-home-blog-post', false)
         ->assertDontSee('Cómo trabajamos');
 });
 
@@ -58,6 +59,7 @@ it('renders real programme proposals and published blog posts', function (): voi
     $response->assertDontSee('competición.Contar');
     $response->assertDontSee('...');
     $response->assertSee('Una entrada publicada');
+    $response->assertSee('data-home-blog-post', false);
     $response->assertSeeText('Nuevo!');
     $response->assertDontSee('Una entrada privada');
 });
@@ -78,4 +80,5 @@ it('shows at most the four latest published posts on the home page', function ()
     $response->assertSee('Publicación 4');
     $response->assertSee('Publicación 5');
     $response->assertDontSee('Publicación 1');
+    expect(substr_count($response->getContent(), 'data-home-blog-post'))->toBe(4);
 });

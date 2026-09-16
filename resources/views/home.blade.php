@@ -188,7 +188,7 @@
             @if ($latestPosts->isNotEmpty())
                 <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     @foreach ($latestPosts as $post)
-                        <a data-home-blog-post href="{{ route('blog.show', $post) }}" class="group overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 transition md:hover:border-slate-300 md:hover:bg-white">
+                        <a data-home-blog-post href="{{ route('blog.show', $post) }}" class="group overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 transition-[background-color,border-color] duration-150 ease-out md:hover:border-slate-300 md:hover:bg-white">
                             <div class="relative aspect-[16/9] overflow-hidden bg-slate-200">
                                 @if (filled($post->featured_image_path))
                                     <img src="{{ $post->featuredImageUrl() }}" alt="{{ $post->title }}" class="size-full object-cover transition duration-700 group-hover:scale-105">

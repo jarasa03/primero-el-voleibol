@@ -1054,7 +1054,7 @@ const setupHomeBlog = () => {
         timeline.fromTo(link, { opacity: 0, y: isCompactMobile ? 10 : 16 }, { duration: isCompactMobile ? 0.45 : 0.55, ease: 'power2.out', opacity: 1, overwrite: 'auto', y: 0 }, '-=0.15');
 
         if (posts.length > 0) {
-            timeline.from(posts, { autoAlpha: 0, duration: isCompactMobile ? 0.45 : 0.55, stagger: isCompactMobile ? 0.08 : 0.1, y: isCompactMobile ? 14 : 22 }, '-=0.15');
+            timeline.fromTo(posts, { opacity: 0, y: 16 }, { duration: 0.5, ease: 'power2.out', opacity: 1, overwrite: 'auto', stagger: isCompactMobile ? 0.08 : 0.1, y: 0 }, '-=0.15');
         }
     }, section);
 
