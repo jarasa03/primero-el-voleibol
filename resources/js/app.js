@@ -1,6 +1,11 @@
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
 const body = document.body;
 const isHomePage = body.classList.contains('page-home');
 const isLegalPage = body.classList.contains('page-legal');
+
+gsap.registerPlugin(ScrollTrigger);
 
 const updateNavigationState = () => {
     if (isHomePage || isLegalPage) {
@@ -495,7 +500,7 @@ const setupScrollToTopButton = () => {
     }
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const showThreshold = 300;
+    const showThreshold = isHomePage && window.innerWidth < 640 ? 720 : 300;
     let isVisible = false;
 
     const setButtonVisibility = () => {
@@ -901,6 +906,189 @@ const setupInfiniteMarquees = () => {
     });
 };
 
+const setupHomeHero = () => {
+    const hero = document.querySelector('[data-home-hero]');
+
+    if (! isHomePage || ! (hero instanceof HTMLElement) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+    }
+
+    const kicker = hero.querySelector('[data-home-hero-kicker]');
+    const titleLines = Array.from(hero.querySelectorAll('[data-home-hero-title-line]'));
+    const description = hero.querySelector('[data-home-hero-description]');
+    const callsToAction = hero.querySelector('[data-home-hero-ctas]');
+    const statement = hero.querySelector('[data-home-hero-statement]');
+    const imageWrapper = hero.querySelector('[data-home-hero-image-wrap]');
+    const image = hero.querySelector('[data-home-hero-image]');
+    const isCompactMobile = window.matchMedia('(max-width: 639px)').matches;
+    let timeline;
+    const animation = gsap.context(() => {
+        timeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+        timeline
+            .from(kicker, { autoAlpha: 0, duration: 0.35, y: 12 })
+            .from(titleLines, { autoAlpha: 0, duration: isCompactMobile ? 0.5 : 0.8, stagger: isCompactMobile ? 0.08 : 0.12, y: isCompactMobile ? 16 : 36 }, '-=0.05')
+            .from(description, { autoAlpha: 0, duration: isCompactMobile ? 0.4 : 0.55, y: isCompactMobile ? 12 : 16 }, '-=0.25')
+            .from(callsToAction, { autoAlpha: 0, duration: isCompactMobile ? 0.4 : 0.5, y: isCompactMobile ? 10 : 14 }, '-=0.2')
+            .from(statement, { autoAlpha: 0, duration: isCompactMobile ? 0.4 : 0.55, y: isCompactMobile ? 12 : 16 }, '-=0.2')
+            .from(image, isCompactMobile ? { autoAlpha: 0, duration: 0.5, y: 12 } : { autoAlpha: 0, duration: 0.9, scale: 1.04, x: 12 }, 0.1);
+    }, hero);
+
+    const media = gsap.matchMedia();
+
+    timeline.eventCallback('onComplete', () => {
+        const parallaxStart = window.scrollY;
+
+        media.add('(min-width: 1024px)', () => {
+            const parallax = gsap.to(imageWrapper, {
+                ease: 'none',
+                y: -24,
+                scrollTrigger: {
+                    end: () => parallaxStart + hero.offsetHeight,
+                    start: () => parallaxStart,
+                    scrub: true,
+                },
+            });
+
+            return () => parallax.kill();
+        });
+    });
+
+    window.addEventListener('pagehide', () => {
+        media.revert();
+        animation.revert();
+    }, { once: true });
+};
+
+const setupHomeProject = () => {
+    const section = document.querySelector('[data-home-project]');
+
+    if (! isHomePage || ! (section instanceof HTMLElement) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+    }
+
+    const kicker = section.querySelector('[data-home-project-kicker]');
+    const title = section.querySelector('[data-home-project-title]');
+    const cards = Array.from(section.querySelectorAll('[data-home-project-card]'));
+    const isCompactMobile = window.matchMedia('(max-width: 639px)').matches;
+    const animation = gsap.context(() => {
+        gsap.timeline({
+            defaults: { ease: 'power2.out' },
+            scrollTrigger: {
+                trigger: section,
+                start: 'top 75%',
+                once: true,
+            },
+        })
+            .from(kicker, { autoAlpha: 0, duration: isCompactMobile ? 0.4 : 0.5, y: isCompactMobile ? 12 : 20 })
+            .from(title, { autoAlpha: 0, duration: isCompactMobile ? 0.45 : 0.6, y: isCompactMobile ? 14 : 24 }, '-=0.2')
+            .from(cards, { autoAlpha: 0, duration: isCompactMobile ? 0.45 : 0.6, stagger: isCompactMobile ? 0.08 : 0.1, y: isCompactMobile ? 14 : 24 }, '-=0.15');
+    }, section);
+
+    window.addEventListener('pagehide', () => animation.revert(), { once: true });
+};
+
+const setupHomeProgram = () => {
+    const section = document.querySelector('[data-home-program]');
+
+    if (! isHomePage || ! (section instanceof HTMLElement) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+    }
+
+    const kicker = section.querySelector('[data-home-program-kicker]');
+    const title = section.querySelector('[data-home-program-title]');
+    const description = section.querySelector('[data-home-program-description]');
+    const cards = Array.from(section.querySelectorAll('[data-home-program-card]'));
+    const allLink = section.querySelector('[data-home-program-all-link]');
+    const more = section.querySelector('[data-home-program-more]');
+    const isCompactMobile = window.matchMedia('(max-width: 639px)').matches;
+    const animation = gsap.context(() => {
+        gsap.timeline({
+            defaults: { ease: 'power2.out' },
+            scrollTrigger: {
+                trigger: section,
+                start: 'top 75%',
+                once: true,
+            },
+        })
+            .from(kicker, { autoAlpha: 0, duration: isCompactMobile ? 0.4 : 0.45, y: isCompactMobile ? 12 : 20 })
+            .from(title, { autoAlpha: 0, duration: isCompactMobile ? 0.45 : 0.55, y: isCompactMobile ? 14 : 22 }, '-=0.2')
+            .from(description, { autoAlpha: 0, duration: isCompactMobile ? 0.4 : 0.5, y: isCompactMobile ? 12 : 20 }, '-=0.2')
+            .fromTo(allLink, { opacity: 0, y: isCompactMobile ? 10 : 16 }, { duration: isCompactMobile ? 0.45 : 0.55, ease: 'power2.out', opacity: 1, overwrite: 'auto', y: 0 }, '-=0.15')
+            .from(cards, { autoAlpha: 0, duration: isCompactMobile ? 0.45 : 0.55, stagger: isCompactMobile ? 0.08 : 0.09, y: isCompactMobile ? 14 : 24 }, '-=0.15')
+            .from(more, { autoAlpha: 0, duration: isCompactMobile ? 0.4 : 0.5, y: isCompactMobile ? 12 : 16 }, '-=0.15');
+    }, section);
+
+    window.addEventListener('pagehide', () => animation.revert(), { once: true });
+};
+
+const setupHomeBlog = () => {
+    const section = document.querySelector('[data-home-blog]');
+
+    if (! isHomePage || ! (section instanceof HTMLElement) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+    }
+
+    const kicker = section.querySelector('[data-home-blog-kicker]');
+    const title = section.querySelector('[data-home-blog-title]');
+    const introduction = section.querySelector('[data-home-blog-introduction]');
+    const posts = Array.from(section.querySelectorAll('[data-home-blog-post]'));
+    const link = section.querySelector('[data-home-blog-link]');
+    const isCompactMobile = window.matchMedia('(max-width: 639px)').matches;
+    const animation = gsap.context(() => {
+        const timeline = gsap.timeline({
+            defaults: { ease: 'power2.out' },
+            scrollTrigger: {
+                trigger: section,
+                start: 'top 75%',
+                once: true,
+            },
+        })
+            .from(kicker, { autoAlpha: 0, duration: isCompactMobile ? 0.4 : 0.5, y: isCompactMobile ? 12 : 20 })
+            .from(title, { autoAlpha: 0, duration: isCompactMobile ? 0.45 : 0.6, y: isCompactMobile ? 14 : 24 }, '-=0.2');
+
+        if (introduction instanceof HTMLElement) {
+            timeline.from(introduction, { autoAlpha: 0, duration: isCompactMobile ? 0.4 : 0.5, y: isCompactMobile ? 12 : 20 }, '-=0.15');
+        }
+
+        timeline.fromTo(link, { opacity: 0, y: isCompactMobile ? 10 : 16 }, { duration: isCompactMobile ? 0.45 : 0.55, ease: 'power2.out', opacity: 1, overwrite: 'auto', y: 0 }, '-=0.15');
+
+        if (posts.length > 0) {
+            timeline.from(posts, { autoAlpha: 0, duration: isCompactMobile ? 0.45 : 0.55, stagger: isCompactMobile ? 0.08 : 0.1, y: isCompactMobile ? 14 : 22 }, '-=0.15');
+        }
+    }, section);
+
+    window.addEventListener('pagehide', () => animation.revert(), { once: true });
+};
+
+const setupHomeParticipa = () => {
+    const section = document.querySelector('[data-home-participa]');
+
+    if (! isHomePage || ! (section instanceof HTMLElement) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+    }
+
+    const kicker = section.querySelector('[data-home-participa-kicker]');
+    const title = section.querySelector('[data-home-participa-title]');
+    const description = section.querySelector('[data-home-participa-description]');
+    const cta = section.querySelector('[data-home-participa-cta]');
+    const isCompactMobile = window.matchMedia('(max-width: 639px)').matches;
+    const animation = gsap.context(() => {
+        gsap.timeline({
+            defaults: { ease: 'power2.out' },
+            scrollTrigger: {
+                trigger: section,
+                start: 'top 75%',
+                once: true,
+            },
+        })
+            .from(section, { autoAlpha: 0, duration: isCompactMobile ? 0.5 : 0.7, y: isCompactMobile ? 16 : 28 })
+            .fromTo([kicker, title, description, cta], { autoAlpha: 0, y: isCompactMobile ? 10 : 14 }, { autoAlpha: 1, duration: 0.4, stagger: isCompactMobile ? 0.06 : 0.08, y: 0 }, '-=0.25');
+    }, section);
+
+    window.addEventListener('pagehide', () => animation.revert(), { once: true });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     const mobileNavToggle = document.querySelector('[data-nav-toggle]');
     const mobileNav = document.getElementById('mobile-navigation');
@@ -957,6 +1145,11 @@ document.addEventListener('DOMContentLoaded', () => {
     setupProjectCollaboratorModal();
     setupScrollToTopButton();
     setupInfiniteMarquees();
+    setupHomeHero();
+    setupHomeProject();
+    setupHomeProgram();
+    setupHomeBlog();
+    setupHomeParticipa();
 });
 
 window.addEventListener('load', updateNavigationState, { passive: true });

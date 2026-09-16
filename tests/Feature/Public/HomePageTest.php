@@ -12,10 +12,13 @@ it('renders the home page', function (): void {
     $response = $this->get(route('home'));
 
     $response->assertOk();
-    $response->assertSee('Primero el voleibol');
+    $response->assertSee('Primero el Voleibol');
     $response
         ->assertSee('page-home', false)
-        ->assertSee('data-nav-scrolled="true"', false);
+        ->assertSee('data-nav-scrolled="true"', false)
+        ->assertSee('images/hero-home.jpg', false)
+        ->assertSee('alt="Jugadoras de voleibol celebrando junto a la red"', false)
+        ->assertDontSee('Cómo trabajamos');
 });
 
 it('renders real programme proposals and published blog posts', function (): void {

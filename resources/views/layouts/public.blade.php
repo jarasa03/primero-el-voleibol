@@ -168,11 +168,11 @@
                                         Queremos escuchar a quienes viven el voleibol madrile&ntilde;o, ordenar ideas y convertirlas en propuestas &uacute;tiles.
                                     </p>
 
-                                    <div class="mt-7 flex flex-wrap gap-3">
-                                        <a href="{{ route('participa') }}" class="inline-flex items-center justify-center rounded-full bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-950 transition md:hover:bg-amber-300">
+                                    <div class="mt-7 grid grid-cols-1 gap-3 min-[320px]:grid-cols-2 sm:flex sm:flex-wrap">
+                                        <a href="{{ route('participa') }}" class="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-950 transition-colors duration-200 ease-out hover:bg-amber-300 sm:w-auto">
                                             Aporta una idea
                                         </a>
-                                        <a href="{{ route('blog') }}" class="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition md:hover:bg-white/10">
+                                        <a href="{{ route('blog') }}" class="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition-colors duration-200 ease-out hover:bg-white/10 sm:w-auto">
                                             Ver blog
                                         </a>
                                     </div>
