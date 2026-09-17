@@ -4,7 +4,7 @@
 @section('meta_description', 'Primero el Voleibol es un proyecto abierto para mejorar el voleibol madrileño con propuestas concretas, debate y participación.')
 @section('og_image', asset('images/hero-home.jpg'))
 @section('body_class', 'page-home')
-@section('main_wrapper_class', 'pt-20 sm:pt-28 lg:pt-28')
+@section('main_wrapper_class', 'pt-[4.25rem] sm:pt-28 lg:pt-28')
 
 @section('content')
     @php
@@ -14,17 +14,17 @@
         $editorialCtaInteractionClasses = 'group transition-colors duration-200 ease-out hover:text-accent-900 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-700';
     @endphp
 
-    <section class="pb-5 pt-4 sm:pb-6 sm:pt-6 lg:pb-7 lg:pt-7">
-        <div data-home-hero class="overflow-hidden rounded-[1.75rem] bg-slate-950 text-white sm:rounded-[2rem]">
+    <section class="-mx-4 pb-4 pt-0 sm:mx-0 sm:pb-6 sm:pt-6 lg:pb-7 lg:pt-7">
+        <div data-home-hero class="overflow-hidden rounded-none bg-slate-950 text-white sm:rounded-[2rem]">
             <div class="grid lg:min-h-[600px] lg:grid-cols-[0.9fr_1.1fr]">
                 <div class="flex flex-col justify-center px-5 py-5 sm:px-8 sm:py-14 lg:px-10 lg:py-12 xl:px-14">
                     <div class="max-w-3xl">
-                        <p data-home-hero-kicker class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-brand-100 sm:px-4 sm:py-2 sm:text-sm">
+                        <p data-home-hero-kicker class="hidden items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-brand-100 sm:inline-flex sm:px-4 sm:py-2 sm:text-sm">
                             <span class="size-2 rounded-full bg-amber-400"></span>
                             Movimiento cívico y deportivo en Madrid
                         </p>
 
-                        <h1 class="mt-5 text-[2.625rem] font-semibold leading-[1.04] tracking-tight text-white sm:mt-6 sm:text-6xl lg:text-[3.75rem] xl:text-7xl">
+                        <h1 class="mt-0 text-[2.625rem] font-semibold leading-[1.04] tracking-tight text-white sm:mt-6 sm:text-6xl lg:text-[3.75rem] xl:text-7xl">
                             <span class="block overflow-hidden"><span data-home-hero-title-line class="block">Primero el Voleibol.</span></span>
                             <span class="mt-1.5 block overflow-hidden sm:mt-2"><span data-home-hero-title-line class="block text-[2rem] font-medium leading-[1.08] text-brand-100 sm:text-5xl lg:text-5xl xl:text-6xl">Un proyecto para mejorar el voleibol madrileño.</span></span>
                         </h1>
@@ -62,8 +62,8 @@
         </div>
     </section>
 
-    <section id="proyecto" data-home-project class="py-5 sm:py-6 lg:py-7">
-        <div class="rounded-[2rem] border border-slate-200 bg-white px-4 py-6 shadow-sm sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+    <section id="proyecto" data-home-project class="py-4 sm:py-6 lg:py-7">
+        <div class="sm:rounded-[2rem] sm:border sm:border-slate-200 sm:bg-white sm:px-6 sm:py-8 sm:shadow-sm lg:px-8 lg:py-10">
         <div class="mb-5 flex items-end justify-between gap-4 sm:mb-6">
             <div>
                 <p data-home-project-kicker class="text-sm font-semibold uppercase tracking-[0.25em] text-accent-700">Proyecto</p>
@@ -72,7 +72,7 @@
         </div>
 
         <div class="grid gap-4 sm:gap-6 lg:grid-cols-3">
-            <article data-home-project-card class="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+            <article data-home-project-card class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:rounded-[1.75rem] sm:p-6">
                 <div class="flex items-center gap-3">
                     <span class="size-3 rounded-full bg-amber-400"></span>
                     <p class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">Realidad</p>
@@ -83,7 +83,7 @@
                 </p>
             </article>
 
-            <article id="principios" data-home-project-card class="rounded-[1.75rem] border border-slate-200 bg-slate-100 p-5 shadow-sm sm:p-6">
+            <article id="principios" data-home-project-card class="rounded-3xl border border-slate-200 bg-slate-100 p-5 shadow-sm sm:rounded-[1.75rem] sm:p-6">
                 <div class="flex items-center gap-3">
                     <span class="size-3 rounded-full bg-slate-700"></span>
                     <p class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">Principios</p>
@@ -94,7 +94,7 @@
                 </p>
             </article>
 
-            <article id="participa" data-home-project-card class="rounded-[1.75rem] border border-slate-900 bg-slate-950 p-5 text-white shadow-[0_18px_40px_rgba(15,23,42,0.18)] sm:p-6">
+            <article id="participa" data-home-project-card class="rounded-3xl border border-slate-900 bg-slate-950 p-5 text-white shadow-[0_10px_24px_rgba(15,23,42,0.14)] sm:rounded-[1.75rem] sm:p-6 sm:shadow-[0_18px_40px_rgba(15,23,42,0.18)]">
                 <div class="flex items-center gap-3">
                     <span class="size-3 rounded-full bg-amber-400"></span>
                     <p class="text-sm font-semibold uppercase tracking-[0.22em] text-brand-100/80">Participación</p>
@@ -108,8 +108,8 @@
         </div>
     </section>
 
-    <section id="programa" data-home-program class="py-5 sm:py-6 lg:py-7">
-        <div class="rounded-[2rem] border border-slate-200 bg-white px-4 py-6 shadow-sm sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+    <section id="programa" data-home-program class="py-4 sm:py-6 lg:py-7">
+        <div class="sm:rounded-[2rem] sm:border sm:border-slate-200 sm:bg-white sm:px-6 sm:py-8 sm:shadow-sm lg:px-8 lg:py-10">
             <div class="grid gap-4 sm:gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start">
                 <div class="max-w-3xl">
                     <p data-home-program-kicker class="text-sm font-semibold uppercase tracking-[0.25em] text-accent-700">Programa</p>
@@ -129,10 +129,10 @@
             <div class="mt-6 grid gap-4 sm:mt-8 sm:gap-6 lg:grid-cols-3">
                 @foreach ($homeProposals as $proposal)
                     <article data-home-program-card @class([
-                        'rounded-[1.75rem] p-5 shadow-sm sm:p-6',
+                        'rounded-3xl p-5 shadow-sm sm:rounded-[1.75rem] sm:p-6',
                         'border border-slate-200 bg-slate-50' => $loop->first,
                         'border border-slate-200 bg-white' => $loop->last && ! $loop->first,
-                        'border border-slate-900 bg-slate-950 text-white shadow-[0_18px_40px_rgba(15,23,42,0.18)]' => $loop->iteration === 2,
+                        'border border-slate-900 bg-slate-950 text-white shadow-[0_10px_24px_rgba(15,23,42,0.14)] sm:shadow-[0_18px_40px_rgba(15,23,42,0.18)]' => $loop->iteration === 2,
                     ])>
                         <div class="flex items-center gap-3">
                             <span class="size-3 rounded-full bg-amber-400"></span>
@@ -178,7 +178,7 @@
         </div>
     </section>
 
-    <section id="blog" data-home-blog class="py-5 sm:py-6 lg:py-7">
+    <section id="blog" data-home-blog class="py-4 sm:py-6 lg:py-7">
         <div class="p-0">
             <div class="max-w-2xl">
                 <p data-home-blog-kicker class="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">Blog</p>
@@ -222,7 +222,7 @@
         </div>
     </section>
 
-    <section id="sumate" class="py-5 sm:py-6 lg:py-7">
+    <section id="sumate" class="py-4 sm:py-6 lg:py-7">
         <div data-home-participa class="rounded-[2.25rem] bg-slate-950 px-4 py-6 text-white shadow-[0_22px_60px_rgba(15,23,42,0.22)] sm:px-6 sm:py-8 lg:px-8 lg:py-10">
             <div class="grid gap-5 sm:gap-8 lg:grid-cols-[minmax(0,1.8fr)_minmax(0,1fr)] lg:items-center">
                 <div>

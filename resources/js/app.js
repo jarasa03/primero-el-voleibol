@@ -976,7 +976,7 @@ const setupHomeProject = () => {
             defaults: { ease: 'power2.out' },
             scrollTrigger: {
                 trigger: section,
-                start: 'top 75%',
+                start: isCompactMobile ? 'top 88%' : 'top 83%',
                 once: true,
             },
         })
@@ -1007,7 +1007,7 @@ const setupHomeProgram = () => {
             defaults: { ease: 'power2.out' },
             scrollTrigger: {
                 trigger: section,
-                start: 'top 75%',
+                start: isCompactMobile ? 'top 88%' : 'top 84%',
                 once: true,
             },
         })
@@ -1040,7 +1040,7 @@ const setupHomeBlog = () => {
             defaults: { ease: 'power2.out' },
             scrollTrigger: {
                 trigger: section,
-                start: 'top 75%',
+                start: isCompactMobile ? 'top 92%' : 'top 90%',
                 once: true,
             },
         })
@@ -1078,7 +1078,7 @@ const setupHomeParticipa = () => {
             defaults: { ease: 'power2.out' },
             scrollTrigger: {
                 trigger: section,
-                start: 'top 75%',
+                start: isCompactMobile ? 'top 88%' : 'top 84%',
                 once: true,
             },
         })
@@ -1154,3 +1154,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.addEventListener('load', updateNavigationState, { passive: true });
 window.addEventListener('load', updateHoverState, { passive: true });
+window.addEventListener('pageshow', () => {
+    window.requestAnimationFrame(() => ScrollTrigger.refresh(true));
+}, { once: true });
