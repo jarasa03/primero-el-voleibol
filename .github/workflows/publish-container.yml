@@ -6,7 +6,7 @@ on:
       - main
 concurrency:
   group: deploy-ovh-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 permissions:
   contents: read
@@ -75,6 +75,23 @@ jobs:
         shell: bash
         run: test -f public/build/manifest.json
 
+      - name: Verify published Laravel assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          PUBLISHED_ASSETS=(
+            public/css/filament
+            public/fonts/filament
+            public/js/filament
+            public/vendor/livewire
+          )
+          php artisan livewire:publish --assets
+          if [ -n "$(git status --porcelain -- "${PUBLISHED_ASSETS[@]}")" ]; then
+            echo 'Published Filament/Livewire assets differ from the committed assets.' >&2
+            git status --short -- "${PUBLISHED_ASSETS[@]}" >&2
+            exit 1
+          fi
+
       - name: Generate temporary application key
         run: php artisan key:generate --force
 
@@ -109,19 +126,49 @@ jobs:
           set -euo pipefail
           cd /home/primerv/primeroelvoleibol
           git fetch origin main
-          if ! git diff --quiet HEAD origin/main -- public/.htaccess; then
-            echo 'Refusing deploy: public/.htaccess differs between deployed and incoming revisions.' >&2
+          if [ -n "$(git status --porcelain --untracked-files=all -- . ':(exclude)public/.htaccess')" ]; then
+            echo 'Refusing deploy: the production checkout contains changes outside public/.htaccess.' >&2
+            git status --short --untracked-files=all -- . ':(exclude)public/.htaccess' >&2
             exit 1
+          fi
+          if ! git diff --quiet HEAD origin/main -- public/.htaccess; then
+            echo 'Refusing deploy: the incoming revision changes public/.htaccess.' >&2
+            exit 1
+          fi
+          if ! git diff --quiet --cached -- public/.htaccess; then
+            echo 'Refusing deploy: public/.htaccess has staged changes.' >&2
+            exit 1
+          fi
+          HTACCESS_BACKUP="$(mktemp)"
+          cp -p public/.htaccess "$HTACCESS_BACKUP"
+          restore_htaccess() {
+            cp -p "$HTACCESS_BACKUP" public/.htaccess
+            rm -f "$HTACCESS_BACKUP"
+          }
+          trap restore_htaccess EXIT
+          if ! git diff --quiet -- public/.htaccess; then
+            git stash push --message 'preserve production public/.htaccess during deploy' -- public/.htaccess
+            HTACCESS_STASHED=true
+          else
+            HTACCESS_STASHED=false
           fi
           git checkout main
           git pull --ff-only origin main
-          php /home/primerv/composer.phar install --no-dev --optimize-autoloader --no-interaction
+          if [ "$HTACCESS_STASHED" = true ]; then
+            git stash pop
+          fi
+          cp -p "$HTACCESS_BACKUP" public/.htaccess
+          php /home/primerv/composer.phar install --no-dev --no-scripts --optimize-autoloader --no-interaction
+          php artisan package:discover --ansi
           php artisan migrate --force
-          php artisan livewire:publish --assets
           php artisan optimize:clear
           php artisan optimize
-          rm -f public/storage
-          ln -s ../storage/app/public public/storage
+          if [ -e public/storage ] || [ -L public/storage ]; then
+            test -L public/storage
+            test "$(readlink public/storage)" = '../storage/app/public'
+          else
+            ln -s ../storage/app/public public/storage
+          fi
           REMOTE
 
       - name: Upload compiled frontend assets to OVH
@@ -130,15 +177,29 @@ jobs:
           set -euo pipefail
           SSH_PORT="${OVH_PORT:-22}"
 
+          BUILD_STAGING="$OVH_PATH/public/build.next.${GITHUB_SHA}"
           ssh -p "$SSH_PORT" "$OVH_USER@$OVH_HOST" \
-            "rm -rf '$OVH_PATH/public/build.next' && mkdir -p '$OVH_PATH/public/build.next'"
+            "mkdir -p '$BUILD_STAGING'"
           scp -r -P "$SSH_PORT" public/build/. \
-            "$OVH_USER@$OVH_HOST:$OVH_PATH/public/build.next/"
-          ssh -p "$SSH_PORT" "$OVH_USER@$OVH_HOST" 'bash -s' <<'REMOTE'
+            "$OVH_USER@$OVH_HOST:$BUILD_STAGING/"
+          ssh -p "$SSH_PORT" "$OVH_USER@$OVH_HOST" \
+            "GITHUB_SHA='$GITHUB_SHA' bash -s" <<'REMOTE'
           set -euo pipefail
           cd /home/primerv/primeroelvoleibol
-          rm -rf public/build
-          mv public/build.next public/build
-          find public/build -type d -exec chmod 755 {} +
-          find public/build -type f -exec chmod 644 {} +
+          BUILD_STAGING="public/build.next.${GITHUB_SHA}"
+          BUILD_BACKUP=".deploy-backups/builds/${GITHUB_SHA}"
+          test -f "$BUILD_STAGING/manifest.json"
+          find "$BUILD_STAGING" -type d -exec chmod 755 {} +
+          find "$BUILD_STAGING" -type f -exec chmod 644 {} +
+          test ! -e "$BUILD_BACKUP"
+          mkdir -p "$(dirname "$BUILD_BACKUP")"
+          if [ -e public/build ] || [ -L public/build ]; then
+            mv public/build "$BUILD_BACKUP"
+          fi
+          if ! mv "$BUILD_STAGING" public/build; then
+            if [ -e "$BUILD_BACKUP" ] || [ -L "$BUILD_BACKUP" ]; then
+              mv "$BUILD_BACKUP" public/build
+            fi
+            exit 1
+          fi
           REMOTE
